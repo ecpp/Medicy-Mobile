@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "682478441420",
+    "project_id": "medicy-a063d",
+    "storage_bucket": "medicy-a063d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682478441420:android:45b579fdae5420f6c30369",
+        "android_client_info": {
+          "package_name": "com.medicy.medicy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "682478441420-6encm27iiv321e3p7mkbr53mssse954v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiE8K_e_AGzi1HBAk3QULdn4-ICWCBKaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "682478441420-6encm27iiv321e3p7mkbr53mssse954v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
