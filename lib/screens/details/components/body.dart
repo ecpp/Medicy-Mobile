@@ -70,6 +70,8 @@ class Body extends StatelessWidget {
                                     .then((gelenveri) {
                                   product.stock = gelenveri.data()!["stock"];
                                 });
+                                print('stock: ');
+                                print(product.stock);
                                 problem = false;
                                 if (product.stock == 0) {
                                   problem = true;
