@@ -1,16 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/comment/pending_comments.dart';
 import 'package:shop_app/screens/pmanagerAdmin/pmanagerAdmin.dart';
 import 'package:shop_app/screens/profile/my_orders/transactions_page.dart';
 import 'package:shop_app/screens/sales_manager/sales_manager_screen.dart';
 import 'package:shop_app/models/Cart.dart';
 import '../../../constants.dart';
 import '../../../main.dart';
-import '../../home/home_screen.dart';
 import '../my_account.dart';
 import 'profile_menu.dart';
-import 'profile_pic.dart';
 import '../../sign_in/components/login_firebase.dart';
 
 class Body extends StatelessWidget {

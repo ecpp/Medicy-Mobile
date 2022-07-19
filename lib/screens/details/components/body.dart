@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -8,7 +6,6 @@ import 'package:shop_app/constants.dart';
 import 'package:shop_app/helper/database_manager.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/comment/reviews.dart';
-import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
 import 'package:shop_app/size_config.dart';
 import 'package:shop_app/models/Cart.dart';
 import '../../../main.dart';
@@ -151,9 +148,11 @@ class Body extends StatelessWidget {
                                       } else if (!problem) {
                                         currentCart.cartItems![i].numOfItem +=
                                             numOfItemToAdd;
-                                        if (loginStatus == true){
+                                        if (loginStatus == true) {
                                           await addToCartDB(
-                                              product.title, currentCart.cartItems![i].numOfItem);
+                                              product.title,
+                                              currentCart
+                                                  .cartItems![i].numOfItem);
                                         }
 
                                         found = true;
@@ -165,11 +164,10 @@ class Body extends StatelessWidget {
                                     currentCart.cartItems!.add(CartItem(
                                         product: product,
                                         numOfItem: numOfItemToAdd));
-                                    if (loginStatus == true){
+                                    if (loginStatus == true) {
                                       await addToCartDB(
                                           product.title, numOfItemToAdd);
                                     }
-
                                   }
                                   ;
                                   if (!problem) {

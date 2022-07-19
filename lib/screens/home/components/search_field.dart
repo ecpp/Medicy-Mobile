@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Product.dart';
-import 'package:shop_app/screens/categories/category_whey.dart';
 import 'package:shop_app/screens/home/components/body.dart';
-import 'package:shop_app/screens/splash/splash_screen.dart';
 import 'package:shop_app/search_results.dart';
 
 import '../../../constants.dart';

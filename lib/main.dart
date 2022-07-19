@@ -3,7 +3,6 @@ import 'package:shop_app/routes.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 import 'package:shop_app/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:sn_progress_dialog/progress_dialog.dart';
 
 bool loginStatus = false;
 

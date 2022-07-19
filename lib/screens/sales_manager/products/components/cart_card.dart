@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/helper/database_manager.dart';
-import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/size_config.dart';
-import 'package:flutter_animated_button/flutter_animated_button.dart';
-
-import '../../../../components/default_button.dart';
-import '../../../sales_manager/products/products.dart';
-import '../../sales_manager_screen.dart';
 
 class ProductCard extends StatefulWidget {
- ProductCard({
+  ProductCard({
     Key? key,
     required this.product,
   }) : super(key: key);
@@ -20,7 +14,6 @@ class ProductCard extends StatefulWidget {
 
   @override
   State<ProductCard> createState() => _ProductCardState();
-  
 }
 
 class _ProductCardState extends State<ProductCard> {
@@ -28,7 +21,6 @@ class _ProductCardState extends State<ProductCard> {
   //var productPrice;
   @override
   Widget build(BuildContext context) {
-     
     return Row(
       children: [
         SizedBox(
@@ -57,7 +49,7 @@ class _ProductCardState extends State<ProductCard> {
               SizedBox(height: 10),
               Text.rich(
                 TextSpan(
-                  text: widget.product.price.toString()+ "\$",
+                  text: widget.product.price.toString() + "\$",
                   style: TextStyle(
                       fontWeight: FontWeight.w600, color: kPrimaryColor),
                 ),
@@ -97,28 +89,27 @@ class _ProductCardState extends State<ProductCard> {
                           backgroundColor: kPrimaryColor,
                         ),
                         onPressed: () => {
-                         setPrice(widget.product.title, int.parse(myController.text)),
-                         //Navigator.pop(context),
-                         ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  content: Text(
-                                    "New Price of the "+widget.product.title.toString()+" is: "+ myController.text+"\$",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  duration: Duration(seconds: 2),
-                                  backgroundColor: kPrimaryColor,
-                                )),
-                                setState(() {
-                                  widget.product.price = int.parse(myController.text);
-                                })
-                      
-                          
+                          setPrice(widget.product.title,
+                              int.parse(myController.text)),
+                          //Navigator.pop(context),
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                              "New Price of the " +
+                                  widget.product.title.toString() +
+                                  " is: " +
+                                  myController.text +
+                                  "\$",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16.0, fontWeight: FontWeight.bold),
+                            ),
+                            duration: Duration(seconds: 2),
+                            backgroundColor: kPrimaryColor,
+                          )),
+                          setState(() {
+                            widget.product.price = int.parse(myController.text);
+                          })
                         },
-                         
-                      
                         child: Text(
                           "Set Price",
                           style: TextStyle(

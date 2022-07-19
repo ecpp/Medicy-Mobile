@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shop_app/helper/database_manager.dart';
 import 'package:shop_app/models/Cart.dart';
-
 import '../../../main.dart';
 import '../../../size_config.dart';
 import 'cart_card.dart';
@@ -27,11 +26,11 @@ class _BodyState extends State<Body> {
           child: Dismissible(
             key: Key(currentCart.cartItems![index].product.id.toString()),
             direction: DismissDirection.endToStart,
-            onDismissed: (direction) async{
+            onDismissed: (direction) async {
               if (loginStatus == true)
-                await removeFromCartDB(currentCart.cartItems!.elementAt(index).product.title);
+                await removeFromCartDB(
+                    currentCart.cartItems!.elementAt(index).product.title);
               currentCart.cartItems!.removeAt(index);
-
             },
             background: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),

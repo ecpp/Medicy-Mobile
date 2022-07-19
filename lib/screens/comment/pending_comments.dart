@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/reviewModal.dart';
 import 'package:shop_app/screens/comment/pending_comment.dart';
-import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 List<ReviewModal> reviewList = [];
-ReviewModal newreview =
-    new ReviewModal(name: "asd", comment: "asd", rating: 5, itemName: " ", reviewid: "");
+ReviewModal newreview = new ReviewModal(
+    name: "asd", comment: "asd", rating: 5, itemName: " ", reviewid: "");
 Map<int, int> countlar = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
 num totalrating = 0;
 

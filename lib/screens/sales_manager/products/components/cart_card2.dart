@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
-import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/size_config.dart';
-import 'package:flutter_animated_button/flutter_animated_button.dart';
-
 import '../../../../helper/database_manager.dart';
 
 class ProductCard2 extends StatefulWidget {
-   ProductCard2({
+  ProductCard2({
     Key? key,
     required this.product,
   }) : super(key: key);
@@ -17,15 +14,13 @@ class ProductCard2 extends StatefulWidget {
 
   @override
   State<ProductCard2> createState() => _ProductCard2State();
-  
 }
 
 class _ProductCard2State extends State<ProductCard2> {
   final myController2 = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
-    
     return Row(
       children: [
         SizedBox(
@@ -48,7 +43,6 @@ class _ProductCard2State extends State<ProductCard2> {
             children: [
               Text(
                 widget.product.title,
-                
                 style: TextStyle(color: Colors.black, fontSize: 16),
                 maxLines: 2,
               ),
@@ -95,25 +89,29 @@ class _ProductCard2State extends State<ProductCard2> {
                           backgroundColor: kPrimaryColor,
                         ),
                         onPressed: () => {
-                          setPrice2(widget.product.title, 0.01*((100 - (int.parse(myController2.text)))*widget.product.price.toInt())),
-                        // Navigator.pop(context),
-                         ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  content: Text(
-                                    myController2.text+"% discount applied to "+ widget.product.title,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  duration: Duration(seconds: 2),
-                                  backgroundColor: kPrimaryColor,
-                                )),
-                                setState(() {
-                                  widget.product.price = (0.01*((100 - (int.parse(myController2.text)))*widget.product.price.toInt()));
-                                })
-                      
-                          
+                          setPrice2(
+                              widget.product.title,
+                              0.01 *
+                                  ((100 - (int.parse(myController2.text))) *
+                                      widget.product.price.toInt())),
+                          // Navigator.pop(context),
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                              myController2.text +
+                                  "% discount applied to " +
+                                  widget.product.title,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16.0, fontWeight: FontWeight.bold),
+                            ),
+                            duration: Duration(seconds: 2),
+                            backgroundColor: kPrimaryColor,
+                          )),
+                          setState(() {
+                            widget.product.price = (0.01 *
+                                ((100 - (int.parse(myController2.text))) *
+                                    widget.product.price.toInt()));
+                          })
                         },
                         child: Text(
                           "Set Discount",

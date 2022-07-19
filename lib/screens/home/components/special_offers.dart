@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/screens/categories/category_pre.dart';
-
 import '../../../size_config.dart';
 import '../../categories/category_whey.dart';
 import 'section_title.dart';
@@ -28,18 +27,24 @@ class SpecialOffers extends StatelessWidget {
           child: Row(
             children: [
               SpecialOfferCard(
-                image: "https://blog.bodyforumtr.com/wp-content/uploads/2020/07/250tldenazproteintozu.jpg",
+                image:
+                    "https://blog.bodyforumtr.com/wp-content/uploads/2020/07/250tldenazproteintozu.jpg",
                 category: "Protein Tozları",
                 numOfBrands: 18,
-                press: () {Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => WheyScreen()));},
+                press: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => WheyScreen()));
+                },
               ),
               SpecialOfferCard(
-                image: "https://4fpnph3j8bls2w9fqo3k4xd5-wpengine.netdna-ssl.com/wp-content/uploads/2022/01/27812728_web1_M1-FWM-20220112-Best-PreWorkout-1280.jpeg",
+                image:
+                    "https://4fpnph3j8bls2w9fqo3k4xd5-wpengine.netdna-ssl.com/wp-content/uploads/2022/01/27812728_web1_M1-FWM-20220112-Best-PreWorkout-1280.jpeg",
                 category: "Preworkoutlar",
                 numOfBrands: 24,
-                press: () {Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => PreScreen()));},
+                press: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => PreScreen()));
+                },
               ),
               SizedBox(width: getProportionateScreenWidth(20)),
             ],
@@ -76,11 +81,8 @@ class SpecialOfferCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: Stack(
               children: [
-                Image.network(
-                  image,
-                  height: 300, width: 300,
-                  fit: BoxFit.cover
-                ),
+                Image.network(image,
+                    height: 300, width: 300, fit: BoxFit.cover),
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(

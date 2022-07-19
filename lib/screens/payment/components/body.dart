@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +5,10 @@ import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/helper/database_manager.dart';
-import 'package:shop_app/helper/file_handle_api.dart';
 import 'package:shop_app/helper/pdf_invoice_api.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Transaction.dart';
-import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
-import 'package:sn_progress_dialog/completed.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 import 'package:uuid/uuid.dart';
 
@@ -35,7 +30,6 @@ class _BodyState extends State<Body> {
   OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-
   @override
   void initState() {
     border = OutlineInputBorder(
@@ -49,7 +43,6 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: 'Flutter Credit Card View Demo',
       debugShowCheckedModeBanner: false,
@@ -275,7 +268,7 @@ Valid(BuildContext context) {
           ['${user?.email}'], "Order Placed", "Order Data", urlDownload);
       await removeallFromCartDB();
       currentCart = Cart(sum: 0, cartItems: []);
-      pd.update(value:100);
+      pd.update(value: 100);
       pd.close();
       Navigator.popUntil(context, ModalRoute.withName('/home'));
     },
@@ -284,8 +277,7 @@ Valid(BuildContext context) {
   // Create AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("Payment Successful"),
-    content: Text(
-        "Thank you for your order. Your payment will be processed."),
+    content: Text("Thank you for your order. Your payment will be processed."),
     actions: [
       okButton,
     ],
@@ -295,7 +287,6 @@ Valid(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-
       return alert;
     },
   );

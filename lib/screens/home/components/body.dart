@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Product.dart';
-import 'package:shop_app/screens/splash/splash_screen.dart';
-
 import '../../../size_config.dart';
-import 'categories.dart';
 import 'discount_banner.dart';
 import 'home_header.dart';
 import 'popular_product.dart';

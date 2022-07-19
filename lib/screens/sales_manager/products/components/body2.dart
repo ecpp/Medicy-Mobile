@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/screens/home/components/body.dart';
 import 'package:shop_app/size_config.dart';
 
@@ -38,7 +36,6 @@ class _BodyState extends State<Body2> {
                 color: Color(0xFFFFE6E6),
                 borderRadius: BorderRadius.circular(15),
               ),
-             
             ),
             child: ProductCard2(product: productListnew[index]),
           ),

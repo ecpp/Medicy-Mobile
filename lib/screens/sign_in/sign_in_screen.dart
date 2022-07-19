@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'components/body.dart';
 import 'components/login_firebase.dart';
 
 class SignInScreen extends StatelessWidget {

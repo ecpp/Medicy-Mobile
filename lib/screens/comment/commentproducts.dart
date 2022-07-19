@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/helper/database_manager.dart';
-import 'package:shop_app/models/Transaction.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 import '../../../../constants.dart';

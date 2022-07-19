@@ -1,23 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shop_app/components/custom_surfix_icon.dart';
-import 'package:shop_app/components/form_error.dart';
-import 'package:shop_app/helper/keyboard.dart';
 import 'package:shop_app/models/Cart.dart';
-import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
 import 'package:shop_app/screens/home/components/body.dart';
-import 'package:shop_app/screens/login_success/login_success_screen.dart';
 import 'package:shop_app/screens/sign_up/sign_up_screen.dart';
 import 'package:shop_app/models/User.dart';
-import '../../../components/default_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../constants.dart';
 import '../../../helper/database_manager.dart';
 import '../../../main.dart';
 import '../../../models/Product.dart';
-import '../../../size_config.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-
 import '../../home/home_screen.dart';
 
 User? user;
@@ -262,10 +254,10 @@ class _LoginScreenState extends State<LoginScreen> {
           if (userCart != null) {
             int iloop = 0;
             for (var v in userCart!.values) {
-              if (userCart!.values.elementAt(iloop) > 0){
+              if (userCart!.values.elementAt(iloop) > 0) {
                 Product toadd = productListnew
                     .where((element) => element.title
-                    .contains(userCart!.keys.elementAt(iloop).trimLeft()))
+                        .contains(userCart!.keys.elementAt(iloop).trimLeft()))
                     .toList()[0];
                 currentCart.cartItems!.add(CartItem(
                     product: toadd,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
-
 import 'package:shop_app/constants.dart';
 
 class ReviewUI extends StatelessWidget {
@@ -21,7 +20,8 @@ class ReviewUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20), color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.white,
         border: Border.all(
           color: kPrimaryLightColor,
           width: 3,

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/helper/database_manager.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:shop_app/constants.dart';
-
 import '../../components/default_button.dart';
-import '../profile/components/profile_menu.dart';
 
 class PendingCommentUI extends StatelessWidget {
   final String name, comment, itemName, reviewid;
@@ -157,21 +155,25 @@ class PendingCommentUI extends StatelessWidget {
           ),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-              child: DefaultButton(text: "Approve Comment", press: () async{
-                num currentRating = await getcurrentRating(itemName);
-                print("Suanki rating: " + currentRating.toString());
-                int kackererateedildi = await gethowmanyRated(itemName);
-                print("Suanki kackererate: " + kackererateedildi.toString());
-                currentRating = currentRating + rating;
-                print("Toplanmis hali: " + currentRating.toString());
-                kackererateedildi = kackererateedildi + 1;
-                currentRating = currentRating / kackererateedildi;
-                currentRating = num.parse(currentRating.toStringAsFixed(2));
-                print("Son hali rating: " + currentRating.toString());
-                await updateProductRating(itemName, currentRating, kackererateedildi);
-                await approveReview(reviewid);
-                await updateRating2(itemName);
-              }))
+              child: DefaultButton(
+                  text: "Approve Comment",
+                  press: () async {
+                    num currentRating = await getcurrentRating(itemName);
+                    print("Suanki rating: " + currentRating.toString());
+                    int kackererateedildi = await gethowmanyRated(itemName);
+                    print(
+                        "Suanki kackererate: " + kackererateedildi.toString());
+                    currentRating = currentRating + rating;
+                    print("Toplanmis hali: " + currentRating.toString());
+                    kackererateedildi = kackererateedildi + 1;
+                    currentRating = currentRating / kackererateedildi;
+                    currentRating = num.parse(currentRating.toStringAsFixed(2));
+                    print("Son hali rating: " + currentRating.toString());
+                    await updateProductRating(
+                        itemName, currentRating, kackererateedildi);
+                    await approveReview(reviewid);
+                    await updateRating2(itemName);
+                  }))
         ],
       ),
     );
