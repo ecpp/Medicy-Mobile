@@ -3,8 +3,6 @@ import 'package:shop_app/components/socal_card.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/size_config.dart';
 
-import 'sign_up_form.dart';
-
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -24,7 +22,6 @@ class Body extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
-                SignUpForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

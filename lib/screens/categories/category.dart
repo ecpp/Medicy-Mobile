@@ -4,13 +4,18 @@ import 'package:shop_app/enums.dart';
 import 'package:shop_app/screens/home/components/body.dart';
 import '../../components/product_card.dart';
 
-class WheyScreen extends StatefulWidget {
+class CategoryScreen extends StatefulWidget {
+  final String type;
   @override
-  WheyScreen2 createState() => WheyScreen2();
+  const CategoryScreen(this.type);
+  _CategoryScreen createState() => _CategoryScreen(type);
 }
 
-class WheyScreen2 extends State<WheyScreen> {
-  //_WheyScreenState createState() => _WheyScreenState();
+class _CategoryScreen extends State<CategoryScreen> {
+  final String type;
+  _CategoryScreen(this.type) : super();
+
+  //_PreScreenState createState() => _PreScreenState();
   final sortedItems = productListnew;
   bool isDescending = false;
   bool isPopular = false;
@@ -46,9 +51,7 @@ class WheyScreen2 extends State<WheyScreen> {
                         quarterTurns: 1,
                         child: Icon(Icons.compare_arrows, size: 28),
                       ),
-                      label: Text(
-                        isDescending ? pricetext : pricetext,
-                      )),
+                      label: Text(isDescending ? pricetext : pricetext)),
                   TextButton.icon(
                       onPressed: () {
                         setState(() => isPopular = !isPopular);
@@ -76,11 +79,10 @@ class WheyScreen2 extends State<WheyScreen> {
                     itemCount:
                         productListnew == null ? 0 : productListnew.length,
                     itemBuilder: (context, index) {
-                      if (sortedItems[index].category == "whey")
+                      if (sortedItems[index].category == type)
                         return ProductCard(product: sortedItems[index]);
                       else
                         return Text("");
-                      // return _buildRow(data[index]);
                     }))
           ],
         ));

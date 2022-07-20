@@ -54,22 +54,6 @@ class _CommentProductScreenState extends State<CommentProductScreen> {
                         ),
                       ],
                     ),
-                    /*Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(padding: EdgeInsets.only(left: 25)),
-                        Container(
-                          child: Text(
-                            widget.transaction.totalprice.toString(),
-                            style: TextStyle(
-                              //color: Colors.grey.shade500,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )*/
                   ],
                 ),
                 SizedBox(

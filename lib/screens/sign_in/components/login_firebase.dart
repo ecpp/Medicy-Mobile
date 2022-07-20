@@ -29,7 +29,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool _value = false;
   String email = '';
   String password = '';
   final formkey = GlobalKey<FormState>();

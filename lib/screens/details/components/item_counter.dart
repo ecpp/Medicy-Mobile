@@ -7,7 +7,10 @@ class NumericStepButton extends StatefulWidget {
   final ValueChanged<int> onChanged;
 
   NumericStepButton(
-      {Key? key, this.minValue = 0, this.maxValue = 10, required this.onChanged})
+      {Key? key,
+      this.minValue = 0,
+      this.maxValue = 10,
+      required this.onChanged})
       : super(key: key);
 
   @override
@@ -17,8 +20,7 @@ class NumericStepButton extends StatefulWidget {
 }
 
 class _NumericStepButtonState extends State<NumericStepButton> {
-
-  int counter= 0;
+  int counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class _NumericStepButtonState extends State<NumericStepButton> {
           IconButton(
             icon: Icon(
               Icons.remove,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
             ),
             padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 18.0),
             iconSize: 32.0,
@@ -55,7 +57,7 @@ class _NumericStepButtonState extends State<NumericStepButton> {
           IconButton(
             icon: Icon(
               Icons.add,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
             ),
             padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 18.0),
             iconSize: 32.0,

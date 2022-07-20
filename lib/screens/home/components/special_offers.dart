@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/categories/category_pre.dart';
 import '../../../size_config.dart';
-import '../../categories/category_whey.dart';
+import '../../categories/category.dart';
 import 'section_title.dart';
 
 class SpecialOffers extends StatelessWidget {
@@ -33,7 +32,8 @@ class SpecialOffers extends StatelessWidget {
                 numOfBrands: 18,
                 press: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => WheyScreen()));
+                      builder: (BuildContext context) =>
+                          CategoryScreen('whey')));
                 },
               ),
               SpecialOfferCard(
@@ -43,7 +43,8 @@ class SpecialOffers extends StatelessWidget {
                 numOfBrands: 24,
                 press: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => PreScreen()));
+                      builder: (BuildContext context) =>
+                          CategoryScreen('pre')));
                 },
               ),
               SizedBox(width: getProportionateScreenWidth(20)),
