@@ -79,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Container(
                           child: Text(
-                            useremail,
+                            userEmail!,
                             style: TextStyle(
                               color: Colors.grey.shade500,
                               fontSize: 20,
@@ -108,7 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Container(
                           child: Text(
-                            username + " " + usersurname,
+                            userFirstName! + " " + userSurname!,
                             style: TextStyle(
                               color: Colors.grey.shade500,
                               fontSize: 20,

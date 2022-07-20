@@ -41,7 +41,7 @@ class Body extends StatelessWidget {
             icon: "assets/icons/Settings.svg",
             press: () {},
           ),
-          if (usertype == "pmanager")
+          if (userType == "pmanager")
             ProfileMenu(
               text: "Product Management",
               icon: "assets/icons/comment-svgrepo-com.svg",
@@ -50,7 +50,7 @@ class Body extends StatelessWidget {
                     builder: (context) => ProductManagerAdminScreen()));
               },
             ),
-          if (usertype == "smanager")
+          if (userType == "smanager")
             ProfileMenu(
               text: "Sales Managment",
               icon: "assets/icons/comment-svgrepo-com.svg",

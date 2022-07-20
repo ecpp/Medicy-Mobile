@@ -9,16 +9,12 @@ import '../../../constants.dart';
 import '../../../helper/database_manager.dart';
 import '../../../main.dart';
 import '../../../models/Product.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import '../../home/home_screen.dart';
 
 User? user;
-String useremail = "aa";
-String username = "asd";
-String usersurname = "bca";
-String usertype = "customer";
+String? userEmail, userFirstName, userSurname, userPassword;
+String userType = "customer";
 Map<String, dynamic>? userCart;
-int tries = 0;
 UserData newUser = UserData();
 
 class LoginScreen extends StatefulWidget {
@@ -29,12 +25,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String email = '';
-  String password = '';
-  final formkey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  String error = "";
   static Future<User?> loginEmailPassword(
       {required String email,
       required String password,
@@ -45,11 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       user = userCredential.user;
+      loginStatus = true;
     } on FirebaseAuthException catch (e) {
       loginError = e.message!;
-      print(e.message);
-      tries = tries + 1;
-      if (tries == 3) FirebaseCrashlytics.instance.crash();
 
       showDialog(
           context: context,
@@ -61,10 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
           });
       if (e.code == "user-not-found") {
         SnackBar(content: Text('Login error.'), duration: Duration(seconds: 3));
-        print("No user found for that email");
       }
     }
-    CircularProgressIndicator();
     return user;
   }
 
@@ -75,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Container(
           margin: EdgeInsets.all(5.0),
           child: Form(
-            key: formkey,
+            key: _formKey,
             child: Column(
               children: <Widget>[
                 SizedBox(
@@ -135,11 +124,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: 40,
                       ),
-                      submitBtton(),
+                      submitButton(),
                       SizedBox(
                         height: 40,
                       ),
-                      registerBtton(),
+                      registerButton(),
                       SizedBox(
                         height: 40,
                       ),
@@ -151,28 +140,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget usernameFormField() {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        fillColor: Colors.grey.withOpacity(0.1),
-        filled: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40)),
-            borderSide: BorderSide.none),
-        hintText: "User Name",
-        prefixIcon: Icon(Icons.person_outline),
-      ),
-      validator: (String? value) {
-        if (value!.length > 20) {
-          return "Username must be less than 20 characters";
-        }
-      },
     );
   }
 
@@ -212,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  ElevatedButton submitBtton() {
+  ElevatedButton submitButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           primary: kPrimaryColor,
@@ -221,49 +188,49 @@ class _LoginScreenState extends State<LoginScreen> {
             borderRadius: BorderRadius.circular(30.0),
           )),
       onPressed: () async {
-        // formkey.currentState!.validate();
-        loginStatus = true;
-        useremail = _emailController.text;
 
-        newUser.email = useremail;
-        usersurname = newUser.surname;
+        String userEmail = _emailController.text;
+
+        newUser.email = userEmail;
+        userSurname = newUser.surname;
         user = await loginEmailPassword(
           email: _emailController.text,
           password: _passwordController.text,
           context: context,
         );
+
         await FirebaseFirestore.instance
             .collection("Users")
             .doc(user!.uid)
             .get()
-            .then((gelenveri) {
-          username = gelenveri.data()!["Name"];
-          usersurname = gelenveri.data()!["Surname"];
-          usertype = gelenveri.data()!["type"];
-          userCart = gelenveri.data()!["userCart"];
+            .then((dataFromDB) {
+          userFirstName = dataFromDB.data()!["Name"];
+          userSurname = dataFromDB.data()!["Surname"];
+          userType = dataFromDB.data()!["type"];
+          userCart = dataFromDB.data()!["userCart"];
         });
         if (user != null) {
           if (currentCart.sum != 0) {
-            //local carttaki butun itemlari dbye cek.
+            //FETCH LOCAL CART TO DB.
 
             await addToCartDB(currentCart.cartItems!.elementAt(0).product.title,
                 currentCart.cartItems!.elementAt(0).numOfItem);
           }
-          currentCart.cartItems!.clear(); //local cart temizle
+          currentCart.cartItems!.clear(); //CLEAR LOCAL CART
           if (userCart != null) {
-            int iloop = 0;
+            int i = 0;
             for (var v in userCart!.values) {
-              if (userCart!.values.elementAt(iloop) > 0) {
-                Product toadd = productListnew
+              if (userCart!.values.elementAt(i) > 0) { //FETCH DB TO LOCAL CART
+                Product itemToAdd = productListnew
                     .where((element) => element.title
-                        .contains(userCart!.keys.elementAt(iloop).trimLeft()))
+                        .contains(userCart!.keys.elementAt(i).trimLeft()))
                     .toList()[0];
                 currentCart.cartItems!.add(CartItem(
-                    product: toadd,
-                    numOfItem: userCart!.values.elementAt(iloop)));
+                    product: itemToAdd,
+                    numOfItem: userCart!.values.elementAt(i)));
               }
-              //dbdeki tum itemlari locale cek
-              iloop++;
+
+              i++;
             }
           }
 
@@ -289,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  ElevatedButton registerBtton() {
+  ElevatedButton registerButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           primary: kPrimaryColor,
@@ -298,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
             borderRadius: BorderRadius.circular(30.0),
           )),
       onPressed: () {
-        // formkey.currentState!.validate();
+        // _formKey.currentState!.validate();
         Navigator.pushNamed(context, SignUpScreen.routeName);
       },
       child: Text(

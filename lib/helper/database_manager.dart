@@ -119,7 +119,7 @@ Future addReview(String productname, String comment, int rating) async {
     'comment': comment,
     'rating': rating,
     'status': 'pending',
-    'name': username + " " + usersurname,
+    'name': userFirstName! + " " + userSurname!,
     'userid': user!.uid
   });
 }
@@ -150,7 +150,7 @@ Future requestRefund(String productname, String transactionid, int itemCount,
     'itemCount': itemCount,
     'pricePaid': pricePaid,
     'status': 'pending',
-    'name': username + " " + usersurname,
+    'name': userFirstName! + " " + userSurname!,
     'userid': user!.uid,
     'transactionid': transactionid,
   });

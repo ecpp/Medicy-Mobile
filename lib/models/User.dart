@@ -7,14 +7,14 @@ class UserData {
   String email = "";
   String ID = "";
   List transactions = [];
-  String usertype = "";
+  String userType = "";
 
   UserData({
     this.name = "",
     this.surname = "",
     this.email = "",
     this.ID = "",
-    this.usertype = "",
+    this.userType = "",
   });
 
   UserData.fromJson(Map<String, dynamic> json) {
@@ -23,7 +23,7 @@ class UserData {
     email = json['email'];
     ID = json['ID'];
     transactions = json['transactionid'];
-    usertype = json['usertype'];
+    userType = json['userType'];
   }
 
   Map<String, dynamic> toJson() {
@@ -33,7 +33,7 @@ class UserData {
     data['email'] = this.email;
     data['ID'] = this.ID;
     data['transactionid'] = this.transactions;
-    data['usertype'] = this.usertype;
+    data['userType'] = this.userType;
     return data;
   }
 }

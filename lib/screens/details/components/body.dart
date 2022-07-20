@@ -64,8 +64,8 @@ class Body extends StatelessWidget {
                                     .collection("products_new")
                                     .doc(product.title)
                                     .get()
-                                    .then((gelenveri) {
-                                  product.stock = gelenveri.data()!["stock"];
+                                    .then((dataFromDB) {
+                                  product.stock = dataFromDB.data()!["stock"];
                                 });
                                 print('stock: ');
                                 print(product.stock);
