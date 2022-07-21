@@ -58,10 +58,10 @@ class CustomBottomNavBar extends StatelessWidget {
                             Navigator.pushNamed(context, HomeScreen.routeName),
                           }
                       }),
-              IconButton(
-                icon: SvgPicture.asset("assets/icons/Heart Icon.svg"),
-                onPressed: () {},
-              ),
+              // IconButton(
+              //   icon: SvgPicture.asset("assets/icons/Heart Icon.svg"),
+              //   onPressed: () {},
+              // ),
               IconButton(
                 icon: SvgPicture.asset(
                   "assets/icons/Cart Icon.svg",

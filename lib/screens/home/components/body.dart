@@ -5,30 +5,12 @@ import '../../../size_config.dart';
 import 'discount_banner.dart';
 import 'home_header.dart';
 import 'popular_product.dart';
-import 'special_offers.dart';
+import 'categories_home_screen.dart';
 
-num ratingloop = 0;
+
 List<Product> productListnew = [];
-Product newproduct = new Product(
-  id: 1,
-  images: "assets/images/ps4_console_white_1.png",
-  title: "Wireless Controller for PS4™",
-  price: 65,
-  description: "test123",
-  rating: 4,
-  category: "whey",
-  isPopular: true,
-);
-Product newerproduct = new Product(
-  id: 1,
-  images: "assets/images/ps4_console_white_1.png",
-  title: "Wireless Controller for PS4™",
-  price: 65,
-  description: "test123",
-  rating: 4,
-  category: "whey",
-  isPopular: true,
-);
+Product newproduct = new Product();
+
 
 class Body extends StatelessWidget {
   final Stream<QuerySnapshot> _usersStream =

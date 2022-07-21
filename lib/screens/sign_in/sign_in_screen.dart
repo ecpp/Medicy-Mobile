@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/components/coustom_bottom_nav_bar.dart';
+import '../../enums.dart';
 import 'components/login_firebase.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -10,6 +12,7 @@ class SignInScreen extends StatelessWidget {
         title: Text("Sign In"),
       ),
       body: LoginScreen(),
+      bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.profile,),
     );
   }
 }

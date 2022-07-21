@@ -15,9 +15,9 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String newvalue;
+    String valueToSearch;
     return Container(
-      width: SizeConfig.screenWidth * 0.73,
+      width: SizeConfig.screenWidth * 0.95,
       decoration: BoxDecoration(
         color: kSecondaryColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(15),
@@ -25,11 +25,11 @@ class SearchField extends StatelessWidget {
       child: TextField(
         onSubmitted: (value) => {
           searchList.clear(),
-          newvalue = value.toLowerCase(),
+          valueToSearch = value.toLowerCase(),
           for (var key in productListnew)
             {
-              if (key.title.toLowerCase().contains(newvalue) ||
-                  key.description.toLowerCase().contains(newvalue))
+              if (key.title.toLowerCase().contains(valueToSearch) ||
+                  key.description.toLowerCase().contains(valueToSearch))
                 {searchList.add(key)},
             },
           Navigator.of(context).push(MaterialPageRoute(
