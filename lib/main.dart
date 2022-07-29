@@ -28,6 +28,7 @@ Future<void> main() async{
 
   var userPass = prefs.getString("userPassword");
   var userEmail = prefs.getString("userEmail");
+  print('test');
 
   runApp(FutureBuilder(
       future: _initialization,
