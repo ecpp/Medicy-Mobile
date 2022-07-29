@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/screens/pmanagerAdmin/pmanagerAdmin.dart';
 import 'package:shop_app/screens/profile/my_orders/transactions_page.dart';
 import 'package:shop_app/screens/sales_manager/sales_manager_screen.dart';
@@ -62,7 +63,7 @@ class Body extends StatelessWidget {
           ProfileMenu(
               text: "Log Out",
               icon: "assets/icons/Log out.svg",
-              press: () {
+              press: () async{
                 currentCart.cartItems!.clear();
                 currentCart.sum = 0;
                 if (loginStatus == true) {
@@ -76,6 +77,9 @@ class Body extends StatelessWidget {
                     duration: Duration(seconds: 2),
                     backgroundColor: kPrimaryColor,
                   ));
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  await prefs.remove('userPassword');
+                  await prefs.remove('userEmail');
                   loginStatus = false;
                   user = null;
                   FirebaseAuth auth = FirebaseAuth.instance;

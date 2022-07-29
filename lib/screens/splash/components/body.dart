@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/size_config.dart';
@@ -31,6 +33,11 @@ class _BodyState extends State<Body> {
   ];
   @override
   Widget build(BuildContext context) {
+    Timer(
+        Duration(seconds: 2), // after 2 seconds close splash
+            () =>
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (BuildContext context) => HomeScreen())));
     return SafeArea(
       child: SizedBox(
         width: double.infinity,

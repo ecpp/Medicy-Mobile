@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/components/coustom_bottom_nav_bar.dart';
 import 'package:shop_app/enums.dart';
 import '../../helper/database_manager.dart';
+import '../../main.dart';
 import 'components/body.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -13,7 +14,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _waitForData();
+    if (loginStatus == true){
+      _waitForData();
+    };
     return Scaffold(
       body: Body(),
       bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.home),

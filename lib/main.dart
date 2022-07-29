@@ -8,8 +8,6 @@ import 'package:shop_app/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
 
-import 'helper/database_manager.dart';
-
 bool loginStatus = false;
 
 Future<void> main() async{
@@ -28,15 +26,15 @@ Future<void> main() async{
 
   var userPass = prefs.getString("userPassword");
   var userEmail = prefs.getString("userEmail");
-  print('test');
 
   runApp(FutureBuilder(
       future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-
-          LoginScreen.loginEmailPassword(
-              email: userEmail!, password: userPass!, context: context);
+          if (userPass != null && userEmail != null) {
+            LoginScreen.loginEmailPassword(
+                email: userEmail, password: userPass, context: context);
+          }
 
           return MaterialApp(
               debugShowCheckedModeBanner: false,
