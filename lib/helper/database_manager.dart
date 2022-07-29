@@ -4,6 +4,8 @@ import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/models/reviewModal.dart';
 import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
 
+import '../screens/home/components/body.dart';
+
 class DatabaseManager {
   final CollectionReference productList =
       FirebaseFirestore.instance.collection('products_new');
@@ -372,3 +374,48 @@ Future removeallFromCartDB() async {
       .update({'userCart': FieldValue.delete()});
 }
 
+Future fetchAllUserDataOnLogin() async{
+  await FirebaseFirestore.instance
+      .collection("Users")
+      .doc(user!.uid)
+      .get()
+      .then((dataFromDB) {
+    userFirstName = dataFromDB.data()!["Name"];
+    userSurname = dataFromDB.data()!["Surname"];
+    userType = dataFromDB.data()!["type"];
+    userCart = dataFromDB.data()!["userCart"];
+  });
+  if (user != null) {
+    try {
+      if (currentCart.sum != 0) {
+        //FETCH LOCAL CART TO DB.
+
+        await addToCartDB(currentCart.cartItems!.elementAt(0).product.title,
+            currentCart.cartItems!.elementAt(0).numOfItem);
+      }
+      currentCart.cartItems!.clear(); //CLEAR LOCAL CART
+    }
+    catch(e){
+      print('*************ERROR IN FETCHING CART FROM LOCAL DB*************');
+      print(e);
+    }
+
+    if (userCart != null) {
+      int i = 0;
+      for (var v in userCart!.values) {
+        if (userCart!.values.elementAt(i) > 0) { //FETCH DB TO LOCAL CART
+          Product itemToAdd = productListnew
+              .where((element) => element.title
+              .contains(userCart!.keys.elementAt(i).trimLeft()))
+              .toList()[0];
+          currentCart.cartItems!.add(CartItem(
+              product: itemToAdd,
+              numOfItem: userCart!.values.elementAt(i)));
+        }
+
+        i++;
+      }
+    }
+  }
+
+}

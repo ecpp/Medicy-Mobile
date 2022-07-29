@@ -3,6 +3,7 @@ import 'package:shop_app/constants.dart';
 import 'package:shop_app/size_config.dart';
 
 // This is the best practice
+import '../../../helper/database_manager.dart';
 import '../../home/home_screen.dart';
 import '../components/splash_content.dart';
 import '../../../components/default_button.dart';
@@ -68,7 +69,7 @@ class _BodyState extends State<Body> {
                     Spacer(flex: 3),
                     DefaultButton(
                       text: "Continue",
-                      press: () {
+                      press: () async{
                         Navigator.pushNamed(context, HomeScreen.routeName);
                       },
                     ),

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/screens/home/components/body.dart';
 import 'package:shop_app/screens/sign_up/sign_up_screen.dart';
@@ -19,19 +20,10 @@ UserData newUser = UserData();
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
-
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
   static Future<User?> loginEmailPassword(
       {required String email,
-      required String password,
-      required BuildContext context}) async {
+        required String password,
+        required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     String loginError;
     try {
@@ -39,6 +31,13 @@ class _LoginScreenState extends State<LoginScreen> {
           email: email, password: password);
       user = userCredential.user;
       loginStatus = true;
+      final prefs = await SharedPreferences.getInstance();
+      userEmail = email;
+      userPassword = password;
+      prefs.setString("userEmail", email);
+      prefs.setString("userPassword", password);
+      prefs.setBool("isLoggedIn", true);
+      print("Logged in successfully with" + email + "and password" + password);
     } on FirebaseAuthException catch (e) {
       loginError = e.message!;
 
@@ -56,6 +55,15 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     return user;
   }
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -193,47 +201,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
         newUser.email = userEmail;
         userSurname = newUser.surname;
-        user = await loginEmailPassword(
+        user = await LoginScreen.loginEmailPassword(
           email: _emailController.text,
           password: _passwordController.text,
           context: context,
         );
 
-        await FirebaseFirestore.instance
-            .collection("Users")
-            .doc(user!.uid)
-            .get()
-            .then((dataFromDB) {
-          userFirstName = dataFromDB.data()!["Name"];
-          userSurname = dataFromDB.data()!["Surname"];
-          userType = dataFromDB.data()!["type"];
-          userCart = dataFromDB.data()!["userCart"];
-        });
+
         if (user != null) {
-          if (currentCart.sum != 0) {
-            //FETCH LOCAL CART TO DB.
-
-            await addToCartDB(currentCart.cartItems!.elementAt(0).product.title,
-                currentCart.cartItems!.elementAt(0).numOfItem);
-          }
-          currentCart.cartItems!.clear(); //CLEAR LOCAL CART
-          if (userCart != null) {
-            int i = 0;
-            for (var v in userCart!.values) {
-              if (userCart!.values.elementAt(i) > 0) { //FETCH DB TO LOCAL CART
-                Product itemToAdd = productListnew
-                    .where((element) => element.title
-                        .contains(userCart!.keys.elementAt(i).trimLeft()))
-                    .toList()[0];
-                currentCart.cartItems!.add(CartItem(
-                    product: itemToAdd,
-                    numOfItem: userCart!.values.elementAt(i)));
-              }
-
-              i++;
-            }
-          }
-
+          await fetchAllUserDataOnLogin();
           Navigator.pushNamed(context, HomeScreen.routeName);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
