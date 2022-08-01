@@ -25,10 +25,10 @@ class Body extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return CircularProgressIndicator();
         }
         productListnew.clear();
-        snapshot.data!.docs.map((DocumentSnapshot document) {
+        snapshot.data!.docs.map((DocumentSnapshot document) { // BURDA BUTUN PRODUCTLARI TEKTE CEKIYORUZ = COK PRODUCTSA YAVAS OLUR??
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
 
           for (var key in data.keys) {

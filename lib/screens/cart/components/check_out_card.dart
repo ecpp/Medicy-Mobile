@@ -7,17 +7,32 @@ import '../../../size_config.dart';
 import 'package:shop_app/models/Cart.dart';
 
 class CheckoutCard extends StatefulWidget {
+
+
   const CheckoutCard({
-    Key? key,
+    Key? key, required this.stream,
   }) : super(key: key);
+  final Stream<num> stream;
+  @override
   _CheckoutCardState createState() => _CheckoutCardState();
+
 }
 
 
 class _CheckoutCardState extends State<CheckoutCard>{
   num totalsum = currentCart.sumAll();
-  void _update(int count) {
-    setState(() => totalsum = count);
+
+  @override
+  void initState(){
+    super.initState();
+    widget.stream.listen((totalsum) { mySetState(totalsum);});
+  }
+
+  void mySetState(num i) {
+    if (!mounted) return;
+    setState(() {
+      totalsum = i;
+    });
   }
   @override
   Widget build(BuildContext context) {

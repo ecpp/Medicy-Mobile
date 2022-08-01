@@ -34,7 +34,7 @@ class _ReviewsState extends State<Reviews> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return CircularProgressIndicator();
         }
 
         reviewList.clear();

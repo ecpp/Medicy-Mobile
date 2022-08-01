@@ -34,8 +34,8 @@ class _PendingCommentsState extends State<pendingCommentsScreen> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
-        }
+          return CircularProgressIndicator();
+        };
 
         reviewList.clear();
         totalrating = 0;

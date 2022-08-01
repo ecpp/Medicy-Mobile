@@ -22,7 +22,7 @@ class CustomBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color inActiveIconColor = Color(0xFFB6B6B6);
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 14),
+      padding: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -73,11 +73,16 @@ class CustomBottomNavBar extends StatelessWidget {
                     Navigator.pushNamed(context, CartScreen.routeName),
               ),
               IconButton(
-                  icon: SvgPicture.asset(
-                    "assets/icons/User Icon.svg",
-                    color: MenuState.profile == selectedMenu
-                        ? kPrimaryColor
-                        : inActiveIconColor,
+                  icon: Column(
+                    children: [
+                      SvgPicture.asset(
+                        "assets/icons/User Icon.svg",
+                        color: MenuState.profile == selectedMenu
+                            ? kPrimaryColor
+                            : inActiveIconColor,
+                      ),
+                      Text('Profile', style: TextStyle(fontSize: 6),),
+                    ],
                   ),
                   //iconSize: MenuState.profile == selectedMenu ? 15 : 20,
                   onPressed: () {

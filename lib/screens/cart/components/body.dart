@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shop_app/helper/database_manager.dart';
 import 'package:shop_app/models/Cart.dart';
+import 'package:shop_app/screens/cart/cart_screen.dart';
+import 'package:shop_app/screens/cart/components/check_out_card.dart';
 import '../../../main.dart';
 import '../../../size_config.dart';
 import 'cart_card.dart';
 
 class Body extends StatefulWidget {
+
+
   @override
   State<StatefulWidget> createState() {
     return _BodyState();
@@ -31,6 +35,9 @@ class _BodyState extends State<Body> {
                 await removeFromCartDB(
                     currentCart.cartItems!.elementAt(index).product.title);
               currentCart.cartItems!.removeAt(index);
+              cartStreamController.add(currentCart.sumAll());
+
+
             },
             background: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),

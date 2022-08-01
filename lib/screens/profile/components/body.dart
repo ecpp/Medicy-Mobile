@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/screens/pmanagerAdmin/pmanagerAdmin.dart';
-import 'package:shop_app/screens/profile/my_orders/transactions_page.dart';
+import 'package:shop_app/screens/profile/my_orders/orders_page.dart';
 import 'package:shop_app/screens/sales_manager/sales_manager_screen.dart';
 import 'package:shop_app/models/Cart.dart';
 import '../../../constants.dart';

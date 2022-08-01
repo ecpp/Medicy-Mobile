@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'components/body.dart';
 import 'components/check_out_card.dart';
+import 'dart:async';
+StreamController<num> cartStreamController = StreamController<num>.broadcast();
 
 class CartScreen extends StatelessWidget {
   static String routeName = "/cart";
@@ -10,7 +12,7 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(context),
       body: Body(),
-      bottomNavigationBar: CheckoutCard(),
+      bottomNavigationBar: CheckoutCard(stream: cartStreamController.stream,),
     );
   }
 
@@ -21,10 +23,6 @@ class CartScreen extends StatelessWidget {
           Text(
             "Your Cart",
             style: TextStyle(color: Colors.black),
-          ),
-          Text(
-            "${currentCart.cartItems!.length} items",
-            style: Theme.of(context).textTheme.caption,
           ),
         ],
       ),
