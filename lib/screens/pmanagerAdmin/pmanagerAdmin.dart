@@ -3,6 +3,7 @@ import 'package:shop_app/screens/comment/pending_comments.dart';
 import 'package:shop_app/screens/pmanagerAdmin/deliveries.dart';
 import 'package:shop_app/screens/pmanagerAdmin/products/products.dart';
 import '../../../screens/profile/components/profile_menu.dart';
+import 'categories/categories.dart';
 
 class ProductManagerAdminScreen extends StatelessWidget {
   static String routeName = "/pmanagerpanel";
@@ -74,8 +75,8 @@ class ProductManagerAdminScreen extends StatelessWidget {
                 text: "Add Category",
                 icon: "assets/icons/Settings.svg",
                 press: () {
-                  /* Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => pendingCommentsScreen()));*/
+                  Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CategoriesScreen()));
                 },
               ),
               ProfileMenu(

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Product.dart';
+import '../../../constants.dart';
 import '../../../size_config.dart';
 import 'discount_banner.dart';
 import 'home_header.dart';
@@ -14,7 +15,7 @@ Product newproduct = new Product();
 
 class Body extends StatelessWidget {
   final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('products_new').snapshots();
+      FirebaseFirestore.instance.collection(dbProductsTable).snapshots();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(

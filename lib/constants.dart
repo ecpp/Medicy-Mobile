@@ -52,3 +52,7 @@ OutlineInputBorder outlineInputBorder() {
     borderSide: BorderSide(color: kTextColor),
   );
 }
+
+const String dbUserTable = "Users";
+const String dbProductsTable = "products_new";
+const String dbCategoriesTable = "categories";

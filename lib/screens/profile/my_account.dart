@@ -162,7 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Container(
                           child: Text(
-                            "Membership Plan: ",
+                            "User Type: ",
                             style: TextStyle(
                               color: Colors.grey.shade500,
                               fontSize: 20,
@@ -172,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Container(
                           child: Text(
-                            "Silver",
+                            userType.toUpperCase(),
                             style: TextStyle(
                               color: Colors.grey.shade500,
                               fontSize: 20,

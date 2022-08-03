@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/models/reviewModal.dart';
 import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
 
+import '../models/categoryModel.dart';
 import '../screens/home/components/body.dart';
 
 class DatabaseManager {
   final CollectionReference productList =
-      FirebaseFirestore.instance.collection('products_new');
+      FirebaseFirestore.instance.collection(dbProductsTable);
   Future<void> createProduct(
       String name, int price, int stockCount, int weight, String pid) async {
     return await productList.doc(pid).set({
@@ -52,7 +54,7 @@ Future updateProduct(
     int timesold,
     String title) async {
   final CollectionReference productList =
-      FirebaseFirestore.instance.collection('products_new');
+      FirebaseFirestore.instance.collection(dbProductsTable);
   return await productList.doc(pid).update({
     'category': category,
     'description': description,
@@ -161,7 +163,7 @@ Future requestRefund(String productname, String transactionid, int itemCount,
 Future<num> getcurrentStock(String productname) async {
   num stock = 0;
   Query qqq = FirebaseFirestore.instance
-      .collection('products_new')
+      .collection(dbProductsTable)
       .where('title', isEqualTo: productname);
   await qqq.get().then((querySnapshot) {
     querySnapshot.docs.forEach((result) {
@@ -173,7 +175,7 @@ Future<num> getcurrentStock(String productname) async {
 
 Future updateProductStock(String productname, num newstock) async {
   final CollectionReference productList =
-      FirebaseFirestore.instance.collection('products_new');
+      FirebaseFirestore.instance.collection(dbProductsTable);
   return await productList.doc(productname).update({'stock': newstock});
 }
 
@@ -200,7 +202,7 @@ Future addProduct(String description, String images, num price, int stock,
   };
 
   final CollectionReference productList =
-      FirebaseFirestore.instance.collection('products_new');
+      FirebaseFirestore.instance.collection(dbProductsTable);
 
   return await productList.doc(title).set(demodata);
 }
@@ -245,7 +247,7 @@ Future<List<ReviewModal>> loadPendingReviews() async {
 Future<num> getcurrentRating(String productname) async {
   num rating = 0;
   Query qqq = FirebaseFirestore.instance
-      .collection('products_new')
+      .collection(dbProductsTable)
       .where('title', isEqualTo: productname);
   await qqq.get().then((querySnapshot) {
     querySnapshot.docs.forEach((result) {
@@ -258,7 +260,7 @@ Future<num> getcurrentRating(String productname) async {
 Future<int> gethowmanyRated(String productname) async {
   int kackererateedildi = 0;
   Query qqq = FirebaseFirestore.instance
-      .collection('products_new')
+      .collection(dbProductsTable)
       .where('title', isEqualTo: productname);
   await qqq.get().then((querySnapshot) {
     querySnapshot.docs.forEach((result) {
@@ -284,14 +286,14 @@ Future updateRating2(String productname) async {
   });
   if (kackere != 0) totalrating = totalrating / kackere;
   final CollectionReference productList =
-      FirebaseFirestore.instance.collection('products_new');
+      FirebaseFirestore.instance.collection(dbProductsTable);
   return await productList.doc(productname).update({'rating': totalrating});
 }
 
 Future updateProductRating(
     String productname, num newrating, int kackererateedildi) async {
   final CollectionReference productList =
-      FirebaseFirestore.instance.collection('products_new');
+      FirebaseFirestore.instance.collection(dbProductsTable);
   return await productList
       .doc(productname)
       .update({'kackererateedildi': kackererateedildi});
@@ -305,13 +307,13 @@ Future approveReview(String reviewid) async {
 
 Future setPrice(String productTitle, int newPrice) async {
   final CollectionReference productList =
-      FirebaseFirestore.instance.collection('products_new');
+      FirebaseFirestore.instance.collection(dbProductsTable);
   return await productList.doc(productTitle).update({'price': newPrice});
 }
 
 Future setPrice2(String productTitle, double newPrice) async {
   final CollectionReference productList =
-      FirebaseFirestore.instance.collection('products_new');
+      FirebaseFirestore.instance.collection(dbProductsTable);
   return await productList.doc(productTitle).update({'price': newPrice});
 }
 
@@ -328,7 +330,7 @@ Future<Product> findProduct(String pname) async {
   );
 
   Query qqq = FirebaseFirestore.instance
-      .collection('products_new')
+      .collection(dbProductsTable)
       .where('title', isEqualTo: pname);
   await qqq.get().then((querySnapshot) {
     querySnapshot.docs.forEach((result) {
@@ -374,9 +376,49 @@ Future removeallFromCartDB() async {
       .update({'userCart': FieldValue.delete()});
 }
 
+Future removeCategory(String name) async {
+  await FirebaseFirestore.instance
+      .collection(dbCategoriesTable)
+      .where("name", isEqualTo: name)
+      .get()
+      .then((snapshot) => {
+    for (DocumentSnapshot ds in snapshot.docs) {ds.reference.delete()}
+  });
+}
+
+Future addCategory(String name, String imagelink) async{
+  String docID = FirebaseFirestore.instance.collection("categories").doc().id;
+  String addedBy = user!.uid;
+  String addedDate = DateTime.now().toString();
+  FirebaseFirestore.instance
+      .collection(dbCategoriesTable)
+      .doc(docID)
+      .set({"id": docID, "name": name, "image": imagelink, "addedBy": addedBy, "addedDate": addedDate});
+}
+
+Future<List<categoryModel>> getCategories() async {
+  List<categoryModel> categories = [];
+
+  Query query = FirebaseFirestore.instance
+      .collection(dbCategoriesTable);
+
+  await query.get().then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      categoryModel category = new categoryModel(
+        name: result['name'],
+        id: result['id'],
+        image: result['image'],
+      );
+      categories.add(category);
+    });
+  });
+  return categories;
+}
+
+
 Future fetchAllUserDataOnLogin() async{
   await FirebaseFirestore.instance
-      .collection("Users")
+      .collection(dbUserTable)
       .doc(user!.uid)
       .get()
       .then((dataFromDB) {

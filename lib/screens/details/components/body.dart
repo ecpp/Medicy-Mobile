@@ -61,7 +61,7 @@ class Body extends StatelessWidget {
                               text: "Add To Cart",
                               press: () async {
                                 await FirebaseFirestore.instance
-                                    .collection("products_new")
+                                    .collection(dbProductsTable)
                                     .doc(product.title)
                                     .get()
                                     .then((dataFromDB) {

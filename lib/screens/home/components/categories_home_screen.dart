@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/categoryModel.dart';
+import '../../../helper/database_manager.dart';
+import '../../../models/Product.dart';
 import '../../../size_config.dart';
-import '../../categories/category.dart';
+import '../../categories/category_default.dart';
+import 'body.dart';
 import 'section_title.dart';
 
 class SpecialOffers extends StatelessWidget {
@@ -22,37 +26,46 @@ class SpecialOffers extends StatelessWidget {
         ),
         SizedBox(height: getProportionateScreenWidth(20)),
         SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              SpecialOfferCard(
-                image:
-                    "https://blog.bodyforumtr.com/wp-content/uploads/2020/07/250tldenazproteintozu.jpg",
-                category: "Protein Tozları",
-                numOfBrands: 18,
-                press: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          CategoryScreen('whey')));
-                },
-              ),
-              SpecialOfferCard(
-                image:
-                    "https://4fpnph3j8bls2w9fqo3k4xd5-wpengine.netdna-ssl.com/wp-content/uploads/2022/01/27812728_web1_M1-FWM-20220112-Best-PreWorkout-1280.jpeg",
-                category: "Preworkoutlar",
-                numOfBrands: 24,
-                press: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          CategoryScreen('pre')));
-                },
-              ),
-              SizedBox(width: getProportionateScreenWidth(20)),
-            ],
-          ),
-        ),
+            scrollDirection: Axis.horizontal,
+            child: FutureBuilder(
+              future: getCategories(),
+              builder: (context, AsyncSnapshot<List<categoryModel>> snap) {
+                if (snap.connectionState == ConnectionState.none ||
+                    snap.data == null) {
+                  return CircularProgressIndicator();
+                }
+                return Row(
+                    children: snap.data!
+                        .map((value) => SpecialOfferCard(
+                              image: value.image,
+                              category: value.name,
+                              numOfBrands: 0,
+                              press: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        DefaultCategoryScreen(
+                                          categoryName: value.name,
+                                          products:
+                                              getProductsinCategory(value.name),
+                                        )));
+                              },
+                            ))
+                        .toList());
+              },
+            )),
       ],
     );
+  }
+
+  List<Product> getProductsinCategory(String str) {
+    List<Product> prds = [];
+    for (var task in productListnew) {
+      // do something
+      if (task.category == str) {
+        prds.add(task);
+      }
+    }
+    return prds;
   }
 }
 
