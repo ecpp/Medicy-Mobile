@@ -1,20 +1,20 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/screens/home/components/body.dart';
+import 'package:shop_app/screens/pmanagerAdmin/products/components/stock_cart_card.dart';
 import 'package:shop_app/size_config.dart';
 
 import 'cart_card.dart';
 
-class Body extends StatefulWidget {
+class StockBody extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _BodyState();
+    return _StockBodyState();
   }
 }
 
-class _BodyState extends State<Body> {
+class _StockBodyState extends State<StockBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,8 +27,11 @@ class _BodyState extends State<Body> {
           child: Dismissible(
             key: Key(productListnew[index].id.toString()),
             direction: DismissDirection.endToStart,
-            onDismissed: (direction) async {
-              await removeProduct(productListnew[index].id.toString());
+            onDismissed: (direction) {
+              setState(() {
+                //    currentCart.sum = 5;
+                //   currentCart.cartItems!.removeAt(index);
+              });
             },
             background: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -43,20 +46,10 @@ class _BodyState extends State<Body> {
                 ],
               ),
             ),
-            child: ProductCard(product: productListnew[index]),
+            child: StockProductCard(product: productListnew[index]),
           ),
         ),
       ),
     );
-  }
-
-  removeProduct(String name) async {
-    await FirebaseFirestore.instance
-        .collection("products_new")
-        .where("id", isEqualTo: int.parse(name))
-        .get()
-        .then((snapshot) => {
-              for (DocumentSnapshot ds in snapshot.docs) {ds.reference.delete()}
-            });
   }
 }

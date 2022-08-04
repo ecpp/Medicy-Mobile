@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/pmanagerAdmin/pmanagerAdmin.dart';
 import 'package:shop_app/screens/profile/my_orders/orders_page.dart';
 import 'package:shop_app/screens/sales_manager/sales_manager_screen.dart';
@@ -85,7 +86,11 @@ class Body extends StatelessWidget {
                   FirebaseAuth auth = FirebaseAuth.instance;
                   auth.signOut().then((value) {
                     //Navigator.pushNamed(context, HomeScreen.routeName);
-                    Navigator.pop(context);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                          (Route<dynamic> route) => false,
+                    );
                   });
                 }
               }),

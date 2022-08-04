@@ -8,6 +8,8 @@ import 'package:shop_app/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
 
+import 'helper/database_manager.dart';
+
 bool loginStatus = false;
 
 Future<void> main() async{
@@ -23,7 +25,9 @@ Future<void> main() async{
         appId: "1:968644185212:web:1b901fc5194f7f4a4b4df9",
         measurementId: "G-8DVGVD7XS9"),
   );
-
+  void _waitForData() async {
+    await fetchAllUserDataOnLogin();
+  }
   var userPass = prefs.getString("userPassword");
   var userEmail = prefs.getString("userEmail");
 
@@ -35,7 +39,9 @@ Future<void> main() async{
             LoginScreen.loginEmailPassword(
                 email: userEmail, password: userPass, context: context);
           }
-
+          if(loginStatus == true){
+            _waitForData();
+          }
           return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: theme(),

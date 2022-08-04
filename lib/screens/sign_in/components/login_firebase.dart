@@ -210,7 +210,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (user != null) {
           await fetchAllUserDataOnLogin();
-          Navigator.pushNamed(context, HomeScreen.routeName);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+                (Route<dynamic> route) => false,
+          );
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
               "Sign In Success!",

@@ -2,42 +2,32 @@ import 'package:flutter/material.dart';
 import '../helper/database_manager.dart';
 
 class Product {
-  int id = 1;
-  String images = "asdasd";
-  num rating = 0;
-  bool isPopular = false;
-  String title = "asdasd";
-  num price = 0;
-  String description = "test123";
-  String category = "whey";
-  int stock = 0;
-  int numsold = 0;
+  int id;
+  String images;
+  num rating;
+  bool isPopular;
+  String title;
+  num price;
+  num discountprice;
+  String description;
+  String category;
+  int stock;
+  int numsold;
 
   Product({
-    this.id = 1,
-    this.images = "asdasd",
-    this.rating = 0,
-    this.isPopular = false,
-    this.title = "asdasd",
-    this.price = 0,
-    this.description = "test123",
-    this.category = "whey",
-    this.stock = 0,
-    this.numsold = 0,
+    required this.id,
+    required this.images,
+    required this.rating,
+    required this.isPopular,
+    required this.title,
+    required this.price,
+    required this.discountprice,
+    required this.description,
+    required this.category,
+    required this.stock,
+    required this.numsold,
   });
 
-  Product.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    description = json['description'];
-    images = json['images'];
-    rating = json['rating'];
-    price = json['price'];
-    isPopular = json['isPopular'];
-    category = json['whey'];
-    stock = json['stock'];
-    numsold = json['numsold'];
-  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
@@ -47,6 +37,7 @@ class Product {
     data['images'] = this.images;
     data['rating'] = this.rating;
     data['price'] = this.price;
+    data['discountprice'] = this.discountprice;
     data['isPopular'] = this.isPopular;
     data['category'] = this.category;
     data['stock'] = this.stock;

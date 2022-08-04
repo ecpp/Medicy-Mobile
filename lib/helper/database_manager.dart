@@ -192,6 +192,7 @@ Future addProduct(String description, String images, num price, int stock,
     'description': description,
     'images': images,
     'price': price,
+    'discountprice': 0,
     'stock': stock,
     'title': title,
     'category': category,
@@ -317,41 +318,6 @@ Future setPrice2(String productTitle, double newPrice) async {
   return await productList.doc(productTitle).update({'price': newPrice});
 }
 
-Future<Product> findProduct(String pname) async {
-  Product producttoaddtocart = new Product(
-    id: 1,
-    images: "assets/images/ps4_console_white_1.png",
-    title: "none",
-    price: 65,
-    description: "test123",
-    rating: 4,
-    category: "whey",
-    isPopular: true,
-  );
-
-  Query qqq = FirebaseFirestore.instance
-      .collection(dbProductsTable)
-      .where('title', isEqualTo: pname);
-  await qqq.get().then((querySnapshot) {
-    querySnapshot.docs.forEach((result) {
-      producttoaddtocart.id = result['id'];
-      producttoaddtocart.images = result['images'];
-      producttoaddtocart.title = result['title'];
-      producttoaddtocart.price = result['price'];
-      producttoaddtocart.description = result['description'];
-      producttoaddtocart.rating = result['rating'];
-      producttoaddtocart.isPopular = result['isPopular'];
-      producttoaddtocart.category = result['category'];
-      producttoaddtocart.numsold = result['numsold'];
-      producttoaddtocart.stock = result['stock'];
-      print("resultasdjaskdasd");
-    });
-
-    print(producttoaddtocart.title);
-  });
-  return producttoaddtocart;
-}
-
 Future addToCartDB(String itemname, int itemcount) async {
   final CollectionReference productList =
       FirebaseFirestore.instance.collection('Users');
@@ -413,6 +379,12 @@ Future<List<categoryModel>> getCategories() async {
     });
   });
   return categories;
+}
+
+Future setStock(String productTitle, int newStock) async {
+  final CollectionReference productList =
+  FirebaseFirestore.instance.collection('products_new');
+  return await productList.doc(productTitle).update({'stock': newStock});
 }
 
 
