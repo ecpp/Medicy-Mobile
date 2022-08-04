@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import '../../../components/default_button.dart';
 import '../../../helper/database_manager.dart';
 
@@ -12,10 +14,13 @@ String title = "";
 class AddProductScreen extends StatefulWidget {
   @override
   _AddProductScreenState createState() => new _AddProductScreenState();
+
+  const AddProductScreen({Key? key, required this.cats}) : super(key: key);
+
+  final List<String> cats;
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
-  TextEditingController _categoryController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _imagesController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
@@ -24,6 +29,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String selectedCat = widget.cats[0];
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('App Name'),
@@ -84,15 +90,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   Padding(
                     padding: EdgeInsets.all(18.0),
                   ),
-                  TextFormField(
-                    controller: _categoryController,
-                    decoration:
-                        InputDecoration(hintText: "Category (pre/whey) "),
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontFamily: "Roboto"),
-                  ),
+                  CupertinoPicker(
+                      itemExtent: 30,
+                      onSelectedItemChanged: (int value) {
+                        selectedCat = widget.cats[value];
+                        print(selectedCat);
+                      },
+                      children: widget.cats.map((e) => Text(e)).toList()),
                   Padding(
                     padding: EdgeInsets.all(18.0),
                   ),
@@ -115,7 +119,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             num.parse(_priceController.text),
                             int.parse(_stockController.text),
                             _titleController.text,
-                            _categoryController.text);
+                            selectedCat);
                       },
                       text: "Add Product"),
                 ]),
