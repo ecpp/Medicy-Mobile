@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Cart.dart';
@@ -131,10 +133,10 @@ Future addReview(String productname, String comment, int rating) async {
 Future<bool> checkifRefundExists(
     String productname, String transactionid) async {
   bool returnres = false;
-  Query qqq = FirebaseFirestore.instance
+  Query firebase_query = FirebaseFirestore.instance
       .collection('refunds')
       .where('productName', isEqualTo: productname);
-  await qqq.get().then((querySnapshot) {
+  await firebase_query.get().then((querySnapshot) {
     querySnapshot.docs.forEach((result) {
       if (result["transactionid"] == transactionid) {
         returnres = true;
@@ -162,10 +164,10 @@ Future requestRefund(String productname, String transactionid, int itemCount,
 
 Future<num> getcurrentStock(String productname) async {
   num stock = 0;
-  Query qqq = FirebaseFirestore.instance
+  Query firebase_query = FirebaseFirestore.instance
       .collection(dbProductsTable)
       .where('title', isEqualTo: productname);
-  await qqq.get().then((querySnapshot) {
+  await firebase_query.get().then((querySnapshot) {
     querySnapshot.docs.forEach((result) {
       stock = result['stock'];
     });
@@ -210,10 +212,10 @@ Future addProduct(String description, String images, num price, int stock,
 
 Future<bool> checkifReviewExists(String productname) async {
   bool returnres = false;
-  Query qqq = FirebaseFirestore.instance
+  Query firebase_query = FirebaseFirestore.instance
       .collection('productreviews')
       .where('productName', isEqualTo: productname);
-  await qqq.get().then((querySnapshot) {
+  await firebase_query.get().then((querySnapshot) {
     querySnapshot.docs.forEach((result) {
       if (result["userid"] == user!.uid) {
         returnres = true;
@@ -227,10 +229,10 @@ Future<List<ReviewModal>> loadPendingReviews() async {
   List<ReviewModal> reviewList = [];
   ReviewModal newreview = new ReviewModal(
       name: "asd", comment: "asd", rating: 5, itemName: "", reviewid: "");
-  Query qqq = FirebaseFirestore.instance
+  Query firebase_query = FirebaseFirestore.instance
       .collection('productreviews')
       .where('status', isEqualTo: 'pending');
-  await qqq.get().then((querySnapshot) {
+  await firebase_query.get().then((querySnapshot) {
     querySnapshot.docs.forEach((result) {
       newreview = new ReviewModal(
         itemName: result['productName'],
@@ -247,10 +249,10 @@ Future<List<ReviewModal>> loadPendingReviews() async {
 
 Future<num> getcurrentRating(String productname) async {
   num rating = 0;
-  Query qqq = FirebaseFirestore.instance
+  Query firebase_query = FirebaseFirestore.instance
       .collection(dbProductsTable)
       .where('title', isEqualTo: productname);
-  await qqq.get().then((querySnapshot) {
+  await firebase_query.get().then((querySnapshot) {
     querySnapshot.docs.forEach((result) {
       rating = result['rating'];
     });
@@ -260,10 +262,10 @@ Future<num> getcurrentRating(String productname) async {
 
 Future<int> gethowmanyRated(String productname) async {
   int kackererateedildi = 0;
-  Query qqq = FirebaseFirestore.instance
+  Query firebase_query = FirebaseFirestore.instance
       .collection(dbProductsTable)
       .where('title', isEqualTo: productname);
-  await qqq.get().then((querySnapshot) {
+  await firebase_query.get().then((querySnapshot) {
     querySnapshot.docs.forEach((result) {
       kackererateedildi = result['kackererateedildi'];
     });
@@ -274,10 +276,10 @@ Future<int> gethowmanyRated(String productname) async {
 Future updateRating2(String productname) async {
   num totalrating = 0;
   int kackere = 0;
-  Query qqq = FirebaseFirestore.instance
+  Query firebase_query = FirebaseFirestore.instance
       .collection('productreviews')
       .where('status', isEqualTo: "approved");
-  await qqq.get().then((querySnapshot) {
+  await firebase_query.get().then((querySnapshot) {
     querySnapshot.docs.forEach((result) {
       if (result['productName'] == productname) {
         totalrating = totalrating + result['rating'];
@@ -387,6 +389,17 @@ Future setStock(String productTitle, int newStock) async {
   return await productList.doc(productTitle).update({'stock': newStock});
 }
 
+Future <String> getUserType() async{
+  await FirebaseFirestore.instance
+      .collection('Users')
+      .doc(user!.uid)
+      .get()
+      .then((value) {
+    String _userType = value.data()!['type'];
+    return _userType;
+  });
+  return 'customer';
+}
 
 Future fetchAllUserDataOnLogin() async{
   await FirebaseFirestore.instance

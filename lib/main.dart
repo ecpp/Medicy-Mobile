@@ -17,13 +17,13 @@ Future<void> main() async{
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final Future<FirebaseApp> _initialization = Firebase.initializeApp(
     options: FirebaseOptions(
-        apiKey: "AIzaSyCuACDkvOC-qWxYd98Yl76Zp4MLYKs_P0E",
-        authDomain: "e-commerce-app-267bd.firebaseapp.com",
-        projectId: "e-commerce-app-267bd",
-        storageBucket: "e-commerce-app-267bd.appspot.com",
-        messagingSenderId: "968644185212",
-        appId: "1:968644185212:web:1b901fc5194f7f4a4b4df9",
-        measurementId: "G-8DVGVD7XS9"),
+        apiKey: "AIzaSyDg9arn7gwhQP-WouWkl-XEjhF8mZIr0AU",
+        authDomain: "medicy-a063d.firebaseapp.com",
+        projectId: "medicy-a063d",
+        storageBucket: "medicy-a063d.appspot.com",
+        messagingSenderId: "682478441420",
+        appId: "1:682478441420:web:921a72c6935afee0c30369",
+        measurementId: "G-NSYB6K7E0E"),
   );
   void _waitForData() async {
     await fetchAllUserDataOnLogin();

@@ -222,17 +222,17 @@ Valid(BuildContext context) {
       pd.show(max: 100, msg: 'Processing order...');
 
       await createTransaction(user!.uid, randomid, currentCart.sum);
-      //pd.update(value:10);
+      pd.update(value:10);
       while (i < currentCart.cartItems!.length) {
         String itemName = currentCart.cartItems![i].product.title +
             " x ${currentCart.cartItems![i].numOfItem}";
-        //print(currentCart.cartItems![i].product.title);
+        pd.update(value:20);
         await addTransactiontoUser(randomid);
         await updateTransaction2(
             randomid, itemName, currentCart.cartItems![i].product.price);
-        //pd.update(value:40);
+        pd.update(value:40);
         items['$itemName'] = currentCart.cartItems![i].product.price;
-        //pd.update(value:70);
+        pd.update(value:70);
         await updateProduct(
             currentCart.cartItems![i].product.title,
             currentCart.cartItems![i].product.category,
@@ -250,22 +250,22 @@ Valid(BuildContext context) {
         i++;
       }
 
-      TransactionClass newTransaction =
-          TransactionClass(items: items, totalprice: currentCart.sum);
+      // TransactionClass newTransaction =
+      //     TransactionClass(items: items, totalprice: currentCart.sum);
 
-      final pdfFile = await PdfInvoiceApi.generate(newTransaction);
-      UploadTask uploadTask;
-      String saveName = "invoice_" + randomid;
-      final pathToInvoice = 'invoices/$saveName';
-      final ref = FirebaseStorage.instance.ref().child(pathToInvoice);
-      uploadTask = ref.putFile(pdfFile);
+      // final pdfFile = await PdfInvoiceApi.generate(newTransaction);
+      // UploadTask uploadTask;
+      // String saveName = "invoice_" + randomid;
+      // final pathToInvoice = 'invoices/$saveName';
+      // final ref = FirebaseStorage.instance.ref().child(pathToInvoice);
+      // uploadTask = ref.putFile(pdfFile);
+      //
+      // final snapshot = await uploadTask.whenComplete(() => {});
+      // final urlDownload = await snapshot.ref.getDownloadURL();
+      // addPathToInvoice(randomid, urlDownload);
 
-      final snapshot = await uploadTask.whenComplete(() => {});
-      final urlDownload = await snapshot.ref.getDownloadURL();
-      addPathToInvoice(randomid, urlDownload);
-
-      await sendEmail(
-          ['${user?.email}'], "Order Placed", "Order Data", urlDownload);
+      // await sendEmail(
+      //     ['${user?.email}'], "Order Placed", "Order Data", urlDownload);
       await removeallFromCartDB();
       currentCart = Cart(sum: 0, cartItems: []);
       pd.update(value: 100);

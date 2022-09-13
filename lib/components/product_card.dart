@@ -31,6 +31,7 @@ class ProductCard extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+
             children: [
               AspectRatio(
                 aspectRatio: 1,
@@ -54,14 +55,41 @@ class ProductCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "\$${product.price}",
-                    style: TextStyle(
-                      fontSize: getProportionateScreenWidth(18),
-                      fontWeight: FontWeight.w600,
-                      color: kPrimaryColor,
+                  if (product.discountprice == 0)
+                    Text(
+                      "\$${product.price}",
+                      style: TextStyle(
+                        fontSize: getProportionateScreenWidth(18),
+                        fontWeight: FontWeight.w600,
+                        color: kPrimaryColor,
+                      ),
                     ),
-                  ),
+                  if (product.discountprice < product.price)
+                    Row(
+                      children: [
+                        Text(
+                          "\$${product.price}",
+                          style: TextStyle(
+                            fontSize: getProportionateScreenWidth(15),
+                            fontWeight: FontWeight.w600,
+                            color: kPrimaryColor,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          "\$${product.discountprice}",
+                          style: TextStyle(
+                            fontSize: getProportionateScreenWidth(15),
+                            fontWeight: FontWeight.w600,
+                            color: kPrimaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+
                   InkWell(
                     borderRadius: BorderRadius.circular(50),
                     onTap: () {},

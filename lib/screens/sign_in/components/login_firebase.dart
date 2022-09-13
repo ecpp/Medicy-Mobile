@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_state_button/progress_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/screens/home/components/body.dart';
@@ -63,6 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  ButtonState stateOnlyText = ButtonState.idle;
 
 
   @override
@@ -132,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: 40,
                       ),
-                      submitButton(),
+                      buildCustomButton(),
                       SizedBox(
                         height: 40,
                       ),
@@ -234,6 +238,84 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  Widget buildCustomButton() {
+    var progressTextButton = ProgressButton(
+      stateWidgets: {
+        ButtonState.idle: Text(
+          "Login",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+        ),
+        ButtonState.loading: Text(
+          "Loading",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+        ),
+        ButtonState.fail: Text(
+          "Login Failed",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+        ),
+        ButtonState.success: Text(
+          "Success",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+        )
+      },
+      stateColors: {
+        ButtonState.idle: Colors.grey.shade400,
+        ButtonState.loading: Colors.blue.shade300,
+        ButtonState.fail: Colors.red.shade300,
+        ButtonState.success: Colors.green.shade400,
+      },
+      progressIndicator:  CircularProgressIndicator( backgroundColor: Colors.white, valueColor: AlwaysStoppedAnimation(Colors.red), strokeWidth: 1, ),
+      onPressed: () async{
+        setState(() {
+          stateOnlyText = ButtonState.loading;
+        });
+        String userEmail = _emailController.text;
+
+        newUser.email = userEmail;
+        userSurname = newUser.surname;
+        user = await LoginScreen.loginEmailPassword(
+          email: _emailController.text,
+          password: _passwordController.text,
+          context: context,
+        );
+
+
+        if (user != null) {
+          await fetchAllUserDataOnLogin();
+          setState(() {
+            stateOnlyText = ButtonState.success;
+          });
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+                (Route<dynamic> route) => false,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              "Sign In Success!",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+            ),
+            duration: Duration(seconds: 2),
+            backgroundColor: kPrimaryColor,
+          ));
+        }
+        else{
+          setState(() {
+            stateOnlyText = ButtonState.fail;
+          });
+          await Future.delayed(Duration(seconds: 2));
+          setState(() {
+            stateOnlyText = ButtonState.idle;
+          });
+        }
+      },
+      state: stateOnlyText,
+      padding: EdgeInsets.all(8.0),
+    );
+    return progressTextButton;
   }
 
   ElevatedButton registerButton() {

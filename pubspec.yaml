@@ -51,6 +51,7 @@ dependencies:
   smooth_star_rating_null_safety: ^1.0.4+2
   flutter_animated_button: ^2.0.0
   sn_progress_dialog: ^1.0.8
+  progress_state_button: ^1.0.4
 
 dev_dependencies:
   flutter_test:

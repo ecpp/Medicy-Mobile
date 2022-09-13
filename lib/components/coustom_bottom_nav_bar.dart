@@ -33,13 +33,15 @@ class CustomBottomNavBar extends StatelessWidget {
           ),
         ],
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(40),
-          topRight: Radius.circular(40),
+          topLeft: Radius.circular(80),
+          topRight: Radius.circular(80),
         ),
       ),
       child: SafeArea(
+
           top: false,
           child: Row(
+            
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
@@ -63,11 +65,15 @@ class CustomBottomNavBar extends StatelessWidget {
               //   onPressed: () {},
               // ),
               IconButton(
-                icon: SvgPicture.asset(
-                  "assets/icons/Cart Icon.svg",
-                  color: MenuState.cart == selectedMenu
-                      ? kPrimaryColor
-                      : inActiveIconColor,
+                icon: Column(
+                  children: [SvgPicture.asset(
+                    "assets/icons/Cart Icon.svg",
+                    color: MenuState.cart == selectedMenu
+                        ? kPrimaryColor
+                        : inActiveIconColor,
+                  ),
+                    Text('Cart', style: TextStyle(fontSize: 9),),
+  ]
                 ),
                 onPressed: () =>
                     Navigator.pushNamed(context, CartScreen.routeName),
@@ -81,7 +87,7 @@ class CustomBottomNavBar extends StatelessWidget {
                             ? kPrimaryColor
                             : inActiveIconColor,
                       ),
-                      Text('Profile', style: TextStyle(fontSize: 6),),
+                      Text('Profile', style: TextStyle(fontSize: 7),),
                     ],
                   ),
                   //iconSize: MenuState.profile == selectedMenu ? 15 : 20,
