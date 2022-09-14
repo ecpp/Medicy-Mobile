@@ -3,8 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/models/Product.dart';
 import '../../../size_config.dart';
 
-int _maxlines = 1;
-
 class ProductDescription extends StatelessWidget {
   const ProductDescription({
     Key? key,
@@ -18,42 +16,19 @@ class ProductDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: Text(
-            product.title,
-            style: Theme.of(context).textTheme.headline6,
-          ),
-        ),
-        Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: Text(
-            (product.stock == 0 ? "\nOut of Stock!" : ""),
-            style: TextStyle(
-                color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Container(
-            padding: EdgeInsets.all(getProportionateScreenWidth(15)),
-            width: getProportionateScreenWidth(64),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
+            padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(20)),
+            child: Center(
+              child: Text(
+                product.title,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline6,
               ),
-            ),
-            child: SvgPicture.asset(
-              "assets/icons/Heart Icon_2.svg",
-              height: getProportionateScreenWidth(16),
-            ),
-          ),
-        ),
+            )),
+        SizedBox(height: getProportionateScreenHeight(10)),
         Padding(
           padding: EdgeInsets.only(
             left: getProportionateScreenWidth(20),
@@ -61,6 +36,39 @@ class ProductDescription extends StatelessWidget {
           ),
           child: Text(
             product.description,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        SizedBox(height: getProportionateScreenHeight(10)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "${product.rating.toDouble()}" + "/5",
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(width: 7),
+            SvgPicture.asset("assets/icons/Star Icon.svg"),
+          ],
+        ),
+        Text(
+          "${product.price}" + "\$",
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
+          child: Text(
+            (product.stock == 0 ? "\nOut of Stock!" : ""),
+            style: TextStyle(
+                color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
       ],

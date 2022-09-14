@@ -20,16 +20,19 @@ class _ProductImagesState extends State<ProductImages> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          width: getProportionateScreenWidth(238),
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: Hero(
-              tag: widget.product.id.toString(),
-              child: Image.network(widget.product.images),
+        Padding(
+          padding: EdgeInsets.only(top: getProportionateScreenWidth(20)),
+          child: SizedBox(
+            width: getProportionateScreenWidth(238),
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: Hero(
+                tag: widget.product.id.toString(),
+                child: Image.network(widget.product.images),
+              ),
             ),
           ),
-        ),
+        )
       ],
     );
   }

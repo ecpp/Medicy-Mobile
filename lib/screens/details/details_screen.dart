@@ -13,7 +13,7 @@ class DetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-        child: CustomAppBar(rating: agrs.product.rating.toDouble()),
+        child: CustomAppBar(),
       ),
       body: Body(product: agrs.product),
     );

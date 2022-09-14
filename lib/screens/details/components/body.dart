@@ -41,169 +41,56 @@ class Body extends StatelessWidget {
                 color: Colors.white10,
                 child: Column(
                   children: [
-                    NumericStepButton(
-                      minValue: 0,
-                      maxValue: 5,
-                      onChanged: (value) {
-                        numOfItemToAdd = value;
-                      },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 10.0),
+                        NumericStepButton(
+                          minValue: 0,
+                          maxValue: product.stock,
+                          onChanged: (value) {
+                            numOfItemToAdd = value;
+                          },
+                        ),
+                        SizedBox(
+                          width: getProportionateScreenWidth(100),
+                          height: getProportionateScreenHeight(50),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              primary: Colors.white,
+                              backgroundColor:
+                                  Color.fromARGB(255, 243, 243, 243),
+                            ),
+                            onPressed: () => SchedulerBinding.instance
+                                .addPostFrameCallback((_) {
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) =>
+                                          Reviews(itemname: product.title)));
+                            }),
+                            child: Text(
+                              "Reviews",
+                              style: TextStyle(
+                                fontSize: getProportionateScreenWidth(18),
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     TopRoundedContainer(
                       color: Colors.white10,
                       child: Padding(
-                          padding: EdgeInsets.only(
-                            left: SizeConfig.screenWidth * 0.15,
-                            right: SizeConfig.screenWidth * 0.15,
-                            bottom: getProportionateScreenWidth(40),
-                          ),
-                          child: Column(children: [
-                            DefaultButton(
-                              text: "Add To Cart",
-                              press: () async {
-                                await FirebaseFirestore.instance
-                                    .collection(dbProductsTable)
-                                    .doc(product.title)
-                                    .get()
-                                    .then((dataFromDB) {
-                                  product.stock = dataFromDB.data()!["stock"];
-                                });
-                                print('stock: ');
-                                print(product.stock);
-                                problem = false;
-                                if (product.stock == 0) {
-                                  problem = true;
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(
-                                      "There is no item left in the Stock",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    duration: Duration(seconds: 1),
-                                    backgroundColor: kPrimaryColor,
-                                  ));
-                                } else if (numOfItemToAdd == 0) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(
-                                      "Please increase the amount of items!",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    duration: Duration(seconds: 1),
-                                    backgroundColor: kPrimaryColor,
-                                  ));
-                                } else {
-                                  for (int i = 0;
-                                      i < currentCart.cartItems!.length;
-                                      i++) {
-                                    if (currentCart
-                                            .cartItems![i].product.title ==
-                                        product.title) {
-                                      if (currentCart.cartItems![i].numOfItem +
-                                              numOfItemToAdd >
-                                          product.stock) {
-                                        if (product.stock -
-                                                currentCart
-                                                    .cartItems![i].numOfItem <
-                                            1) {
-                                          problem = true;
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                            content: Text(
-                                              "You have all items in your cart!",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            duration: Duration(seconds: 1),
-                                            backgroundColor: kPrimaryColor,
-                                          ));
-                                        } else {
-                                          problem = true;
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                            content: Text(
-                                              "You can only add " +
-                                                  (product.stock -
-                                                          currentCart
-                                                              .cartItems![i]
-                                                              .numOfItem)
-                                                      .toString() +
-                                                  " items more!",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            duration: Duration(seconds: 1),
-                                            backgroundColor: kPrimaryColor,
-                                          ));
-                                        }
-                                      } else if (!problem) {
-                                        currentCart.cartItems![i].numOfItem +=
-                                            numOfItemToAdd;
-                                        if (loginStatus == true) {
-                                          await addToCartDB(
-                                              product.title,
-                                              currentCart
-                                                  .cartItems![i].numOfItem);
-                                        }
-
-                                        found = true;
-                                      }
-                                    }
-                                  }
-                                  ;
-                                  if (!found && !problem) {
-                                    currentCart.cartItems!.add(CartItem(
-                                        product: product,
-                                        numOfItem: numOfItemToAdd));
-                                    if (loginStatus == true) {
-                                      await addToCartDB(
-                                          product.title, numOfItemToAdd);
-                                    }
-                                  }
-                                  ;
-                                  if (!problem) {
-                                    count = count + numOfItemToAdd;
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                      content: Text(
-                                        "Added to cart!",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      duration: Duration(seconds: 1),
-                                      backgroundColor: kPrimaryColor,
-                                    ));
-                                    Navigator.of(context).pop();
-                                  }
-                                }
-                                ;
-                              },
-                            ),
-                            SizedBox(height: 10.0),
-                            DefaultButton(
-                                text: "See comments",
-                                press: () => SchedulerBinding.instance
-                                        .addPostFrameCallback((_) {
-                                      // add your code here.
-
-                                      Navigator.push(
-                                          context,
-                                          new MaterialPageRoute(
-                                              builder: (context) => Reviews(
-                                                  itemname: product.title)));
-                                    })),
-                          ])),
+                        padding: EdgeInsets.only(
+                          left: SizeConfig.screenWidth * 0.15,
+                          right: SizeConfig.screenWidth * 0.15,
+                          bottom: getProportionateScreenWidth(40),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -211,7 +98,113 @@ class Body extends StatelessWidget {
             ],
           ),
         ),
+        BottomAppBar(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child:
+                DefaultButton(text: "Add To Cart", press: addToCart(context)),
+          ),
+        )
       ],
     );
+  }
+
+  addToCart(BuildContext context) async {
+    await FirebaseFirestore.instance
+        .collection(dbProductsTable)
+        .doc(product.title)
+        .get()
+        .then((dataFromDB) {
+      product.stock = dataFromDB.data()!["stock"];
+    });
+    print('stock: ');
+    print(product.stock);
+    problem = false;
+    if (product.stock == 0) {
+      problem = true;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "There is no item left in the Stock",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+        ),
+        duration: Duration(seconds: 1),
+        backgroundColor: kPrimaryColor,
+      ));
+    } else if (numOfItemToAdd == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Please increase the amount of items!",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+        ),
+        duration: Duration(seconds: 1),
+        backgroundColor: kPrimaryColor,
+      ));
+    } else {
+      for (int i = 0; i < currentCart.cartItems!.length; i++) {
+        if (currentCart.cartItems![i].product.title == product.title) {
+          if (currentCart.cartItems![i].numOfItem + numOfItemToAdd >
+              product.stock) {
+            if (product.stock - currentCart.cartItems![i].numOfItem < 1) {
+              problem = true;
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                  "You have all items in your cart!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                ),
+                duration: Duration(seconds: 1),
+                backgroundColor: kPrimaryColor,
+              ));
+            } else {
+              problem = true;
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                  "You can only add " +
+                      (product.stock - currentCart.cartItems![i].numOfItem)
+                          .toString() +
+                      " items more!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                ),
+                duration: Duration(seconds: 1),
+                backgroundColor: kPrimaryColor,
+              ));
+            }
+          } else if (!problem) {
+            currentCart.cartItems![i].numOfItem += numOfItemToAdd;
+            if (loginStatus == true) {
+              await addToCartDB(
+                  product.title, currentCart.cartItems![i].numOfItem);
+            }
+
+            found = true;
+          }
+        }
+      }
+      ;
+      if (!found && !problem) {
+        currentCart.cartItems!
+            .add(CartItem(product: product, numOfItem: numOfItemToAdd));
+        if (loginStatus == true) {
+          await addToCartDB(product.title, numOfItemToAdd);
+        }
+      }
+      ;
+      if (!problem) {
+        count = count + numOfItemToAdd;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            "Added to cart!",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+          ),
+          duration: Duration(seconds: 1),
+          backgroundColor: kPrimaryColor,
+        ));
+        Navigator.of(context).pop();
+      }
+    }
   }
 }
