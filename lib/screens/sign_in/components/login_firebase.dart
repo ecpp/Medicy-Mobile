@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,15 +44,30 @@ class LoginScreen extends StatefulWidget {
       print("Logged in successfully with" + email + "and password" + password);
     } on FirebaseAuthException catch (e) {
       loginError = e.message!;
-
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("CAN'T LOGIN!"),
-              content: Text(loginError),
-            );
-          });
+      if (e.message == 'Given String is empty or null'){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            loginError,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 16.0, fontWeight: FontWeight.bold),
+          ),
+          duration: Duration(seconds: 3),
+          backgroundColor: kPrimaryColor,
+        ));
+      }
+      else{
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            loginError,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 16.0, fontWeight: FontWeight.bold),
+          ),
+          duration: Duration(seconds: 3),
+          backgroundColor: kPrimaryColor,
+        ));
+      }
       if (e.code == "user-not-found") {
         SnackBar(content: Text('Login error.'), duration: Duration(seconds: 3));
       }
@@ -136,11 +152,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: 40,
                       ),
-                      buildCustomButton(),
+                      loginButton(),
                       SizedBox(
                         height: 40,
                       ),
-                      registerButton(),
+                      registerText(),
                       SizedBox(
                         height: 40,
                       ),
@@ -191,79 +207,30 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  ElevatedButton submitButton() {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-          primary: kPrimaryColor,
-          padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 100.0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          )),
-      onPressed: () async {
-
-        String userEmail = _emailController.text;
-
-        newUser.email = userEmail;
-        userSurname = newUser.surname;
-        user = await LoginScreen.loginEmailPassword(
-          email: _emailController.text,
-          password: _passwordController.text,
-          context: context,
-        );
-
-
-        if (user != null) {
-          await fetchAllUserDataOnLogin();
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-                (Route<dynamic> route) => false,
-          );
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-              "Sign In Success!",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-            ),
-            duration: Duration(seconds: 2),
-            backgroundColor: kPrimaryColor,
-          ));
-        }
-      },
-      child: Text(
-        "  Login  ",
-        style: TextStyle(
-          fontSize: 19,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-
-  Widget buildCustomButton() {
+  Widget loginButton() {
     var progressTextButton = ProgressButton(
       stateWidgets: {
         ButtonState.idle: Text(
           "Login",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
         ),
         ButtonState.loading: Text(
           "Loading",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
         ),
         ButtonState.fail: Text(
           "Login Failed",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
         ),
         ButtonState.success: Text(
           "Success",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
         )
       },
       stateColors: {
-        ButtonState.idle: Colors.grey.shade400,
+        ButtonState.idle: kPrimaryColor,
         ButtonState.loading: Colors.blue.shade300,
-        ButtonState.fail: Colors.red.shade300,
+        ButtonState.fail: Colors.grey.shade300,
         ButtonState.success: Colors.green.shade400,
       },
       progressIndicator:  CircularProgressIndicator( backgroundColor: Colors.white, valueColor: AlwaysStoppedAnimation(Colors.red), strokeWidth: 1, ),
@@ -294,7 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
           );
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
-              "Sign In Success!",
+              "Welcome " + userFirstName! + " " + userSurname! + "!",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
@@ -306,7 +273,7 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             stateOnlyText = ButtonState.fail;
           });
-          await Future.delayed(Duration(seconds: 2));
+          await Future.delayed(Duration(seconds: 3));
           setState(() {
             stateOnlyText = ButtonState.idle;
           });
@@ -318,25 +285,28 @@ class _LoginScreenState extends State<LoginScreen> {
     return progressTextButton;
   }
 
-  ElevatedButton registerButton() {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-          primary: kPrimaryColor,
-          padding: new EdgeInsets.symmetric(vertical: 15.0, horizontal: 100.0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          )),
-      onPressed: () {
-        // _formKey.currentState!.validate();
-        Navigator.pushNamed(context, SignUpScreen.routeName);
-      },
-      child: Text(
-        "Register",
-        style: TextStyle(
-          fontSize: 19,
-          fontWeight: FontWeight.w600,
+  RichText registerText(){
+    return RichText(
+      text: TextSpan(children: [
+        TextSpan(
+          text: 'Don\'t have an account? ',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+          ),
         ),
-      ),
+        TextSpan(
+            text: 'Register',
+            style: TextStyle(
+              color: kPrimaryColor,
+              fontSize: 16,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                Navigator.pushNamed(context, SignUpScreen.routeName);
+              }),
+      ]),
     );
   }
+
 }
