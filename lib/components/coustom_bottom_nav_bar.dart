@@ -87,7 +87,7 @@ class CustomBottomNavBar extends StatelessWidget {
                             ? kPrimaryColor
                             : inActiveIconColor,
                       ),
-                      Text('Profile', style: TextStyle(fontSize: 7),),
+                      Text('Profile', style: TextStyle(fontSize: 6),),
                     ],
                   ),
                   //iconSize: MenuState.profile == selectedMenu ? 15 : 20,
