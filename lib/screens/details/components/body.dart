@@ -101,8 +101,8 @@ class Body extends StatelessWidget {
         BottomAppBar(
           child: Padding(
             padding: EdgeInsets.all(8.0),
-            child:
-                DefaultButton(text: "Add To Cart", press: addToCart(context)),
+            child: DefaultButton(
+                text: "Add To Cart", press: () => addToCart(context)),
           ),
         )
       ],
