@@ -32,7 +32,8 @@ class SpecialOffers extends StatelessWidget {
               builder: (context, AsyncSnapshot<List<categoryModel>> snap) {
                 if (snap.connectionState == ConnectionState.none ||
                     snap.data == null) {
-                  return CircularProgressIndicator();
+                  return Scaffold(
+                      body: Center(child: CircularProgressIndicator()));
                 }
                 return Row(
                     children: snap.data!

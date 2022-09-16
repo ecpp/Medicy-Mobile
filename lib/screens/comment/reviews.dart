@@ -6,7 +6,8 @@ import 'package:shop_app/screens/comment/reviewUI.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 List<ReviewModal> reviewList = [];
-ReviewModal newreview = new ReviewModal(name: "asd", comment: "asd", rating: 5, itemName: " ", reviewid: "");
+ReviewModal newreview = new ReviewModal(
+    name: "asd", comment: "asd", rating: 5, itemName: " ", reviewid: "");
 Map<int, int> countlar = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
 num totalrating = 0;
 
@@ -34,7 +35,7 @@ class _ReviewsState extends State<Reviews> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Scaffold(body: Center(child: CircularProgressIndicator()));
         }
 
         reviewList.clear();
@@ -141,7 +142,7 @@ class _ReviewsState extends State<Reviews> {
                   rating: reviewList[index].rating,
                   onTap: () {
                     Future.delayed(const Duration(seconds: 4), () async {
-                      if (mounted){
+                      if (mounted) {
                         setState(() {
                           isMore = !isMore;
                         });

@@ -12,7 +12,7 @@ import 'helper/database_manager.dart';
 
 bool loginStatus = false;
 
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final Future<FirebaseApp> _initialization = Firebase.initializeApp(
@@ -28,6 +28,7 @@ Future<void> main() async{
   void _waitForData() async {
     await fetchAllUserDataOnLogin();
   }
+
   var userPass = prefs.getString("userPassword");
   var userEmail = prefs.getString("userEmail");
 
@@ -39,7 +40,7 @@ Future<void> main() async{
             LoginScreen.loginEmailPassword(
                 email: userEmail, password: userPass, context: context);
           }
-          if(loginStatus == true){
+          if (loginStatus == true) {
             _waitForData();
           }
           return MaterialApp(

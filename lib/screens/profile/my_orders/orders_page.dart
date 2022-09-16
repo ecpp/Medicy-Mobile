@@ -28,7 +28,7 @@ class TransactionScreen extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Scaffold(body: Center(child: CircularProgressIndicator()));
         }
         userTransaction.clear();
         snapshot.data!.docs.map((DocumentSnapshot document) {

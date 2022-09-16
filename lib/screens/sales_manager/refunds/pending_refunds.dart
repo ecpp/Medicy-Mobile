@@ -32,7 +32,7 @@ class _PendingRefundsState extends State<pendingRefundsScreen> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Scaffold(body: Center(child: CircularProgressIndicator()));
         }
 
         refundList.clear();

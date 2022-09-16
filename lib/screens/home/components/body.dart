@@ -21,7 +21,7 @@ class Body extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting ||
             snapshot.data == null ||
             snapshot.hasError) {
-          return CircularProgressIndicator();
+          return Scaffold(body: Center(child: CircularProgressIndicator()));
         }
         productListnew.clear();
         snapshot.data!.docs.map((DocumentSnapshot document) {

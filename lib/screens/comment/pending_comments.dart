@@ -34,8 +34,9 @@ class _PendingCommentsState extends State<pendingCommentsScreen> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        };
+          return Scaffold(body: Center(child: CircularProgressIndicator()));
+        }
+        ;
 
         reviewList.clear();
         totalrating = 0;
