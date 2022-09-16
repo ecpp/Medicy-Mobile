@@ -32,16 +32,11 @@ class CustomBottomNavBar extends StatelessWidget {
             color: Color(0xFFDADADA).withOpacity(0.15),
           ),
         ],
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(80),
-          topRight: Radius.circular(80),
-        ),
+
       ),
       child: SafeArea(
-
           top: false,
           child: Row(
-            
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
@@ -53,52 +48,51 @@ class CustomBottomNavBar extends StatelessWidget {
                   ),
                   //iconSize: MenuState.home == selectedMenu ? 15 : 20,
                   onPressed: () => {
-                        if (MenuState.home == selectedMenu)
-                          {}
-                        else
+                        if (MenuState.home != selectedMenu)
                           {
-                            Navigator.pushNamed(context, HomeScreen.routeName),
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen()),
+                              (Route<dynamic> route) => false,
+                            )
                           }
                       }),
+
               // IconButton(
               //   icon: SvgPicture.asset("assets/icons/Heart Icon.svg"),
               //   onPressed: () {},
               // ),
               IconButton(
-                icon: Column(
-                  children: [SvgPicture.asset(
+                icon:
+                  SvgPicture.asset(
                     "assets/icons/Cart Icon.svg",
                     color: MenuState.cart == selectedMenu
                         ? kPrimaryColor
                         : inActiveIconColor,
                   ),
-                    Text('Cart', style: TextStyle(fontSize: 9),),
-  ]
-                ),
+
                 onPressed: () =>
                     Navigator.pushNamed(context, CartScreen.routeName),
               ),
+
               IconButton(
-                  icon: Column(
-                    children: [
+                  icon:
                       SvgPicture.asset(
                         "assets/icons/User Icon.svg",
                         color: MenuState.profile == selectedMenu
                             ? kPrimaryColor
                             : inActiveIconColor,
                       ),
-                      Text('Profile', style: TextStyle(fontSize: 6),),
-                    ],
-                  ),
+
                   //iconSize: MenuState.profile == selectedMenu ? 15 : 20,
                   onPressed: () {
-                    if (loginStatus == true) {
-                      if (MenuState.profile == selectedMenu) {
-                      } else {
+                    if (MenuState.profile != selectedMenu) {
+                      if (loginStatus) {
                         Navigator.pushNamed(context, ProfileScreen.routeName);
+                      } else {
+                        Navigator.pushNamed(context, SignInScreen.routeName);
                       }
-                    } else {
-                      Navigator.pushNamed(context, SignInScreen.routeName);
                     }
                   }),
             ],

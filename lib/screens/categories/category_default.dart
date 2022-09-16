@@ -29,55 +29,57 @@ class DefaultCategoryScreen2 extends State<DefaultCategoryScreen> {
         bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.home),
         body: Column(
           children: [
-            SizedBox(height: 10),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(padding: EdgeInsets.all(1)),
-                  TextButton.icon(
-                      onPressed: () {
-                        setState(() => isDescending = !isDescending);
-                        if (isDescending) {
-                          poptext = "Popularity";
-                          pricetext = "Price Descending";
-                          sortedItems
-                              .sort((a, b) => b.price.compareTo(a.price));
-                        } else {
-                          poptext = "Popularity";
-                          pricetext = "Price Ascending";
-                          sortedItems
-                              .sort((a, b) => a.price.compareTo(b.price));
-                        }
-                      },
-                      icon: RotatedBox(
-                        quarterTurns: 1,
-                        child: Icon(Icons.compare_arrows, size: 28),
-                      ),
-                      label: Text(
-                        isDescending ? pricetext : pricetext,
-                      )),
-                  TextButton.icon(
-                      onPressed: () {
-                        setState(() => isPopular = !isPopular);
-                        if (isPopular) {
-                          poptext = "Popularity: Ascending";
-                          pricetext = "Price";
-                          sortedItems
-                              .sort((a, b) => b.price.compareTo(a.numsold));
-                        } else {
-                          poptext = "Popularity: Descending";
-                          pricetext = "Price";
-                          sortedItems
-                              .sort((a, b) => a.price.compareTo(b.numsold));
-                        }
-                      },
-                      icon: RotatedBox(
-                        quarterTurns: 1,
-                        child: Icon(Icons.compare_arrows, size: 28),
-                      ),
-                      label: Text(isPopular ? poptext : poptext)),
-                ]),
+            SafeArea(
+              bottom: false,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.all(1)),
+                    TextButton.icon(
+                        onPressed: () {
+                          setState(() => isDescending = !isDescending);
+                          if (isDescending) {
+                            poptext = "Popularity";
+                            pricetext = "Price Descending";
+                            sortedItems
+                                .sort((a, b) => b.price.compareTo(a.price));
+                          } else {
+                            poptext = "Popularity";
+                            pricetext = "Price Ascending";
+                            sortedItems
+                                .sort((a, b) => a.price.compareTo(b.price));
+                          }
+                        },
+                        icon: RotatedBox(
+                          quarterTurns: 1,
+                          child: Icon(Icons.compare_arrows, size: 28),
+                        ),
+                        label: Text(
+                          isDescending ? pricetext : pricetext,
+                        )),
+                    TextButton.icon(
+                        onPressed: () {
+                          setState(() => isPopular = !isPopular);
+                          if (isPopular) {
+                            poptext = "Popularity: Ascending";
+                            pricetext = "Price";
+                            sortedItems
+                                .sort((a, b) => b.price.compareTo(a.numsold));
+                          } else {
+                            poptext = "Popularity: Descending";
+                            pricetext = "Price";
+                            sortedItems
+                                .sort((a, b) => a.price.compareTo(b.numsold));
+                          }
+                        },
+                        icon: RotatedBox(
+                          quarterTurns: 1,
+                          child: Icon(Icons.compare_arrows, size: 28),
+                        ),
+                        label: Text(isPopular ? poptext : poptext)),
+                  ]),
+            ),
 
             Expanded(
               child: ListView.builder(
