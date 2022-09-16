@@ -18,7 +18,7 @@ class SpecialOffers extends StatelessWidget {
       children: [
         Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: SectionTitle(
             title: "Categories",
             press: () {},
@@ -30,27 +30,30 @@ class SpecialOffers extends StatelessWidget {
             child: FutureBuilder(
               future: getCategories(),
               builder: (context, AsyncSnapshot<List<categoryModel>> snap) {
-                if (snap.connectionState == ConnectionState.none ||
+                if (snap.connectionState == ConnectionState.waiting ||
                     snap.data == null) {
-                  return Scaffold(
-                      body: Center(child: CircularProgressIndicator()));
+                  return Container(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
                 }
                 return Row(
                     children: snap.data!
                         .map((value) => SpecialOfferCard(
-                              image: value.image,
-                              category: value.name,
-                              numOfBrands: 0,
-                              press: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        DefaultCategoryScreen(
-                                          categoryName: value.name,
-                                          products:
-                                              getProductsinCategory(value.name),
-                                        )));
-                              },
-                            ))
+                      image: value.image,
+                      category: value.name,
+                      numOfBrands: 0,
+                      press: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                DefaultCategoryScreen(
+                                  categoryName: value.name,
+                                  products:
+                                  getProductsinCategory(value.name),
+                                )));
+                      },
+                    ))
                         .toList());
               },
             )),
