@@ -73,38 +73,57 @@ class Body extends StatelessWidget {
               },
             ),
           ProfileMenu(
-              text: "Log Out",
-              icon: "assets/icons/Log out.svg",
-              press: () async{
-                currentCart.cartItems!.clear();
-                currentCart.sum = 0;
-                if (loginStatus == true) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                      "Logout Success!",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.bold),
-                    ),
-                    duration: Duration(seconds: 2),
-                    backgroundColor: kPrimaryColor,
-                  ));
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                  await prefs.remove('userPassword');
-                  await prefs.remove('userEmail');
-                  loginStatus = false;
-                  user = null;
-                  FirebaseAuth auth = FirebaseAuth.instance;
-                  auth.signOut().then((value) {
-                    //Navigator.pushNamed(context, HomeScreen.routeName);
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                          (Route<dynamic> route) => false,
-                    );
-                  });
-                }
-              }),
+            text: "Log Out",
+            icon: "assets/icons/Log out.svg",
+            press: () => showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Hold On!'),
+                content: const Text('Are you sure want to log out?'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Cancel'),
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      currentCart.cartItems!.clear();
+                      currentCart.sum = 0;
+                      if (loginStatus == true) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                            "Logout Success!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 16.0, fontWeight: FontWeight.bold),
+                          ),
+                          duration: Duration(seconds: 2),
+                          backgroundColor: kPrimaryColor,
+                        ));
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        await prefs.remove('userPassword');
+                        await prefs.remove('userEmail');
+                        loginStatus = false;
+                        user = null;
+                        FirebaseAuth auth = FirebaseAuth.instance;
+                        auth.signOut().then((value) {
+                          //Navigator.pushNamed(context, HomeScreen.routeName);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()),
+                            (Route<dynamic> route) => false,
+                          );
+                        });
+                      }
+                    },
+                    child: const Text('Yes'),
+                  ),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
