@@ -34,7 +34,7 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     Timer(
-        Duration(seconds: 2), // after 2 seconds close splash
+        Duration(seconds: 1), // after 2 seconds close splash
             () =>
             Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (BuildContext context) => HomeScreen())));
@@ -55,33 +55,6 @@ class _BodyState extends State<Body> {
                 itemBuilder: (context, index) => SplashContent(
                   image: splashData[index]["image"],
                   text: splashData[index]['text'],
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: getProportionateScreenWidth(20)),
-                child: Column(
-                  children: <Widget>[
-                    Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        splashData.length,
-                        (index) => buildDot(index: index),
-                      ),
-                    ),
-                    Spacer(flex: 3),
-                    DefaultButton(
-                      text: "Continue",
-                      press: () async{
-                        Navigator.pushNamed(context, HomeScreen.routeName);
-                      },
-                    ),
-                    Spacer(),
-                  ],
                 ),
               ),
             ),

@@ -8,7 +8,7 @@ class Product {
   bool isPopular;
   String title;
   num price;
-  num discountprice;
+  num oldprice;
   String description;
   String category;
   int stock;
@@ -21,7 +21,7 @@ class Product {
     required this.isPopular,
     required this.title,
     required this.price,
-    required this.discountprice,
+    required this.oldprice,
     required this.description,
     required this.category,
     required this.stock,
@@ -37,7 +37,7 @@ class Product {
     data['images'] = this.images;
     data['rating'] = this.rating;
     data['price'] = this.price;
-    data['discountprice'] = this.discountprice;
+    data['oldprice'] = this.oldprice;
     data['isPopular'] = this.isPopular;
     data['category'] = this.category;
     data['stock'] = this.stock;

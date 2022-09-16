@@ -93,7 +93,7 @@ class _ProductCard2State extends State<ProductCard2> {
                               widget.product.title,
                               0.01 *
                                   ((100 - (int.parse(myController2.text))) *
-                                      widget.product.price.toInt())),
+                                      widget.product.price), widget.product.price),
                           // Navigator.pop(context),
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(

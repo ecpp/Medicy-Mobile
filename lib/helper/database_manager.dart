@@ -194,7 +194,7 @@ Future addProduct(String description, String images, num price, int stock,
     'description': description,
     'images': images,
     'price': price,
-    'discountprice': 0,
+    'oldprice': 0,
     'stock': stock,
     'title': title,
     'category': category,
@@ -314,10 +314,10 @@ Future setPrice(String productTitle, int newPrice) async {
   return await productList.doc(productTitle).update({'price': newPrice});
 }
 
-Future setPrice2(String productTitle, double newPrice) async {
+Future setPrice2(String productTitle, num newPrice, num oldPrice) async {
   final CollectionReference productList =
       FirebaseFirestore.instance.collection(dbProductsTable);
-  return await productList.doc(productTitle).update({'price': newPrice});
+  return await productList.doc(productTitle).update({'price': newPrice, 'oldprice': oldPrice});
 }
 
 Future addToCartDB(String itemname, int itemcount) async {

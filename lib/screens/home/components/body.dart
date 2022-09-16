@@ -33,7 +33,7 @@ class Body extends StatelessWidget {
               images: data['images'],
               title: data['title'],
               price: data['price'],
-              discountprice: data['discountprice'],
+              oldprice: data['oldprice'],
               description: data['description'],
               rating: data['rating'],
               isPopular: data['isPopular'],

@@ -55,7 +55,7 @@ class ProductCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (product.discountprice == 0)
+                  if (product.oldprice == 0)
                     Text(
                       "\$${product.price}",
                       style: TextStyle(
@@ -64,11 +64,11 @@ class ProductCard extends StatelessWidget {
                         color: kPrimaryColor,
                       ),
                     ),
-                  if (product.discountprice < product.price)
+                  if (product.oldprice != 0)
                     Row(
                       children: [
                         Text(
-                          "\$${product.price}",
+                          "\$${product.oldprice}",
                           style: TextStyle(
                             fontSize: getProportionateScreenWidth(15),
                             fontWeight: FontWeight.w600,
@@ -80,7 +80,7 @@ class ProductCard extends StatelessWidget {
                           width: 6,
                         ),
                         Text(
-                          "\$${product.discountprice}",
+                          "\$${product.price}",
                           style: TextStyle(
                             fontSize: getProportionateScreenWidth(15),
                             fontWeight: FontWeight.w600,
