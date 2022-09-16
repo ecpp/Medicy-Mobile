@@ -54,14 +54,6 @@ class ProductDescription extends StatelessWidget {
             SvgPicture.asset("assets/icons/Star Icon.svg"),
           ],
         ),
-        Text(
-          "${product.price}" + "\$",
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
