@@ -59,9 +59,7 @@ class Body extends StatelessWidget {
                             style: TextButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20)),
-                              primary: Colors.white,
-                              backgroundColor:
-                                  Color.fromARGB(255, 243, 243, 243),
+                              backgroundColor: kPrimaryColor,
                             ),
                             onPressed: () => SchedulerBinding.instance
                                 .addPostFrameCallback((_) {
@@ -75,7 +73,7 @@ class Body extends StatelessWidget {
                               "Reviews",
                               style: TextStyle(
                                 fontSize: getProportionateScreenWidth(18),
-                                color: Colors.black,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -99,10 +97,30 @@ class Body extends StatelessWidget {
           ),
         ),
         BottomAppBar(
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: DefaultButton(
-                text: "Add To Cart", press: () => addToCart(context)),
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: getProportionateScreenWidth(15),
+              horizontal: getProportionateScreenWidth(30),
+            ),
+            child: SafeArea(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "${product.price}" + "\$",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    width: getProportionateScreenWidth(250),
+                    child: DefaultButton(
+                        text: "Add to Cart", press: () => addToCart(context)),
+                  ),
+                ],
+              ),
+            ),
           ),
         )
       ],
