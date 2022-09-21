@@ -4,8 +4,8 @@ import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/size_config.dart';
 import '../../../../helper/database_manager.dart';
 
-class ProductCard2 extends StatefulWidget {
-  ProductCard2({
+class ProductCard extends StatefulWidget {
+  ProductCard({
     Key? key,
     required this.product,
   }) : super(key: key);
@@ -13,10 +13,10 @@ class ProductCard2 extends StatefulWidget {
   final Product product;
 
   @override
-  State<ProductCard2> createState() => _ProductCard2State();
+  State<ProductCard> createState() => _ProductCardState();
 }
 
-class _ProductCard2State extends State<ProductCard2> {
+class _ProductCardState extends State<ProductCard> {
   final myController2 = TextEditingController();
 
   @override
@@ -93,7 +93,8 @@ class _ProductCard2State extends State<ProductCard2> {
                               widget.product.title,
                               0.01 *
                                   ((100 - (int.parse(myController2.text))) *
-                                      widget.product.price), widget.product.price),
+                                      widget.product.price),
+                              widget.product.price),
                           // Navigator.pop(context),
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(

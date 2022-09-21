@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/screens/home/components/body.dart';
 import 'package:shop_app/size_config.dart';
+import 'productCard.dart';
 
-import 'cart_card2.dart';
-
-class Body2 extends StatefulWidget {
+class Body extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _BodyState();
   }
 }
 
-class _BodyState extends State<Body2> {
+class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -37,7 +36,7 @@ class _BodyState extends State<Body2> {
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
-            child: ProductCard2(product: productListnew[index]),
+            child: ProductCard(product: productListnew[index]),
           ),
         ),
       ),

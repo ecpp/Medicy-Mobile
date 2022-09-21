@@ -5,7 +5,7 @@ import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/pmanagerAdmin/deliveries.dart';
 import 'package:shop_app/screens/pmanagerAdmin/pmanagerAdmin.dart';
-import 'package:shop_app/screens/pmanagerAdmin/products/products.dart';
+import 'package:shop_app/screens/pmanagerAdmin/products/add_remove_product.dart';
 import 'package:shop_app/screens/profile/my_orders/orders_page.dart';
 import 'package:shop_app/screens/profile/profile_screen.dart';
 import 'package:shop_app/screens/sales_manager/sales_manager_screen.dart';

@@ -8,8 +8,8 @@ import '../../categories/category_default.dart';
 import 'body.dart';
 import 'section_title.dart';
 
-class SpecialOffers extends StatelessWidget {
-  const SpecialOffers({
+class Categories extends StatelessWidget {
+  const Categories({
     Key? key,
   }) : super(key: key);
 
@@ -19,7 +19,7 @@ class SpecialOffers extends StatelessWidget {
       children: [
         Padding(
           padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: SectionTitle(
             title: "Categories",
             press: () {},
@@ -42,22 +42,23 @@ class SpecialOffers extends StatelessWidget {
                 return Row(
                     children: snap.data!
                         .map((value) => SpecialOfferCard(
-                      image: value.image,
-                      category: value.name,
-                      numOfBrands: 0,
-                      press: () {
-                        PersistentNavBarNavigator.pushNewScreen(
-                          context,
-                          screen: DefaultCategoryScreen(
-                            categoryName: value.name,
-                            products:
-                            getProductsinCategory(value.name),
-                          ),
-                          withNavBar: true, // OPTIONAL VALUE. True by default.
-                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                        );
-                      },
-                    ))
+                              image: value.image,
+                              category: value.name,
+                              numOfBrands: 0,
+                              press: () {
+                                PersistentNavBarNavigator.pushNewScreen(
+                                  context,
+                                  screen: DefaultCategoryScreen(
+                                    categoryName: value.name,
+                                    products: getProductsinCategory(value.name),
+                                  ),
+                                  withNavBar:
+                                      true, // OPTIONAL VALUE. True by default.
+                                  pageTransitionAnimation:
+                                      PageTransitionAnimation.cupertino,
+                                );
+                              },
+                            ))
                         .toList());
               },
             )),

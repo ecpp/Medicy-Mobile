@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/screens/comment/pending_comments.dart';
 import 'package:shop_app/screens/pmanagerAdmin/deliveries.dart';
-import 'package:shop_app/screens/pmanagerAdmin/products/products.dart';
+import 'package:shop_app/screens/pmanagerAdmin/products/add_remove_product.dart';
 import '../../../screens/profile/components/profile_menu.dart';
 import 'categories/categories.dart';
 

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../constants.dart';
 import '../../../../helper/database_manager.dart';
 
 class Body extends StatefulWidget {
@@ -19,9 +20,8 @@ class _BodyState extends State<Body> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: [
+            padding: EdgeInsets.all(10),
+            child: Column(children: [
               Container(
                 width: MediaQuery.of(context).size.width * 0.70,
                 height: MediaQuery.of(context).size.height * 0.05,
@@ -59,9 +59,16 @@ class _BodyState extends State<Body> {
                       fontWeight: FontWeight.w400),
                 ),
               ),
-              ElevatedButton(
-                  onPressed: () async{
-                    await addCategory(nameController.text, imageController.text);
+              TextButton(
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    primary: Colors.white,
+                    backgroundColor: kPrimaryColor,
+                  ),
+                  onPressed: () async {
+                    await addCategory(
+                        nameController.text, imageController.text);
                     nameController.clear();
                     imageController.clear();
                     SnackBar snackBar = SnackBar(
@@ -71,9 +78,7 @@ class _BodyState extends State<Body> {
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   child: Text("Add New"))
-            ],
-          ),
-        ),
+            ])),
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
             stream:

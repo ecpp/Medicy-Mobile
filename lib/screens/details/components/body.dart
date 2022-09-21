@@ -68,9 +68,11 @@ class Body extends StatelessWidget {
                                 .addPostFrameCallback((_) {
                               PersistentNavBarNavigator.pushNewScreen(
                                 context,
-                                screen: Reviews( itemname: product.title),
-                                withNavBar: true, // OPTIONAL VALUE. True by default.
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                screen: Reviews(itemname: product.title),
+                                withNavBar:
+                                    true, // OPTIONAL VALUE. True by default.
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.cupertino,
                               );
                             }),
                             child: Text(
@@ -110,19 +112,37 @@ class Body extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "${product.price}" + "\$",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text.rich(
+                        TextSpan(
+                          text: "${product.oldprice}" + "\$",
+                          style: TextStyle(fontSize: 14, color: Colors.black),
+                          children: [
+                            TextSpan(
+                              text: "${product.price}" + "\$",
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
+
+                  // Text(
+                  //   "${product.price}" + "\$",
+                  //   style: TextStyle(
+                  //       fontSize: 20,
+                  //       color: Colors.black,
+                  //       fontWeight: FontWeight.bold),
+                  // ),
                   SizedBox(
                     width: getProportionateScreenWidth(250),
                     child: DefaultButton(
                         text: "Add to Cart",
                         press: () {
-
                           addToCart(context);
                         }),
                   ),

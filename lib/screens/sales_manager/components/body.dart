@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../screens/profile/components/profile_menu.dart';
-import '../products/setPrice.dart';
-import '../products/setDiscount.dart';
+import '../set_prices/setPrice.dart';
+import '../set_discount/setDiscount.dart';
 import '../refunds/pending_refunds.dart';
 
 class Body extends StatelessWidget {

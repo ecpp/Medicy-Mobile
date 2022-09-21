@@ -8,8 +8,6 @@ import 'components/body.dart';
 import 'package:shop_app/screens/cart/cart_screen.dart';
 import '../profile/profile_screen.dart';
 
-
-
 class HomeScreen extends StatefulWidget {
   static String routeName = "/home";
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,7 +17,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final PersistentTabController _controller = PersistentTabController(initialIndex: 0);
+  final PersistentTabController _controller =
+      PersistentTabController(initialIndex: 0);
   @override
   Widget build(BuildContext context) {
     List<Widget> _buildScreens() {
@@ -52,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ];
     }
+
     return Scaffold(
       body: PersistentTabView(
         context,
@@ -60,10 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: _navBarsItems(),
         stateManagement: false,
         navBarStyle: NavBarStyle.style9,
-
       ),
     );
   }
-
-
 }

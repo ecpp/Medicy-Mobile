@@ -45,19 +45,16 @@ class MainBody extends StatelessWidget {
         }).toList();
         return GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: SingleChildScrollView(
-            child: SafeArea(
+          child: SafeArea(
+            child: SingleChildScrollView(
               child: Column(
                 children: [
                   SizedBox(height: getProportionateScreenHeight(10)),
                   HomeHeader(),
                   DiscountBanner(),
-                  //SizedBox(height: getProportionateScreenWidth(10)),
-                  //Categories(),
-                  SpecialOffers(),
+                  Categories(),
                   SizedBox(height: getProportionateScreenWidth(15)),
                   PopularProducts(),
-                  //SizedBox(height: getProportionateScreenWidth(30)),
                 ],
               ),
             ),
