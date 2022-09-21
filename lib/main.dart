@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/routes.dart';
+import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 import 'package:shop_app/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -49,7 +50,7 @@ Future<void> main() async {
               routes: routes,
               home: SplashScreen());
         } else {
-          return const MaterialApp(
+          return MaterialApp(
               debugShowCheckedModeBanner: false,
               home: Center(
                 child: CircularProgressIndicator(),

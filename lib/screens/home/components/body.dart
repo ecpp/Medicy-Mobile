@@ -10,7 +10,7 @@ import 'categories_home_screen.dart';
 
 List<Product> productListnew = [];
 
-class Body extends StatelessWidget {
+class MainBody extends StatelessWidget {
   final Stream<QuerySnapshot> _usersStream =
       FirebaseFirestore.instance.collection(dbProductsTable).snapshots();
   @override

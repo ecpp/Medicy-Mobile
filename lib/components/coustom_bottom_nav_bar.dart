@@ -89,7 +89,7 @@ class CustomBottomNavBar extends StatelessWidget {
                   onPressed: () {
                     if (MenuState.profile != selectedMenu) {
                       if (loginStatus) {
-                        Navigator.pushNamed(context, ProfileScreen.routeName);
+                        Navigator.pushNamed(context, ProfileMain.routeName);
                       } else {
                         Navigator.pushNamed(context, SignInScreen.routeName);
                       }

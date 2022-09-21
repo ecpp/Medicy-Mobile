@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/models/Cart.dart';
@@ -254,11 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             stateOnlyText = ButtonState.success;
           });
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-                (Route<dynamic> route) => false,
-          );
+          Navigator.of(context).popUntil(ModalRoute.withName("/home"));
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
               "Welcome " + userFirstName! + " " + userSurname! + "!",
@@ -303,7 +301,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                Navigator.pushNamed(context, SignUpScreen.routeName);
+                PersistentNavBarNavigator.pushNewScreen(context, screen: SignUpScreen(), withNavBar: false);
               }),
       ]),
     );

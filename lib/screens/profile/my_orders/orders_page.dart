@@ -15,6 +15,7 @@ List<TransactionClass> userTransaction = [];
 TransactionClass newtrans = new TransactionClass(items: {});
 
 class TransactionScreen extends StatelessWidget {
+  static String routeName = "/transaction";
   //_TransactionScreenState createState() => _TransactionScreenState();
   final Stream<QuerySnapshot> _usersStream =
       FirebaseFirestore.instance.collection('transactions').snapshots();
@@ -54,8 +55,6 @@ class TransactionScreen extends StatelessWidget {
               ),
               centerTitle: true,
             ),
-            bottomNavigationBar:
-                CustomBottomNavBar(selectedMenu: MenuState.profile),
             body: ListView(
               children: [
                 ListView.builder(

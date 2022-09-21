@@ -1,20 +1,67 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:shop_app/components/coustom_bottom_nav_bar.dart';
-import 'package:shop_app/enums.dart';
-import '../../helper/database_manager.dart';
-import '../../main.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:shop_app/constants.dart';
 import 'components/body.dart';
+import 'package:shop_app/screens/cart/cart_screen.dart';
+import '../profile/profile_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+
+
+class HomeScreen extends StatefulWidget {
   static String routeName = "/home";
-
-
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final PersistentTabController _controller = PersistentTabController(initialIndex: 0);
+  @override
   Widget build(BuildContext context) {
+    List<Widget> _buildScreens() {
+      return [
+        MainBody(),
+        CartScreen(),
+        ProfileMain(),
+      ];
+    }
+
+    List<PersistentBottomNavBarItem> _navBarsItems() {
+      return [
+        PersistentBottomNavBarItem(
+          icon: const Icon(Icons.home),
+          title: ("Home"),
+          activeColorPrimary: kPrimaryColor,
+          inactiveColorPrimary: Colors.grey,
+        ),
+        PersistentBottomNavBarItem(
+          icon: const Icon(Icons.shopping_cart),
+          title: ("Cart"),
+          activeColorPrimary: kPrimaryColor,
+          inactiveColorPrimary: Colors.grey,
+        ),
+        PersistentBottomNavBarItem(
+          icon: const Icon(Icons.person),
+          title: ("Profile"),
+          activeColorPrimary: kPrimaryColor,
+          inactiveColorPrimary: Colors.grey,
+        ),
+      ];
+    }
     return Scaffold(
-      body: Body(),
-      bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.home),
+      body: PersistentTabView(
+        context,
+        controller: _controller,
+        screens: _buildScreens(),
+        items: _navBarsItems(),
+        stateManagement: false,
+        navBarStyle: NavBarStyle.style9,
+
+      ),
     );
   }
+
+
 }

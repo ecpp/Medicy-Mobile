@@ -12,7 +12,6 @@ class SignInScreen extends StatelessWidget {
         title: Text("Sign In"),
       ),
       body: LoginScreen(),
-      bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.profile,),
     );
   }
 }

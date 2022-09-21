@@ -26,7 +26,6 @@ class DefaultCategoryScreen2 extends State<DefaultCategoryScreen> {
     final sortedItems = widget.products;
 
     return Scaffold(
-        bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.home),
         body: Column(
           children: [
             SafeArea(

@@ -108,7 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Container(
                           child: Text(
-                            userFirstName! + " " + userSurname!,
+                            'Change this' + " " + 'and this',
                             style: TextStyle(
                               color: Colors.grey.shade500,
                               fontSize: 20,

@@ -5,10 +5,12 @@ import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/helper/database_manager.dart';
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/screens/cart/cart_screen.dart';
 import 'package:shop_app/screens/comment/reviews.dart';
 import 'package:shop_app/size_config.dart';
 import 'package:shop_app/models/Cart.dart';
 import '../../../main.dart';
+import '../../home/home_screen.dart';
 import 'product_description.dart';
 import 'top_rounded_container.dart';
 import 'product_images.dart';
@@ -116,7 +118,11 @@ class Body extends StatelessWidget {
                   SizedBox(
                     width: getProportionateScreenWidth(250),
                     child: DefaultButton(
-                        text: "Add to Cart", press: () => addToCart(context)),
+                        text: "Add to Cart",
+                        press: () {
+
+                          addToCart(context);
+                        }),
                   ),
                 ],
               ),
@@ -191,6 +197,7 @@ class Body extends StatelessWidget {
               ));
             }
           } else if (!problem) {
+            print('gelduk2');
             currentCart.cartItems![i].numOfItem += numOfItemToAdd;
             if (loginStatus == true) {
               await addToCartDB(
@@ -203,6 +210,7 @@ class Body extends StatelessWidget {
       }
       ;
       if (!found && !problem) {
+        print('gelduk');
         currentCart.cartItems!
             .add(CartItem(product: product, numOfItem: numOfItemToAdd));
         if (loginStatus == true) {
@@ -211,6 +219,8 @@ class Body extends StatelessWidget {
       }
       ;
       if (!problem) {
+        cartStreamController2.add(currentCart.sumAll());
+        cartStreamController.add(currentCart.sumAll());
         count = count + numOfItemToAdd;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
@@ -221,7 +231,6 @@ class Body extends StatelessWidget {
           duration: Duration(seconds: 1),
           backgroundColor: kPrimaryColor,
         ));
-        Navigator.of(context).pop();
       }
     }
   }

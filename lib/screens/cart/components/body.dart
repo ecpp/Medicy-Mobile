@@ -9,17 +9,39 @@ import '../../../size_config.dart';
 import 'cart_card.dart';
 
 class Body extends StatefulWidget {
-
+  const Body({
+    Key? key,
+    required this.stream,
+  }) : super(key: key);
+  final Stream<num> stream;
 
   @override
-  State<StatefulWidget> createState() {
-    return _BodyState();
-  }
+  _BodyState createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
+  num totalsum = currentCart.sumAll();
+
+  @override
+  void initState() {
+
+    super.initState();
+    widget.stream.listen((totalsum) {
+      mySetState(totalsum);
+    });
+  }
+
+  void mySetState(num i) {
+    if (!mounted) return;
+    setState(() {
+      totalsum = i;
+    });
+    //initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('CURRENT CART: ${currentCart.sum}');
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
@@ -28,7 +50,7 @@ class _BodyState extends State<Body> {
         itemBuilder: (context, index) => Padding(
           padding: EdgeInsets.symmetric(vertical: 10),
           child: Dismissible(
-            key: Key(currentCart.cartItems![index].product.id.toString()),
+            key: Key(UniqueKey().toString()),
             direction: DismissDirection.endToStart,
             onDismissed: (direction) async {
               if (loginStatus == true)
@@ -36,8 +58,6 @@ class _BodyState extends State<Body> {
                     currentCart.cartItems!.elementAt(index).product.title);
               currentCart.cartItems!.removeAt(index);
               cartStreamController.add(currentCart.sumAll());
-
-
             },
             background: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),

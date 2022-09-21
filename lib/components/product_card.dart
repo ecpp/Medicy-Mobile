@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 
@@ -24,10 +25,11 @@ class ProductCard extends StatelessWidget {
       child: SizedBox(
         width: getProportionateScreenWidth(width),
         child: GestureDetector(
-          onTap: () => Navigator.pushNamed(
+          onTap: () => PersistentNavBarNavigator.pushNewScreen(
             context,
-            DetailsScreen.routeName,
-            arguments: ProductDetailsArguments(product: product),
+            screen: DetailsScreen(itemToDetail: product),
+            withNavBar: true, // OPTIONAL VALUE. True by default.
+            pageTransitionAnimation: PageTransitionAnimation.cupertino,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

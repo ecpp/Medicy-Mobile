@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/helper/database_manager.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
@@ -10,6 +11,7 @@ import 'package:shop_app/models/Cart.dart';
 import '../../../constants.dart';
 import '../../../main.dart';
 import '../my_account.dart';
+import '../profile_screen.dart';
 import 'profile_menu.dart';
 import '../../sign_in/components/login_firebase.dart';
 
@@ -45,8 +47,7 @@ class Body extends StatelessWidget {
             text: "My Orders",
             icon: "assets/icons/box.svg",
             press: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => TransactionScreen()));
+              PersistentNavBarNavigator.pushNewScreen(context, screen: TransactionScreen(), withNavBar: true, pageTransitionAnimation: PageTransitionAnimation.cupertino);
             },
           ),
           ProfileMenu(
