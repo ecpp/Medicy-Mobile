@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/constants.dart';
 import 'components/body.dart';
@@ -31,19 +33,19 @@ class _HomeScreenState extends State<HomeScreen> {
     List<PersistentBottomNavBarItem> _navBarsItems() {
       return [
         PersistentBottomNavBarItem(
-          icon: const Icon(Icons.home),
+          icon: Icon(CupertinoIcons.home),
           title: ("Home"),
           activeColorPrimary: kPrimaryColor,
           inactiveColorPrimary: Colors.grey,
         ),
         PersistentBottomNavBarItem(
-          icon: const Icon(Icons.shopping_cart),
+          icon: Icon(CupertinoIcons.shopping_cart),
           title: ("Cart"),
           activeColorPrimary: kPrimaryColor,
           inactiveColorPrimary: Colors.grey,
         ),
         PersistentBottomNavBarItem(
-          icon: const Icon(Icons.person),
+          icon: Icon(CupertinoIcons.person),
           title: ("Profile"),
           activeColorPrimary: kPrimaryColor,
           inactiveColorPrimary: Colors.grey,

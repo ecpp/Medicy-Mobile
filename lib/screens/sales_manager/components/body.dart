@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../screens/profile/components/profile_menu.dart';
 import '../products/products.dart';
 import '../products/products_discount.dart';
@@ -17,16 +18,15 @@ class Body extends StatelessWidget {
             text: "Set Prices",
             icon: "assets/icons/User Icon.svg",
             press: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ProductsScreen()));
+
+              PersistentNavBarNavigator.pushNewScreen(context, screen: ProductsScreen());
             },
           ),
           ProfileMenu(
             text: "Discount",
             icon: "assets/icons/box.svg",
             press: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ProductsScreen2()));
+              PersistentNavBarNavigator.pushNewScreen(context, screen: ProductsScreen2());
             },
           ),
           ProfileMenu(
@@ -38,8 +38,7 @@ class Body extends StatelessWidget {
             text: "Refund Requests",
             icon: "assets/icons/Refund.svg",
             press: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => pendingRefundsScreen()));
+              PersistentNavBarNavigator.pushNewScreen(context, screen: pendingRefundsScreen());
             },
           ),
         ],

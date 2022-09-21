@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/screens/sign_up/sign_up_screen.dart';
 
 import '../constants.dart';
@@ -19,7 +20,12 @@ class NoAccountText extends StatelessWidget {
           style: TextStyle(fontSize: getProportionateScreenWidth(16)),
         ),
         GestureDetector(
-          onTap: () => Navigator.pushNamed(context, SignUpScreen.routeName),
+          onTap: () => PersistentNavBarNavigator.pushNewScreen(
+            context,
+            screen: SignUpScreen(),
+            withNavBar: true, // OPTIONAL VALUE. True by default.
+            pageTransitionAnimation: PageTransitionAnimation.cupertino,
+          ),
           child: Text(
             "Sign Up",
             style: TextStyle(

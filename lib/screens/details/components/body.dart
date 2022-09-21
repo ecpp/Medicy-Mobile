@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/helper/database_manager.dart';
@@ -65,11 +66,12 @@ class Body extends StatelessWidget {
                             ),
                             onPressed: () => SchedulerBinding.instance
                                 .addPostFrameCallback((_) {
-                              Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (context) =>
-                                          Reviews(itemname: product.title)));
+                              PersistentNavBarNavigator.pushNewScreen(
+                                context,
+                                screen: Reviews( itemname: product.title),
+                                withNavBar: true, // OPTIONAL VALUE. True by default.
+                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                              );
                             }),
                             child: Text(
                               "Reviews",

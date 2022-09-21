@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/main.dart';
@@ -7,25 +8,24 @@ import '../../../size_config.dart';
 import 'package:shop_app/models/Cart.dart';
 
 class CheckoutCard extends StatefulWidget {
-
-
   const CheckoutCard({
-    Key? key, required this.stream,
+    Key? key,
+    required this.stream,
   }) : super(key: key);
   final Stream<num> stream;
   @override
   _CheckoutCardState createState() => _CheckoutCardState();
-
 }
 
-
-class _CheckoutCardState extends State<CheckoutCard>{
+class _CheckoutCardState extends State<CheckoutCard> {
   num totalsum = currentCart.sumAll();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    widget.stream.listen((totalsum) { mySetState(totalsum);});
+    widget.stream.listen((totalsum) {
+      mySetState(totalsum);
+    });
   }
 
   void mySetState(num i) {
@@ -34,6 +34,7 @@ class _CheckoutCardState extends State<CheckoutCard>{
       totalsum = i;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -81,20 +82,41 @@ class _CheckoutCardState extends State<CheckoutCard>{
                   child: DefaultButton(
                       text: "Check Out",
                       press: () => {
-                        if (loginStatus == true)
-                          {
-                            if (currentCart.sumAll() > 0)
+                            if (loginStatus == true)
                               {
-                                print(loginStatus),
-                                Navigator.pushNamed(
-                                    context, PaymentScreen.routeName)
+                                if (currentCart.sumAll() > 0)
+                                  {
+                                    PersistentNavBarNavigator.pushNewScreen(
+                                      context,
+                                      screen: PaymentScreen(),
+                                      withNavBar:
+                                          false, // OPTIONAL VALUE. True by default.
+                                      pageTransitionAnimation:
+                                          PageTransitionAnimation.cupertino,
+                                    ),
+                                  }
+                                else
+                                  {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(
+                                        "Please add items to your cart!",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      duration: Duration(seconds: 1),
+                                      backgroundColor: kPrimaryColor,
+                                    ))
+                                  }
                               }
                             else
                               {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: Text(
-                                    "Please add items to your cart!",
+                                    "You need to login in order to check out!",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 16.0,
@@ -104,23 +126,7 @@ class _CheckoutCardState extends State<CheckoutCard>{
                                   backgroundColor: kPrimaryColor,
                                 ))
                               }
-                          }
-                        else
-                          {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(
-                              content: Text(
-                                "You need to login in order to check out!",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              duration: Duration(seconds: 1),
-                              backgroundColor: kPrimaryColor,
-                            ))
-                          }
-                      }),
+                          }),
                 ),
               ],
             ),

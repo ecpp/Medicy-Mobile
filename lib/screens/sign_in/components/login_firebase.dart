@@ -9,6 +9,7 @@ import 'package:progress_state_button/progress_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/screens/home/components/body.dart';
+import 'package:shop_app/screens/profile/profile_screen.dart';
 import 'package:shop_app/screens/sign_up/sign_up_screen.dart';
 import 'package:shop_app/models/User.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -256,14 +257,19 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             stateOnlyText = ButtonState.success;
           });
-          Navigator.of(context).popUntil(ModalRoute.withName("/home"));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProfileMain()),
+                (Route<dynamic> route) => false,
+          );
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
               "Welcome " + userFirstName! + " " + userSurname! + "!",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
-            duration: Duration(seconds: 2),
+            duration: Duration(seconds: 1),
             backgroundColor: kPrimaryColor,
           ));
         }

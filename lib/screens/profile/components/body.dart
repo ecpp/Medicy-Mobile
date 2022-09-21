@@ -40,7 +40,7 @@ class Body extends StatelessWidget {
             press: () {
               if (loginStatus == true)
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => ProfileScreen()));
+                    MaterialPageRoute(builder: (context) => MyAccount()));
             },
           ),
           ProfileMenu(
@@ -98,7 +98,7 @@ class Body extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 16.0, fontWeight: FontWeight.bold),
                           ),
-                          duration: Duration(seconds: 2),
+                          duration: Duration(seconds: 1),
                           backgroundColor: kPrimaryColor,
                         ));
                         SharedPreferences prefs =

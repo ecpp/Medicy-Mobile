@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/models/categoryModel.dart';
 import '../../../helper/database_manager.dart';
 import '../../../models/Product.dart';
@@ -45,13 +46,16 @@ class SpecialOffers extends StatelessWidget {
                       category: value.name,
                       numOfBrands: 0,
                       press: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                DefaultCategoryScreen(
-                                  categoryName: value.name,
-                                  products:
-                                  getProductsinCategory(value.name),
-                                )));
+                        PersistentNavBarNavigator.pushNewScreen(
+                          context,
+                          screen: DefaultCategoryScreen(
+                            categoryName: value.name,
+                            products:
+                            getProductsinCategory(value.name),
+                          ),
+                          withNavBar: true, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                        );
                       },
                     ))
                         .toList());

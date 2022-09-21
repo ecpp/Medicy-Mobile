@@ -4,9 +4,8 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:shop_app/components/coustom_bottom_nav_bar.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/constants.dart';
-import 'package:shop_app/enums.dart';
 import 'package:shop_app/models/Transaction.dart';
 import 'package:shop_app/screens/profile/my_orders/order_details.dart';
 import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
@@ -149,10 +148,14 @@ class TransactionScreen extends StatelessWidget {
                                 ),
                                 Colors.green,
                                 () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => OrderDetailsPage(
-                                            transaction: userTransaction[index],
-                                          )));
+                                  PersistentNavBarNavigator.pushNewScreen(
+                                    context,
+                                    screen: OrderDetailsPage(
+                                      transaction: userTransaction[index],
+                                    ),
+                                    withNavBar: true, // OPTIONAL VALUE. True by default.
+                                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                  );
                                 },
                               ),
                             ],

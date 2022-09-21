@@ -6,14 +6,14 @@ import '../home/home_screen.dart';
 import '../sign_in/components/login_firebase.dart';
 import 'components/profile_menu.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class MyAccount extends StatefulWidget {
+  const MyAccount({Key? key}) : super(key: key);
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _MyAccountState createState() => _MyAccountState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _MyAccountState extends State<MyAccount> {
   bool _value = false;
   String email = '';
   String password = '';

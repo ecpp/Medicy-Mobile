@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/home/components/body.dart';
 import 'package:shop_app/search_results.dart';
@@ -32,8 +33,12 @@ class SearchField extends StatelessWidget {
                   key.description.toLowerCase().contains(valueToSearch))
                 {searchList.add(key)},
             },
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => SearchResults()))
+          PersistentNavBarNavigator.pushNewScreen(
+            context,
+            screen: SearchResults(),
+            withNavBar: true, // OPTIONAL VALUE. True by default.
+            pageTransitionAnimation: PageTransitionAnimation.cupertino,
+          ),
         },
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
