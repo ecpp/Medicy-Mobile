@@ -99,7 +99,7 @@ class TransactionScreen extends StatelessWidget {
                               iconText(
                                   Icon(
                                     Icons.today,
-                                    color: Colors.orange,
+                                    color: kPrimaryColor,
                                   ),
                                   Text(
                                     "Order Date",
@@ -119,7 +119,7 @@ class TransactionScreen extends StatelessWidget {
                               iconText(
                                   Icon(
                                     Icons.price_check,
-                                    color: Colors.orange,
+                                    color: kPrimaryColor,
                                   ),
                                   Text(
                                     "Price Paid",
@@ -153,8 +153,10 @@ class TransactionScreen extends StatelessWidget {
                                     screen: OrderDetailsPage(
                                       transaction: userTransaction[index],
                                     ),
-                                    withNavBar: true, // OPTIONAL VALUE. True by default.
-                                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                    withNavBar:
+                                        true, // OPTIONAL VALUE. True by default.
+                                    pageTransitionAnimation:
+                                        PageTransitionAnimation.cupertino,
                                   );
                                 },
                               ),
@@ -196,14 +198,14 @@ class TransactionScreen extends StatelessWidget {
     Color color;
 
     if (status == "placed" || status == "shipping") {
-      icon = Icon(Icons.timer, color: Colors.orange);
-      color = Colors.orange;
+      icon = Icon(Icons.timer, color: kPrimaryColor);
+      color = kPrimaryColor;
     } else if (status == "completed") {
       icon = Icon(Icons.check, color: Colors.green);
       color = Colors.green;
     } else if (status == "cancelled" || status == "refunded") {
-      icon = Icon(Icons.clear, color: Colors.redAccent);
-      color = Colors.redAccent;
+      icon = Icon(Icons.clear, color: Colors.red);
+      color = Colors.red;
     }
     return iconText(icon, Text("Order Status: " + status.toUpperCase()));
   }
