@@ -5,11 +5,14 @@ class SignUpScreen extends StatelessWidget {
   static String routeName = "/sign_up";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Sign Up"),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Sign Up"),
+        ),
+        body: RegisterScreen(),
       ),
-      body: RegisterScreen(),
     );
   }
 }

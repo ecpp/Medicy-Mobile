@@ -7,9 +7,12 @@ class CategoriesScreen extends StatelessWidget {
   static String routeName = "/pmanagercategories";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(context),
-      body: pbody.Body(),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: buildAppBar(context),
+        body: pbody.Body(),
+      ),
     );
   }
 

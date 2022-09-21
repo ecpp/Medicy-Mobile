@@ -30,100 +30,102 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   Widget build(BuildContext context) {
     String selectedCat = widget.cats[0];
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('App Name'),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: new Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(18.0),
-                  ),
-                  TextFormField(
-                    controller: _titleController,
-                    decoration: InputDecoration(hintText: "Product Name "),
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontFamily: "Roboto"),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(18.0),
-                  ),
-                  TextFormField(
-                    controller: _descriptionController,
-                    decoration: InputDecoration(hintText: "Description "),
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontFamily: "Roboto"),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(18.0),
-                  ),
-                  TextFormField(
-                    controller: _stockController,
-                    decoration: InputDecoration(hintText: "Stock Count "),
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontFamily: "Roboto"),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(18.0),
-                  ),
-                  TextFormField(
-                    controller: _priceController,
-                    decoration: InputDecoration(hintText: "Price "),
-                    keyboardType: TextInputType.number,
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontFamily: "Roboto"),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(18.0),
-                  ),
-                  CupertinoPicker(
-                      itemExtent: 30,
-                      onSelectedItemChanged: (int value) {
-                        selectedCat = widget.cats[value];
-                        print(selectedCat);
-                      },
-                      children: widget.cats.map((e) => Text(e)).toList()),
-                  Padding(
-                    padding: EdgeInsets.all(18.0),
-                  ),
-                  TextFormField(
-                    controller: _imagesController,
-                    decoration: InputDecoration(hintText: "Image Link "),
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontFamily: "Roboto"),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(18.0),
-                  ),
-                  DefaultButton(
-                      press: () async {
-                        await addProduct(
-                            _descriptionController.text,
-                            _imagesController.text,
-                            num.parse(_priceController.text),
-                            int.parse(_stockController.text),
-                            _titleController.text,
-                            selectedCat);
-                      },
-                      text: "Add Product"),
-                ]),
-          ),
-        ));
+    return new GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+            appBar: new AppBar(
+              title: new Text('App Name'),
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: new Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(18.0),
+                      ),
+                      TextFormField(
+                        controller: _titleController,
+                        decoration: InputDecoration(hintText: "Product Name "),
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontFamily: "Roboto"),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(18.0),
+                      ),
+                      TextFormField(
+                        controller: _descriptionController,
+                        decoration: InputDecoration(hintText: "Description "),
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontFamily: "Roboto"),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(18.0),
+                      ),
+                      TextFormField(
+                        controller: _stockController,
+                        decoration: InputDecoration(hintText: "Stock Count "),
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontFamily: "Roboto"),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(18.0),
+                      ),
+                      TextFormField(
+                        controller: _priceController,
+                        decoration: InputDecoration(hintText: "Price "),
+                        keyboardType: TextInputType.number,
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontFamily: "Roboto"),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(18.0),
+                      ),
+                      CupertinoPicker(
+                          itemExtent: 30,
+                          onSelectedItemChanged: (int value) {
+                            selectedCat = widget.cats[value];
+                            print(selectedCat);
+                          },
+                          children: widget.cats.map((e) => Text(e)).toList()),
+                      Padding(
+                        padding: EdgeInsets.all(18.0),
+                      ),
+                      TextFormField(
+                        controller: _imagesController,
+                        decoration: InputDecoration(hintText: "Image Link "),
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontFamily: "Roboto"),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(18.0),
+                      ),
+                      DefaultButton(
+                          press: () async {
+                            await addProduct(
+                                _descriptionController.text,
+                                _imagesController.text,
+                                num.parse(_priceController.text),
+                                int.parse(_stockController.text),
+                                _titleController.text,
+                                selectedCat);
+                          },
+                          text: "Add Product"),
+                    ]),
+              ),
+            )));
   }
 }

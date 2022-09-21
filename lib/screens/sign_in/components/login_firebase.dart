@@ -29,8 +29,8 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
   static Future<User?> loginEmailPassword(
       {required String email,
-        required String password,
-        required BuildContext context}) async {
+      required String password,
+      required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     String loginError;
     try {
@@ -47,25 +47,22 @@ class LoginScreen extends StatefulWidget {
       print("Logged in successfully with" + email + "and password" + password);
     } on FirebaseAuthException catch (e) {
       loginError = e.message!;
-      if (e.message == 'Given String is empty or null'){
+      if (e.message == 'Given String is empty or null') {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
             loginError,
             textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 16.0, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
           ),
           duration: Duration(seconds: 3),
           backgroundColor: kPrimaryColor,
         ));
-      }
-      else{
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
             loginError,
             textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 16.0, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
           ),
           duration: Duration(seconds: 3),
           backgroundColor: kPrimaryColor,
@@ -77,6 +74,7 @@ class LoginScreen extends StatefulWidget {
     }
     return user;
   }
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -87,11 +85,11 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController = TextEditingController();
   ButtonState stateOnlyText = ButtonState.idle;
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.all(5.0),
           child: Form(
@@ -215,19 +213,23 @@ class _LoginScreenState extends State<LoginScreen> {
       stateWidgets: {
         ButtonState.idle: Text(
           "Login",
-          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+          style: TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
         ),
         ButtonState.loading: Text(
           "Loading",
-          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+          style: TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
         ),
         ButtonState.fail: Text(
           "Login Failed",
-          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+          style: TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
         ),
         ButtonState.success: Text(
           "Success",
-          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+          style: TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
         )
       },
       stateColors: {
@@ -236,8 +238,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ButtonState.fail: Colors.grey.shade300,
         ButtonState.success: Colors.green.shade400,
       },
-      progressIndicator:  CircularProgressIndicator( backgroundColor: Colors.white, valueColor: AlwaysStoppedAnimation(Colors.red), strokeWidth: 1, ),
-      onPressed: () async{
+      progressIndicator: CircularProgressIndicator(
+        backgroundColor: Colors.white,
+        valueColor: AlwaysStoppedAnimation(Colors.red),
+        strokeWidth: 1,
+      ),
+      onPressed: () async {
         setState(() {
           stateOnlyText = ButtonState.loading;
         });
@@ -251,7 +257,6 @@ class _LoginScreenState extends State<LoginScreen> {
           context: context,
         );
 
-
         if (user != null) {
           await fetchAllUserDataOnLogin();
           setState(() {
@@ -259,9 +264,8 @@ class _LoginScreenState extends State<LoginScreen> {
           });
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(
-                builder: (context) => ProfileMain()),
-                (Route<dynamic> route) => false,
+            MaterialPageRoute(builder: (context) => ProfileMain()),
+            (Route<dynamic> route) => false,
           );
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
@@ -272,8 +276,7 @@ class _LoginScreenState extends State<LoginScreen> {
             duration: Duration(seconds: 1),
             backgroundColor: kPrimaryColor,
           ));
-        }
-        else{
+        } else {
           setState(() {
             stateOnlyText = ButtonState.fail;
           });
@@ -289,7 +292,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return progressTextButton;
   }
 
-  RichText registerText(){
+  RichText registerText() {
     return RichText(
       text: TextSpan(children: [
         TextSpan(
@@ -302,15 +305,15 @@ class _LoginScreenState extends State<LoginScreen> {
         TextSpan(
             text: 'Register',
             style: TextStyle(
-              color: kPrimaryColor,
+              color: Color.fromARGB(255, 230, 36, 101),
               fontSize: 16,
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                PersistentNavBarNavigator.pushNewScreen(context, screen: SignUpScreen(), withNavBar: false);
+                PersistentNavBarNavigator.pushNewScreen(context,
+                    screen: SignUpScreen(), withNavBar: false);
               }),
       ]),
     );
   }
-
 }

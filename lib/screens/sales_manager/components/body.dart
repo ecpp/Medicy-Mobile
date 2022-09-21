@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../screens/profile/components/profile_menu.dart';
-import '../products/products.dart';
-import '../products/products_discount.dart';
+import '../products/setPrice.dart';
+import '../products/setDiscount.dart';
 import '../refunds/pending_refunds.dart';
 
 class Body extends StatelessWidget {
@@ -18,15 +18,16 @@ class Body extends StatelessWidget {
             text: "Set Prices",
             icon: "assets/icons/User Icon.svg",
             press: () {
-
-              PersistentNavBarNavigator.pushNewScreen(context, screen: ProductsScreen());
+              PersistentNavBarNavigator.pushNewScreen(context,
+                  screen: SetPriceScreen());
             },
           ),
           ProfileMenu(
             text: "Discount",
             icon: "assets/icons/box.svg",
             press: () {
-              PersistentNavBarNavigator.pushNewScreen(context, screen: ProductsScreen2());
+              PersistentNavBarNavigator.pushNewScreen(context,
+                  screen: SetDiscountScreen());
             },
           ),
           ProfileMenu(
@@ -38,7 +39,8 @@ class Body extends StatelessWidget {
             text: "Refund Requests",
             icon: "assets/icons/Refund.svg",
             press: () {
-              PersistentNavBarNavigator.pushNewScreen(context, screen: pendingRefundsScreen());
+              PersistentNavBarNavigator.pushNewScreen(context,
+                  screen: pendingRefundsScreen());
             },
           ),
         ],

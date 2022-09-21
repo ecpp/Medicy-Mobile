@@ -43,21 +43,23 @@ class MainBody extends StatelessWidget {
 
           productListnew.add(newproduct);
         }).toList();
-
-        return SafeArea(
+        return GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: getProportionateScreenHeight(10)),
-                HomeHeader(),
-                DiscountBanner(),
-                //SizedBox(height: getProportionateScreenWidth(10)),
-                //Categories(),
-                SpecialOffers(),
-                SizedBox(height: getProportionateScreenWidth(15)),
-                PopularProducts(),
-                //SizedBox(height: getProportionateScreenWidth(30)),
-              ],
+            child: SafeArea(
+              child: Column(
+                children: [
+                  SizedBox(height: getProportionateScreenHeight(10)),
+                  HomeHeader(),
+                  DiscountBanner(),
+                  //SizedBox(height: getProportionateScreenWidth(10)),
+                  //Categories(),
+                  SpecialOffers(),
+                  SizedBox(height: getProportionateScreenWidth(15)),
+                  PopularProducts(),
+                  //SizedBox(height: getProportionateScreenWidth(30)),
+                ],
+              ),
             ),
           ),
         );

@@ -7,58 +7,6 @@ import 'categories/categories.dart';
 
 class ProductManagerAdminScreen extends StatelessWidget {
   static String routeName = "/pmanagerpanel";
-  /* @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('App Name'),
-        ),
-        body: Center(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ProductsScreen()));
-                    },
-                    child: Text(
-                      "Products",
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.w200,
-                          fontFamily: "Roboto"),
-                    )),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => DeliveriesScreen()));
-                    },
-                    child: Text(
-                      "Deliveries",
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.w200,
-                          fontFamily: "Roboto"),
-                    )),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => pendingCommentsScreen()));
-                    },
-                    child: Text(
-                      "Comments",
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.w200,
-                          fontFamily: "Roboto"),
-                    ))
-              ]),
-        ));
-  }*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +24,7 @@ class ProductManagerAdminScreen extends StatelessWidget {
                 icon: "assets/icons/Settings.svg",
                 press: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CategoriesScreen()));
+                      builder: (context) => CategoriesScreen()));
                 },
               ),
               ProfileMenu(
