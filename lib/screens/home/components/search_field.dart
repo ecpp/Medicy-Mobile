@@ -53,7 +53,10 @@ class SearchField extends StatelessWidget {
             prefixIcon: Icon(Icons.search),
             suffixIcon: IconButton(
               icon: Icon(Icons.clear),
-              onPressed: _controller.clear,
+              onPressed: () {
+                _controller.clear();
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
             )
         ),
       ),

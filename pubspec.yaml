@@ -53,6 +53,7 @@ dependencies:
   sn_progress_dialog: ^1.0.8
   progress_state_button: ^1.0.4
   persistent_bottom_nav_bar: ^5.0.2
+  dropdown_search: ^5.0.2
 
 dev_dependencies:
   flutter_test:

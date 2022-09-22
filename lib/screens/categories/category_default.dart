@@ -1,11 +1,13 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_app/constants.dart';
 import 'package:shop_app/enums.dart';
 import '../../components/product_card.dart';
 import '../../models/Product.dart';
 
 class DefaultCategoryScreen extends StatefulWidget {
   @override
-  DefaultCategoryScreen2 createState() => DefaultCategoryScreen2();
+  _DefaultCategoryScreen createState() => _DefaultCategoryScreen();
   const DefaultCategoryScreen(
       {Key? key, required this.categoryName, required this.products})
       : super(key: key);
@@ -15,7 +17,7 @@ class DefaultCategoryScreen extends StatefulWidget {
   final List<Product> products;
 }
 
-class DefaultCategoryScreen2 extends State<DefaultCategoryScreen> {
+class _DefaultCategoryScreen extends State<DefaultCategoryScreen> {
   bool isDescending = false;
   bool isPopular = false;
   String poptext = "Popularity";
@@ -25,62 +27,57 @@ class DefaultCategoryScreen2 extends State<DefaultCategoryScreen> {
     final sortedItems = widget.products;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.categoryName, style: TextStyle(color: Colors.black)),
+      ),
         body: Column(
           children: [
             SafeArea(
-              bottom: false,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(padding: EdgeInsets.all(1)),
-                    TextButton.icon(
-                        onPressed: () {
-                          setState(() => isDescending = !isDescending);
-                          if (isDescending) {
-                            poptext = "Popularity";
-                            pricetext = "Price Descending";
-                            sortedItems
-                                .sort((a, b) => b.price.compareTo(a.price));
-                          } else {
-                            poptext = "Popularity";
-                            pricetext = "Price Ascending";
-                            sortedItems
-                                .sort((a, b) => a.price.compareTo(b.price));
-                          }
-                        },
-                        icon: RotatedBox(
-                          quarterTurns: 1,
-                          child: Icon(Icons.compare_arrows, size: 28),
-                        ),
-                        label: Text(
-                          isDescending ? pricetext : pricetext,
-                        )),
-                    TextButton.icon(
-                        onPressed: () {
-                          setState(() => isPopular = !isPopular);
-                          if (isPopular) {
-                            poptext = "Popularity: Ascending";
-                            pricetext = "Price";
-                            sortedItems
-                                .sort((a, b) => b.price.compareTo(a.numsold));
-                          } else {
-                            poptext = "Popularity: Descending";
-                            pricetext = "Price";
-                            sortedItems
-                                .sort((a, b) => a.price.compareTo(b.numsold));
-                          }
-                        },
-                        icon: RotatedBox(
-                          quarterTurns: 1,
-                          child: Icon(Icons.compare_arrows, size: 28),
-                        ),
-                        label: Text(isPopular ? poptext : poptext)),
-                  ]),
-            ),
+              child: Container(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                child: DropdownSearch(
+                  items: ["Price Ascending", "Price Descending", "Popularity Ascending", "Popularity Descending"],
 
+                  dropdownDecoratorProps: const DropDownDecoratorProps(
+                    baseStyle: TextStyle(fontSize: 15, color: kPrimaryColor),
+                    dropdownSearchDecoration: InputDecoration(
+                      hintText: "Sort By",
+                      hintStyle: TextStyle(color: Colors.black),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+
+
+
+                    ),
+                  ),
+                  onChanged: (value) {
+                    if (value == "Price Ascending") {
+                      setState(() => isDescending = false);
+                      sortedItems.sort((a, b) => a.price.compareTo(b.price));
+                    } else if (value == "Price Descending") {
+                      setState(() => isDescending = true);
+                      sortedItems.sort((a, b) => b.price.compareTo(a.price));
+                    } else if (value == "Popularity Ascending") {
+                      setState(() => isPopular = false);
+                      sortedItems.sort((a, b) => a.numsold.compareTo(b.numsold));
+                    } else if (value == "Popularity Descending") {
+                      setState(() => isPopular = true);
+                      sortedItems.sort((a, b) => b.numsold.compareTo(a.numsold));
+                    }
+                  },
+                ),
+              ),
+            ),
             Expanded(
-              child: ListView.builder(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20,
+                  childAspectRatio: 0.75,
+                ),
                 padding: const EdgeInsets.all(15.0),
                 itemCount: sortedItems.length,
                 itemBuilder: (context, index) {
