@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/screens/home/components/body.dart';
 import 'package:shop_app/screens/pmanagerAdmin/products/add_product.dart';
 import 'package:shop_app/screens/pmanagerAdmin/products/components/body.dart'
@@ -46,10 +47,12 @@ class ProductsScreen extends StatelessWidget {
                 backgroundColor: kPrimaryColor,
               ),
               onPressed: () => {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => AddProductScreen(
-                          cats: cats,
-                        )))
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+                  screen: AddProductScreen(cats: cats),
+                  withNavBar: true, // OPTIONAL VALUE. True by default.
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                )
               },
               child: Text(
                 "Add New",

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/enums.dart';
 import 'package:shop_app/screens/home/components/search_field.dart';
+import 'package:shop_app/screens/pmanagerAdmin/products/components/cart_card.dart';
 import '../components/product_card.dart';
 
 class SearchResults extends StatelessWidget {
@@ -9,6 +10,10 @@ class SearchResults extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _SearchResultsState(),
+      appBar: AppBar(
+        title: Text("Search Results", style: TextStyle(color: Colors.black)),
+
+      ),
     );
   }
 }
@@ -16,8 +21,7 @@ class SearchResults extends StatelessWidget {
 class _SearchResultsState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: _buildListView());
+    return _buildListView();
   }
 }
 
@@ -26,7 +30,7 @@ Widget _buildListView() {
       padding: const EdgeInsets.all(16.0),
       itemCount: searchList == null ? 0 : searchList.length,
       itemBuilder: (context, index) {
-        return ProductCard(product: searchList[index]);
+        return ProductCardSearch(product: searchList[index]);
 
         // return _buildRow(data[index]);
       });

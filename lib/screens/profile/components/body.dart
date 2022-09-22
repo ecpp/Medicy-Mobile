@@ -39,8 +39,12 @@ class Body extends StatelessWidget {
             icon: "assets/icons/User Icon.svg",
             press: () {
               if (loginStatus == true)
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => MyAccount()));
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+                  screen: MyAccount(),
+                  withNavBar: true, // OPTIONAL VALUE. True by default.
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
             },
           ),
           ProfileMenu(
@@ -60,8 +64,12 @@ class Body extends StatelessWidget {
               text: "Admin Panel 1",
               icon: "assets/icons/comment-svgrepo-com.svg",
               press: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ProductManagerAdminScreen()));
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+                  screen: ProductManagerAdminScreen(),
+                  withNavBar: true, // OPTIONAL VALUE. True by default.
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
               },
             ),
           if (getUserType().toString().contains('a'))
@@ -69,8 +77,12 @@ class Body extends StatelessWidget {
               text: "Admin Panel 2",
               icon: "assets/icons/comment-svgrepo-com.svg",
               press: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => SalesManagerScreen()));
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+                  screen: SalesManagerScreen(),
+                  withNavBar: true, // OPTIONAL VALUE. True by default.
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
               },
             ),
           ProfileMenu(

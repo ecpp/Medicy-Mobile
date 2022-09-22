@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/size_config.dart';
 
-class ProductCard extends StatelessWidget {
-  const ProductCard({
+import '../../../details/details_screen.dart';
+
+class ProductCardSearch extends StatelessWidget {
+  const ProductCardSearch({
     Key? key,
     required this.product,
   }) : super(key: key);
@@ -14,43 +17,54 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 88,
-          child: AspectRatio(
-            aspectRatio: 0.88,
-            child: Container(
-              padding: EdgeInsets.all(getProportionateScreenWidth(10)),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        PersistentNavBarNavigator.pushNewScreen(
+          context,
+          screen: DetailsScreen(itemToDetail: product),
+          withNavBar: true, // OPTIONAL VALUE. True by default.
+          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+        );
+      },
+      child: Row(
+        children: [
+          SizedBox(
+            width: 88,
+            child: AspectRatio(
+              aspectRatio: 0.88,
+              child: Container(
+                padding: EdgeInsets.all(getProportionateScreenWidth(10)),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Image.network(product.images),
               ),
-              child: Image.network(product.images),
             ),
           ),
-        ),
-        SizedBox(width: 20),
-        Flexible(
-          flex: 1,
-          child: Column(
-            children: [
-              Text(
-                product.title,
-                style: TextStyle(color: Colors.black, fontSize: 16),
-                maxLines: 2,
-              ),
-              SizedBox(height: 10),
-              Text.rich(
-                TextSpan(
-                  text: "\$${product.price}",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600, color: kPrimaryColor),
+          SizedBox(width: 20),
+          Flexible(
+            flex: 1,
+            child: Column(
+              children: [
+                Text(
+                  product.title,
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  maxLines: 2,
                 ),
-              )
-            ],
-          ),
-        )
-      ],
+                SizedBox(height: 10),
+                Text.rich(
+                  TextSpan(
+                    text: "\$${product.price}",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, color: kPrimaryColor),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

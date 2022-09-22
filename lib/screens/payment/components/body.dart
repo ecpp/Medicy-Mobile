@@ -12,6 +12,8 @@ import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../home/home_screen.dart';
+
 void main() => runApp(Body());
 
 class Body extends StatefulWidget {
@@ -270,7 +272,12 @@ Valid(BuildContext context) {
       currentCart = Cart(sum: 0, cartItems: []);
       pd.update(value: 100);
       pd.close();
-      Navigator.popUntil(context, ModalRoute.withName('/home'));
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => HomeScreen()),
+            (Route<dynamic> route) => false,
+      );
     },
   );
 

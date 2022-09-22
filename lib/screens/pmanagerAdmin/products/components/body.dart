@@ -43,7 +43,7 @@ class _BodyState extends State<Body> {
                 ],
               ),
             ),
-            child: ProductCard(product: productListnew[index]),
+            child: ProductCardSearch(product: productListnew[index]),
           ),
         ),
       ),

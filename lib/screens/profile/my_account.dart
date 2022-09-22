@@ -19,14 +19,6 @@ class _MyAccountState extends State<MyAccount> {
   String password = '';
   final formkey = GlobalKey<FormState>();
 
-  void _signOut() {
-    loginStatus = false;
-    FirebaseAuth auth = FirebaseAuth.instance;
-    auth.signOut().then((value) {
-      Navigator.pushNamed(context, HomeScreen.routeName);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

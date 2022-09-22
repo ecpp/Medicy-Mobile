@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/screens/comment/pending_comments.dart';
 import 'package:shop_app/screens/pmanagerAdmin/deliveries.dart';
 import 'package:shop_app/screens/pmanagerAdmin/products/add_remove_product.dart';
@@ -23,32 +24,48 @@ class ProductManagerAdminScreen extends StatelessWidget {
                 text: "Add Category",
                 icon: "assets/icons/Settings.svg",
                 press: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CategoriesScreen()));
+                  PersistentNavBarNavigator.pushNewScreen(
+                    context,
+                    screen: CategoriesScreen(),
+                    withNavBar: true, // OPTIONAL VALUE. True by default.
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
                 },
               ),
               ProfileMenu(
                 text: "Add/Remove Product",
                 icon: "assets/icons/User Icon.svg",
                 press: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ProductsScreen()));
+                  PersistentNavBarNavigator.pushNewScreen(
+                    context,
+                    screen: ProductsScreen(),
+                    withNavBar: true, // OPTIONAL VALUE. True by default.
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
                 },
               ),
               ProfileMenu(
                 text: "Deliveries",
                 icon: "assets/icons/box.svg",
                 press: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DeliveriesScreen()));
+                  PersistentNavBarNavigator.pushNewScreen(
+                    context,
+                    screen: DeliveriesScreen(),
+                    withNavBar: true, // OPTIONAL VALUE. True by default.
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
                 },
               ),
               ProfileMenu(
                 text: "Approve Comments",
                 icon: "assets/icons/Settings.svg",
                 press: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => pendingCommentsScreen()));
+                  PersistentNavBarNavigator.pushNewScreen(
+                    context,
+                    screen: pendingCommentsScreen(),
+                    withNavBar: true, // OPTIONAL VALUE. True by default.
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
                 },
               ),
             ],
