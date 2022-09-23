@@ -30,7 +30,8 @@ class LoginScreen extends StatefulWidget {
   static Future<User?> loginEmailPassword(
       {required String email,
       required String password,
-      required BuildContext context}) async {
+      required BuildContext context,
+      required bool autoLogin}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     String loginError;
     try {
@@ -45,6 +46,7 @@ class LoginScreen extends StatefulWidget {
       prefs.setString("userPassword", password);
       prefs.setBool("isLoggedIn", true);
       print("Logged in successfully with" + email + "and password" + password);
+      await fetchAllUserDataOnLogin(autoLogin);
     } on FirebaseAuthException catch (e) {
       loginError = e.message!;
       if (e.message == 'Given String is empty or null') {
@@ -255,10 +257,10 @@ class _LoginScreenState extends State<LoginScreen> {
           email: _emailController.text,
           password: _passwordController.text,
           context: context,
+          autoLogin: false,
         );
 
         if (user != null) {
-          await fetchAllUserDataOnLogin();
           setState(() {
             stateOnlyText = ButtonState.success;
           });

@@ -7,6 +7,7 @@ import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/models/reviewModal.dart';
 import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
 
+import '../main.dart';
 import '../models/categoryModel.dart';
 import '../screens/home/components/body.dart';
 
@@ -383,6 +384,32 @@ Future<List<categoryModel>> getCategories() async {
   return categories;
 }
 
+Future<List<Product>> getAllItems() async {
+  List<Product> productList = [];
+
+  Query query = FirebaseFirestore.instance
+      .collection(dbProductsTable);
+
+  await query.get().then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      Product newproduct = new Product(
+          id: result['id'],
+          images: result['images'],
+          title: result['title'],
+          price: result['price'],
+          oldprice: result['oldprice'],
+          description: result['description'],
+          rating: result['rating'],
+          isPopular: result['isPopular'],
+          category: result['category'],
+          numsold: result['timesold'],
+          stock: result['stock']);
+      productList.add(newproduct);
+    });
+  });
+  return productList;
+}
+
 Future setStock(String productTitle, int newStock) async {
   final CollectionReference productList =
   FirebaseFirestore.instance.collection('products_new');
@@ -401,7 +428,78 @@ Future <String> getUserType() async{
   return 'customer';
 }
 
-Future fetchAllUserDataOnLogin() async{
+Future<Product> getProductFromName(String productName) async{
+  Product product = new Product(
+      id: 0,
+      images: '',
+      title: '',
+      price: 0,
+      oldprice: 0,
+      description: '',
+      rating: 0,
+      isPopular: false,
+      category: '',
+      numsold: 0,
+      stock: 0);
+  await FirebaseFirestore.instance
+      .collection('products_new')
+      .where('title', isEqualTo: productName)
+      .get()
+      .then((value) {
+    value.docs.forEach((result) {
+      product = new Product(
+          id: result['id'],
+          images: result['images'],
+          title: result['title'],
+          price: result['price'],
+          oldprice: result['oldprice'],
+          description: result['description'],
+          rating: result['rating'],
+          isPopular: result['isPopular'],
+          category: result['category'],
+          numsold: result['timesold'],
+          stock: result['stock']);
+    });
+
+  });
+  return product;
+}
+
+bool checkPrice(String itemname, num price){
+  bool isPrice = false;
+  FirebaseFirestore.instance
+      .collection('products_new')
+      .where('title', isEqualTo: itemname)
+      .get()
+      .then((value) {
+    value.docs.forEach((result) {
+      if(result['price'] == price){
+        isPrice = true;
+      }
+    });
+  });
+  return isPrice;
+}
+
+bool checkStock(String itemname, int stock){
+  bool isStock = false;
+  FirebaseFirestore.instance
+      .collection('products_new')
+      .where('title', isEqualTo: itemname)
+      .get()
+      .then((value) {
+    value.docs.forEach((result) {
+      if(result['stock'] == stock){
+        isStock = true;
+      }
+    });
+  });
+  return isStock;
+}
+
+
+Future fetchAllUserDataOnLogin(bool autoLogin) async{
+  print('***** FETCHING ALL USER DATA *****');
   await FirebaseFirestore.instance
       .collection(dbUserTable)
       .doc(user!.uid)
@@ -414,32 +512,34 @@ Future fetchAllUserDataOnLogin() async{
   });
   if (user != null) {
     try {
-      if (currentCart.sum != 0) {
+      if (!autoLogin && currentCart.sum != 0) {
         //FETCH LOCAL CART TO DB.
-
         await addToCartDB(currentCart.cartItems!.elementAt(0).product.title,
             currentCart.cartItems!.elementAt(0).numOfItem);
+        currentCart.cartItems!.clear();
       }
-      currentCart.cartItems!.clear(); //CLEAR LOCAL CART
+       //CLEAR LOCAL CART
     }
     catch(e){
       print('*************ERROR IN FETCHING CART FROM LOCAL DB*************');
       print(e);
     }
-
+    // if (autoLogin){
+    //     productListnew = await getAllItems();
+    // }
     if (userCart != null) {
       int i = 0;
       for (var v in userCart!.values) {
         if (userCart!.values.elementAt(i) > 0) { //FETCH DB TO LOCAL CART
-          Product itemToAdd = productListnew
-              .where((element) => element.title
-              .contains(userCart!.keys.elementAt(i).trimLeft()))
-              .toList()[0];
+          // Product itemToAdd = productListnew
+          //     .where((element) => element.title
+          //     .contains(userCart!.keys.elementAt(i).trimLeft()))
+          //     .toList()[0];
+          Product itemToAdd = await getProductFromName(userCart!.keys.elementAt(i).trimLeft());
           currentCart.cartItems!.add(CartItem(
               product: itemToAdd,
               numOfItem: userCart!.values.elementAt(i)));
         }
-
         i++;
       }
     }

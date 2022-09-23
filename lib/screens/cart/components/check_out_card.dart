@@ -100,7 +100,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(SnackBar(
                                       content: Text(
-                                        "Please add items to your cart!",
+                                        "Your cart is empty!",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 16.0,
