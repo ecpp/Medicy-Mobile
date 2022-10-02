@@ -19,8 +19,8 @@ class _BodyState extends State<Body> {
   int currentPage = 0;
   List<Map<String, String>> splashData = [
     {
-      "text": "Welcome to Medicy! Let’s shop!",
-      "image": "assets/images/splash_1.png"
+      "text": "",
+      "image": "assets/images/logo.png"
     },
     {
       "text": "We help people to connect with stores \n all around the world",
@@ -58,6 +58,10 @@ class _BodyState extends State<Body> {
                 ),
               ),
             ),
+          Text('Powered by', style: TextStyle(color: Colors.black, fontSize: 20, fontStyle: FontStyle.italic)),
+          Image(image: AssetImage('assets/images/bsl_logo.png'), height: 100, width: 200),
+
+
           ],
         ),
       ),

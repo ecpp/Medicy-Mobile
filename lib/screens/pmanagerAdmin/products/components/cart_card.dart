@@ -22,8 +22,8 @@ class ProductCardSearch extends StatelessWidget {
       onTap: () {
         PersistentNavBarNavigator.pushNewScreen(
           context,
-          screen: DetailsScreen(itemToDetail: product),
-          withNavBar: true, // OPTIONAL VALUE. True by default.
+          withNavBar: false,
+          screen: DetailsScreen(itemToDetail: product), // OPTIONAL VALUE. True by default.
           pageTransitionAnimation: PageTransitionAnimation.cupertino,
         );
       },

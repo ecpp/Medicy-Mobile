@@ -54,6 +54,7 @@ dependencies:
   progress_state_button: ^1.0.4
   persistent_bottom_nav_bar: ^5.0.2
   dropdown_search: ^5.0.2
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

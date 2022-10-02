@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/constants.dart';
+import 'package:shop_app/helper/database_manager.dart';
 import 'package:shop_app/main.dart';
 import 'package:shop_app/screens/payment/payment_screen.dart';
 import '../../../size_config.dart';
@@ -84,6 +85,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                       press: () => {
                             if (loginStatus == true)
                               {
+
                                 if (currentCart.sumAll() > 0)
                                   {
                                     PersistentNavBarNavigator.pushNewScreen(

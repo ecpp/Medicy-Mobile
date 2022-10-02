@@ -37,16 +37,18 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     else if (model.orderstatus == "cancelled") {
       orderstat = "Your order is cancelled!";
       checkint = -1;
-    }
-    ;
+    };
     return Scaffold(
+      appBar: AppBar(
+        title: Text(orderstat,
+            style: TextStyle(color: kPrimaryColor, fontSize: 20)),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(10),
         child: Column(children: [
-          SizedBox(height: 50),
-          Text(orderstat,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-          SizedBox(height: 20),
+          // Text(orderstat,
+          //     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           CheckPoint(
             checkedTill: checkint,
             checkPoints: ["Placed", "Shipping", "Completed"],

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Transaction.dart';
@@ -11,7 +12,6 @@ import 'package:shop_app/screens/profile/my_orders/order_details.dart';
 import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
 
 List<TransactionClass> userTransaction = [];
-TransactionClass newtrans = new TransactionClass(items: {});
 
 class TransactionScreen extends StatelessWidget {
   static String routeName = "/transaction";
@@ -35,15 +35,17 @@ class TransactionScreen extends StatelessWidget {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
           for (var key in data.keys) {
             //print(document.id);
-            newtrans = new TransactionClass(
+            TransactionClass newtrans = new TransactionClass(
                 totalprice: data['totalprice'],
                 orderstatus: data['orderstatus'],
                 user: data['user'],
                 transactionid: document.id,
                 invoicePath: data['invoicePath'] ?? "null",
+                purchaseDate: data['date'],
                 items: data["itemsandprice"]);
+            if (data['user'] == user!.uid) userTransaction.add(newtrans);
           }
-          if (data['user'] == user!.uid) userTransaction.add(newtrans);
+
         }).toList();
         return Scaffold(
             appBar: AppBar(
@@ -107,7 +109,7 @@ class TransactionScreen extends StatelessWidget {
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold),
                                   )),
-                              Text("test123", style: TextStyle(fontSize: 14))
+                              Text(DateFormat('dd/MM/yyyy, HH:mm').format(DateTime.fromMicrosecondsSinceEpoch(userTransaction[index].purchaseDate.microsecondsSinceEpoch)), style: TextStyle(fontSize: 14))
                             ],
                           ),
                           SizedBox(

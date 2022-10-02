@@ -11,6 +11,8 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      extendBody: true,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(AppBar().preferredSize.height),
         child: CustomAppBar(),

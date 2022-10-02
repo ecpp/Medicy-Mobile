@@ -55,35 +55,35 @@ class Body extends StatelessWidget {
                             numOfItemToAdd = value;
                           },
                         ),
-                        SizedBox(
-                          width: getProportionateScreenWidth(100),
-                          height: getProportionateScreenHeight(50),
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              backgroundColor: kPrimaryColor,
-                            ),
-                            onPressed: () => SchedulerBinding.instance
-                                .addPostFrameCallback((_) {
-                              PersistentNavBarNavigator.pushNewScreen(
-                                context,
-                                screen: Reviews(itemname: product.title),
-                                withNavBar:
-                                    true, // OPTIONAL VALUE. True by default.
-                                pageTransitionAnimation:
-                                    PageTransitionAnimation.cupertino,
-                              );
-                            }),
-                            child: Text(
-                              "Reviews",
-                              style: TextStyle(
-                                fontSize: getProportionateScreenWidth(18),
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
+                        // SizedBox(
+                        //   width: getProportionateScreenWidth(100),
+                        //   height: getProportionateScreenHeight(50),
+                        //   child: TextButton(
+                        //     style: TextButton.styleFrom(
+                        //       shape: RoundedRectangleBorder(
+                        //           borderRadius: BorderRadius.circular(20)),
+                        //       backgroundColor: kPrimaryColor,
+                        //     ),
+                        //     onPressed: () => SchedulerBinding.instance
+                        //         .addPostFrameCallback((_) {
+                        //       PersistentNavBarNavigator.pushNewScreen(
+                        //         context,
+                        //         screen: Reviews(itemname: product.title),
+                        //         withNavBar:
+                        //             true, // OPTIONAL VALUE. True by default.
+                        //         pageTransitionAnimation:
+                        //             PageTransitionAnimation.cupertino,
+                        //       );
+                        //     }),
+                        //     child: Text(
+                        //       "Reviews",
+                        //       style: TextStyle(
+                        //         fontSize: getProportionateScreenWidth(18),
+                        //         color: Colors.white,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     TopRoundedContainer(
@@ -104,13 +104,15 @@ class Body extends StatelessWidget {
         ),
         BottomAppBar(
           child: Container(
-            padding: EdgeInsets.symmetric(
-              vertical: getProportionateScreenWidth(15),
-              horizontal: getProportionateScreenWidth(30),
+            padding: EdgeInsets.only(
+              top: getProportionateScreenHeight(40),
+              left: SizeConfig.screenWidth * 0.05,
+              right: SizeConfig.screenWidth * 0.05,
+              bottom: getProportionateScreenWidth(100),
             ),
             child: SafeArea(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                //mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,

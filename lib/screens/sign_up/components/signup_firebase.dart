@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/helper/user_database.dart';
+import '../../home/home_screen.dart';
 import '../../sign_in/components/login_firebase.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -245,9 +246,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
         createUsertoDB(_nameController.text, _surnameController.text,
             user!.email.toString(), user.uid);
         if (user != null) {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) => LoginScreen()));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomeScreen()),
+                (Route<dynamic> route) => false,
+          );
         }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Register Success, Please Login',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+          ),
+          duration: Duration(seconds: 2),
+          backgroundColor: kPrimaryColor,
+        ));
       },
       child: Text(
         "Register",
