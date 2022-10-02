@@ -83,7 +83,7 @@ class TransactionScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               iconText(
-                                  Icon(Icons.edit),
+                                  Icon(Icons.edit, color: kRedColor,),
                                   Text(
                                     "Order ID",
                                     style: TextStyle(
@@ -91,7 +91,7 @@ class TransactionScreen extends StatelessWidget {
                                         fontWeight: FontWeight.bold),
                                   )),
                               Text(userTransaction[index].transactionid,
-                                  style: TextStyle(fontSize: 10))
+                                  style: TextStyle(fontSize: 11))
                             ],
                           ),
                           SizedBox(height: 10),
@@ -101,7 +101,7 @@ class TransactionScreen extends StatelessWidget {
                               iconText(
                                   Icon(
                                     Icons.today,
-                                    color: kPrimaryColor,
+                                    color: kOrangeColor,
                                   ),
                                   Text(
                                     "Order Date",
@@ -121,7 +121,7 @@ class TransactionScreen extends StatelessWidget {
                               iconText(
                                   Icon(
                                     Icons.price_check,
-                                    color: kPrimaryColor,
+                                    color: kGreenColor,
                                   ),
                                   Text(
                                     "Price Paid",
@@ -200,8 +200,8 @@ class TransactionScreen extends StatelessWidget {
     Color color;
 
     if (status == "placed" || status == "shipping") {
-      icon = Icon(Icons.timer, color: kPrimaryColor);
-      color = kPrimaryColor;
+      icon = Icon(Icons.timer, color: kYellowColor);
+      color = kYellowColor;
     } else if (status == "completed") {
       icon = Icon(Icons.check, color: Colors.green);
       color = Colors.green;

@@ -494,14 +494,16 @@ Future<bool> checkPriceCart(Cart userCart) async {
 
 Future<bool> stockCheck(String itemName) async {
   bool isStock = false;
-  FirebaseFirestore.instance
+  await FirebaseFirestore.instance
       .collection('products_new')
       .where('title', isEqualTo: itemName)
       .get()
       .then((value) {
     value.docs.forEach((result) {
-      if (result['stock'] - result['pendingStock'] > 0) {
+      print(result['stock']);
+      if (result['stock'] > 0) {
         isStock = true;
+
       }
     });
   });
