@@ -6,11 +6,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class PdfInvoiceApi {
-  final TransactionClass transaction;
-
-  PdfInvoiceApi({required this.transaction});
-
-  static Future<File> generate(TransactionClass transaction) async {
+  static Future<File> generate() async {
     final pdf = pw.Document();
 
     final tableHeaders = [
@@ -21,13 +17,10 @@ class PdfInvoiceApi {
     ];
 
     final tableData = [[]];
-    for (int i = 0; i < transaction.items.length; i++) {
-      int xindex = transaction.items.keys.elementAt(i).indexOf("x");
-      String quantity =
-          transaction.items.keys.elementAt(i).substring(xindex + 2);
-      String itemName =
-          transaction.items.keys.elementAt(i).substring(0, xindex - 1);
-      num pricePerItem = transaction.items.values.elementAt(i);
+    for (int i = 0; i < 1; i++) {
+      String quantity = "2";
+      String itemName = "test";
+      num pricePerItem = 5;
       final row = [
         '$itemName',
         '$quantity',
@@ -118,7 +111,7 @@ class PdfInvoiceApi {
                               ),
                             ),
                             pw.Text(
-                              '\$${transaction.totalprice}',
+                              '\$${10}',
                               style: pw.TextStyle(
                                 fontWeight: pw.FontWeight.bold,
                               ),

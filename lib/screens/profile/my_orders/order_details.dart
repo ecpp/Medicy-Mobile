@@ -37,7 +37,8 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     else if (model.orderstatus == "cancelled") {
       orderstat = "Your order is cancelled!";
       checkint = -1;
-    };
+    }
+    ;
     return Scaffold(
       appBar: AppBar(
         title: Text(orderstat,
@@ -225,13 +226,13 @@ Widget showInvoice(TransactionClass model) {
         backgroundColor: Color(0xFFF5F6F9),
       ),
       onPressed: () async {
-        PermissionStatus permissions = await Permission.storage.request();
-        if (permissions.isGranted) {
-          final pdfFile = await PdfInvoiceApi.generate(model);
-          FileHandleApi.openFile(pdfFile);
-        } else {
-          print("COULD NOT AUTHORIZE");
-        }
+        // PermissionStatus permissions = await Permission.storage.request();
+        // if (permissions.isGranted) {
+        //   final pdfFile = await PdfInvoiceApi.generate(model);
+        //   FileHandleApi.openFile(pdfFile);
+        // } else {
+        //   print("COULD NOT AUTHORIZE");
+        // }
       },
       child: Row(
         children: [
