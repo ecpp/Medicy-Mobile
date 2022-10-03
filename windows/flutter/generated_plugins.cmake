@@ -3,7 +3,9 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  pdfx
   permission_handler_windows
+  printing
   url_launcher_windows
 )
 

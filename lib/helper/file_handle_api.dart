@@ -19,8 +19,8 @@ class FileHandleApi {
 
   // open pdf file function
   static Future openFile(File file) async {
+    print('file path: ${file.path}');
     final url = file.path;
-
     await OpenFile.open(url);
   }
 }

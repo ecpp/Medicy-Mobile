@@ -1,34 +1,34 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:pdfx/pdfx.dart';
 import 'package:shop_app/models/Transaction.dart';
 import 'file_handle_api.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class PdfInvoiceApi {
-  static Future<File> generate() async {
+  static Future<File> generate(PdfPageImage image) async {
     final pdf = pw.Document();
 
     final tableHeaders = [
-      'Description',
-      'Quantity',
-      'Unit Price',
-      'Total',
+      'HASTA ADI SOYADI',
+      'PROTOKOL NO',
+      'TARIH',
+      'UYGULAMA ALANI VE CC',
     ];
 
     final tableData = [[]];
-    for (int i = 0; i < 1; i++) {
-      String quantity = "2";
-      String itemName = "test";
-      num pricePerItem = 5;
-      final row = [
-        '$itemName',
-        '$quantity',
-        '$pricePerItem',
-        '${double.parse((int.parse(quantity) * pricePerItem).toStringAsExponential(3))}'
-      ];
-      tableData.add(row);
-    }
+
+
+    final row = [
+      'Ahmet Mehmet',
+      '123',
+      '12.12.2020',
+      'Meme',
+    ];
+    tableData.add(row);
+
+
 
     pdf.addPage(
       pw.MultiPage(
@@ -42,14 +42,14 @@ class PdfInvoiceApi {
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
                     pw.Text(
-                      'INVOICE',
+                      'STEMBIO KÖK HÜCRE TEKNOLJILERI A.S.',
                       style: pw.TextStyle(
                         fontSize: 17.0,
                         fontWeight: pw.FontWeight.bold,
                       ),
                     ),
                     pw.Text(
-                      'Medicy',
+                      'HASTA UYGULAMA RAPORU',
                       style: const pw.TextStyle(
                         fontSize: 15.0,
                         color: PdfColors.grey700,
@@ -63,10 +63,6 @@ class PdfInvoiceApi {
             pw.SizedBox(height: 1 * PdfPageFormat.mm),
             pw.Divider(),
             pw.SizedBox(height: 1 * PdfPageFormat.mm),
-            pw.Text(
-              'Here is your receipt!,\nThank you for choosing us. These supplements will help you to have a healthier body and a greater look\n',
-              textAlign: pw.TextAlign.justify,
-            ),
             pw.SizedBox(height: 5 * PdfPageFormat.mm),
 
             ///
@@ -81,53 +77,15 @@ class PdfInvoiceApi {
                   const pw.BoxDecoration(color: PdfColors.grey300),
               cellHeight: 30.0,
               cellAlignments: {
-                0: pw.Alignment.centerLeft,
-                1: pw.Alignment.centerRight,
-                2: pw.Alignment.centerRight,
-                3: pw.Alignment.centerRight,
-                4: pw.Alignment.centerRight,
+                0: pw.Alignment.center,
+                1: pw.Alignment.center,
+                2: pw.Alignment.center,
+                3: pw.Alignment.center,
+                4: pw.Alignment.center,
               },
             ),
             pw.Divider(),
-            pw.Container(
-              alignment: pw.Alignment.centerRight,
-              child: pw.Row(
-                children: [
-                  pw.Spacer(flex: 6),
-                  pw.Expanded(
-                    flex: 4,
-                    child: pw.Column(
-                      crossAxisAlignment: pw.CrossAxisAlignment.start,
-                      children: [
-                        pw.Row(
-                          children: [
-                            pw.Expanded(
-                              child: pw.Text(
-                                'Net total',
-                                style: pw.TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: pw.FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            pw.Text(
-                              '\$${10}',
-                              style: pw.TextStyle(
-                                fontWeight: pw.FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        pw.SizedBox(height: 2 * PdfPageFormat.mm),
-                        pw.Container(height: 1, color: PdfColors.grey400),
-                        pw.SizedBox(height: 0.5 * PdfPageFormat.mm),
-                        pw.Container(height: 1, color: PdfColors.grey400),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            pw.Image(pw.MemoryImage(image.bytes)),
           ];
         },
         footer: (context) {
@@ -137,20 +95,18 @@ class PdfInvoiceApi {
               pw.Divider(),
               pw.SizedBox(height: 2 * PdfPageFormat.mm),
               pw.Text(
-                'Medicy App',
-                style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                'STEMBIO APP',
+                style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
               ),
               pw.SizedBox(height: 1 * PdfPageFormat.mm),
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.center,
                 children: [
                   pw.Text(
-                    'Address: ',
-                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                    'Adres: ',
+                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
                   ),
-                  pw.Text(
-                    'Universite Caddesi, Sabanci Universitesi Orhanli/Tuzla/Istanbul',
-                  ),
+                  pw.Text('TUBITAK MARMARA TEKNOKENT AR-GE VE INOVASYON MERKEZI, Kosuyolu Cd. No:26/10, 41400 Gebze/Kocaeli', style: pw.TextStyle(fontSize: 8)),
                 ],
               ),
               pw.SizedBox(height: 1 * PdfPageFormat.mm),
@@ -159,10 +115,10 @@ class PdfInvoiceApi {
                 children: [
                   pw.Text(
                     'Email: ',
-                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
                   ),
                   pw.Text(
-                    'help@medicy.com',
+                    'info@stembio.com.tr', style: pw.TextStyle(fontSize: 8),
                   ),
                 ],
               ),
@@ -171,7 +127,12 @@ class PdfInvoiceApi {
         },
       ),
     );
-
+    // pdf.addPage(pw.Page(build: (pw.Context context) {
+    //   return pw.Center(
+    //     child: pw.Image(pw.MemoryImage(image.bytes), fit: pw.BoxFit.fill),
+    //   ); // Center
+    // }));
+    print('PDF Generated');
     return FileHandleApi.saveDocument(name: 'my_invoice.pdf', pdf: pdf);
   }
 }
