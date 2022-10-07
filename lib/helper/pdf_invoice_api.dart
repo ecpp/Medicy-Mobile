@@ -7,7 +7,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class PdfInvoiceApi {
-  static Future<File> generate(PdfPageImage image) async {
+  static Future<Uint8List> generate(PdfPageImage image, String name, String protocolNo, String date, String area, String documentID) async {
     final pdf = pw.Document();
 
     final tableHeaders = [
@@ -21,10 +21,10 @@ class PdfInvoiceApi {
 
 
     final row = [
-      'Ahmet Mehmet',
-      '123',
-      '12.12.2020',
-      'Meme',
+      name,
+      protocolNo,
+      date,
+      area,
     ];
     tableData.add(row);
 
@@ -132,7 +132,11 @@ class PdfInvoiceApi {
     //     child: pw.Image(pw.MemoryImage(image.bytes), fit: pw.BoxFit.fill),
     //   ); // Center
     // }));
-    print('PDF Generated');
-    return FileHandleApi.saveDocument(name: 'my_invoice.pdf', pdf: pdf);
+    // final file = File("example.pdf");
+    // await file.writeAsBytes(await pdf.save());
+    final bytes = await pdf.save();
+    return bytes;
+
+
   }
 }

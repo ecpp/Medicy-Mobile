@@ -109,12 +109,45 @@ Future addPathToInvoice(String transactionid, String invPath) async {
 }
 
 Future addTransactiontoUser(String transactionid) async {
-  final CollectionReference productList =
+  final CollectionReference users =
       FirebaseFirestore.instance.collection('Users');
-  return await productList.doc(user!.uid).update({
+  return await users.doc(user!.uid).update({
     //'items': FieldValue.arrayUnion([item])
     'transactionid': FieldValue.arrayUnion([transactionid])
   });
+}
+
+Future addReportToUser(String reportLink, String userID) async{
+  final CollectionReference users =
+      FirebaseFirestore.instance.collection('Users');
+  return await users.doc(userID).update({
+    'reports': FieldValue.arrayUnion([reportLink])
+  });
+}
+
+Future addReportToDB(String reportID, String reportLink, String userID) async{
+  final CollectionReference reports =
+      FirebaseFirestore.instance.collection('Reports');
+  return await reports.doc(reportID).set({
+    'forUser': userID,
+    'date': FieldValue.serverTimestamp(),
+    'reportLink': reportLink,
+    'createdBy': user!.uid,
+  });
+}
+
+Future<String> findUseridByEmail(String email) async {
+  final CollectionReference users =
+  FirebaseFirestore.instance.collection('Users');
+  String uid = 'null';
+  await users.get().then((querySnapshot) {
+    querySnapshot.docs.forEach((element) {
+      if (element['Email'] == email) {
+        uid = element.id;
+      }
+    });
+  });
+  return uid;
 }
 
 Future addReview(String productname, String comment, int rating) async {

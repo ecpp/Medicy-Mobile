@@ -8,16 +8,17 @@ import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Transaction.dart';
+import 'package:shop_app/models/userReport.dart';
 import 'package:shop_app/screens/profile/my_orders/order_details.dart';
 import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-List<TransactionClass> userTransaction = [];
+List<UserReport> userReports = [];
 
-class TransactionScreen extends StatelessWidget {
-  static String routeName = "/transaction";
-  //_TransactionScreenState createState() => _TransactionScreenState();
+class UserReportsScreen extends StatelessWidget {
+  static String routeName = "/userReports";
   final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('transactions').snapshots();
+      FirebaseFirestore.instance.collection('Reports').snapshots();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -30,28 +31,25 @@ class TransactionScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(body: Center(child: CircularProgressIndicator()));
         }
-        userTransaction.clear();
+        userReports.clear();
         snapshot.data!.docs.map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-
-          if (data['user'] == user!.uid){
-            TransactionClass newtrans = new TransactionClass(
-                totalprice: data['totalprice'],
-                orderstatus: data['orderstatus'],
-                user: data['user'],
-                transactionid: document.id,
-                invoicePath: data['invoicePath'] ?? "null",
-                purchaseDate: data['date'],
-                items: data["itemsandprice"]);
-            userTransaction.add(newtrans);
+          print('Adding report: ' + data.length.toString());
+          if (data['forUser'] == user!.uid){
+            UserReport report = new UserReport(
+              createdBy: data['createdBy'],
+              createdDate: data['date'],
+              reportID: document.id,
+              createdFor: data['forUser'],
+              reportLink: data['reportLink'],
+            );
+            userReports.add(report);
           }
-
-
         }).toList();
         return Scaffold(
             appBar: AppBar(
               title: Text(
-                "ORDERS",
+                "My Reports",
                 style: TextStyle(
                     color: kPrimaryColor, fontWeight: FontWeight.bold),
               ),
@@ -60,7 +58,7 @@ class TransactionScreen extends StatelessWidget {
             body: ListView(
               children: [
                 ListView.builder(
-                  itemCount: userTransaction.length,
+                  itemCount: userReports.length,
                   physics: ScrollPhysics(),
                   padding: EdgeInsets.all(8),
                   shrinkWrap: true,
@@ -75,7 +73,6 @@ class TransactionScreen extends StatelessWidget {
                         padding: EdgeInsets.all(10),
                         child: Column(children: [
                           SizedBox(height: 20),
-                          _orderStatus(userTransaction[index].orderstatus),
                           Divider(color: Colors.grey),
                           SizedBox(
                             height: 10,
@@ -84,14 +81,17 @@ class TransactionScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               iconText(
-                                  Icon(Icons.edit, color: kRedColor,),
+                                  Icon(
+                                    Icons.edit,
+                                    color: kRedColor,
+                                  ),
                                   Text(
-                                    "Order ID",
+                                    "Rapor NO",
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold),
                                   )),
-                              Text(userTransaction[index].transactionid,
+                              Text(userReports[index].reportID,
                                   style: TextStyle(fontSize: 11))
                             ],
                           ),
@@ -105,12 +105,18 @@ class TransactionScreen extends StatelessWidget {
                                     color: kOrangeColor,
                                   ),
                                   Text(
-                                    "Order Date",
+                                    "Oluşturulma Tarihi",
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold),
                                   )),
-                              Text(DateFormat('dd/MM/yyyy, HH:mm').format(DateTime.fromMicrosecondsSinceEpoch(userTransaction[index].purchaseDate.microsecondsSinceEpoch)), style: TextStyle(fontSize: 14))
+                              Text(
+                                  DateFormat('dd/MM/yyyy, HH:mm').format(
+                                      DateTime.fromMicrosecondsSinceEpoch(
+                                          userReports[index]
+                                              .createdDate
+                                              .microsecondsSinceEpoch)),
+                                  style: TextStyle(fontSize: 14))
                             ],
                           ),
                           SizedBox(
@@ -121,50 +127,25 @@ class TransactionScreen extends StatelessWidget {
                             children: [
                               iconText(
                                   Icon(
-                                    Icons.price_check,
+                                    Icons.link,
                                     color: kGreenColor,
                                   ),
                                   Text(
-                                    "Price Paid",
+                                    "Link",
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold),
                                   )),
-                              Text(
-                                  userTransaction[index].totalprice.toString() +
-                                      '\$',
-                                  style: TextStyle(fontSize: 14))
+                              InkWell(
+                                  child: new Text('Raporu Aç',
+                                      style: TextStyle(color: kBlueColor)),
+                                  onTap: () =>
+                                      launch(userReports[index].reportLink)),
                             ],
                           ),
                           SizedBox(
                             height: 10,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              flatButton(
-                                Row(
-                                  children: [
-                                    Text("Order Details"),
-                                    Icon(Icons.chevron_right)
-                                  ],
-                                ),
-                                Colors.green,
-                                () {
-                                  PersistentNavBarNavigator.pushNewScreen(
-                                    context,
-                                    screen: OrderDetailsPage(
-                                      transaction: userTransaction[index],
-                                    ),
-                                    withNavBar:
-                                        true, // OPTIONAL VALUE. True by default.
-                                    pageTransitionAnimation:
-                                        PageTransitionAnimation.cupertino,
-                                  );
-                                },
-                              ),
-                            ],
-                          )
                         ]),
                       ),
                     );
@@ -184,32 +165,5 @@ class TransactionScreen extends StatelessWidget {
       ),
       textWidget
     ]);
-  }
-
-  Widget flatButton(Widget iconText, Color color, Function pres) {
-    return TextButton(
-      onPressed: () => pres(),
-      child: iconText,
-      // padding: EdgeInsets.all(5),
-      // color: color,
-      // shape: StadiumBorder(),
-    );
-  }
-
-  Widget _orderStatus(String status) {
-    Icon icon = Icon(Icons.face);
-    Color color;
-
-    if (status == "placed" || status == "shipping") {
-      icon = Icon(Icons.timer, color: kYellowColor);
-      color = kYellowColor;
-    } else if (status == "completed") {
-      icon = Icon(Icons.check, color: Colors.green);
-      color = Colors.green;
-    } else if (status == "cancelled" || status == "refunded") {
-      icon = Icon(Icons.clear, color: Colors.red);
-      color = Colors.red;
-    }
-    return iconText(icon, Text("Order Status: " + status.toUpperCase()));
   }
 }
