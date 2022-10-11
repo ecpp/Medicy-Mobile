@@ -235,7 +235,6 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
             addReportToDB(randomid, urlDownload!, findUser);
             await sendEmail(['${_patientEmailController.text}'],
                 "Report Generated", "Report Data", urlDownload!);
-            print(urlDownload);
           } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(

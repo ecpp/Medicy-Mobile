@@ -34,7 +34,6 @@ class UserReportsScreen extends StatelessWidget {
         userReports.clear();
         snapshot.data!.docs.map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-          print('Adding report: ' + data.length.toString());
           if (data['forUser'] == user!.uid){
             UserReport report = new UserReport(
               createdBy: data['createdBy'],
@@ -60,7 +59,7 @@ class UserReportsScreen extends StatelessWidget {
                 ListView.builder(
                   itemCount: userReports.length,
                   physics: ScrollPhysics(),
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(1),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Card(
@@ -69,10 +68,9 @@ class UserReportsScreen extends StatelessWidget {
                         borderRadius: new BorderRadius.circular(16.0),
                       ),
                       child: Container(
-                        margin: EdgeInsets.all(10),
+                        margin: EdgeInsets.all(5),
                         padding: EdgeInsets.all(10),
                         child: Column(children: [
-                          SizedBox(height: 20),
                           Divider(color: Colors.grey),
                           SizedBox(
                             height: 10,
