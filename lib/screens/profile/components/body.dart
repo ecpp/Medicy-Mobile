@@ -8,6 +8,7 @@ import 'package:shop_app/screens/pmanagerAdmin/pmanagerAdmin.dart';
 import 'package:shop_app/screens/profile/my_orders/orders_page.dart';
 import 'package:shop_app/screens/sales_manager/sales_manager_screen.dart';
 import 'package:shop_app/models/Cart.dart';
+import 'package:shop_app/screens/user_reports/user_reports.dart';
 import '../../../constants.dart';
 import '../../../main.dart';
 import '../my_account.dart';
@@ -85,6 +86,18 @@ class Body extends StatelessWidget {
                 );
               },
             ),
+          ProfileMenu(
+            text: "My Documents",
+            icon: "assets/icons/Mail.svg",
+            press: () {
+              PersistentNavBarNavigator.pushNewScreen(
+                context,
+                screen: UserReportsScreen(),
+                withNavBar: false, // OPTIONAL VALUE. True by default.
+                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+              );
+            },
+          ),
           ProfileMenu(
             text: "Log Out",
             icon: "assets/icons/Log out.svg",

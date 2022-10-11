@@ -21,14 +21,14 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
+      padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
       child: SizedBox(
         width: getProportionateScreenWidth(width),
         child: GestureDetector(
           onTap: () => PersistentNavBarNavigator.pushNewScreen(
             context,
-            screen: DetailsScreen(itemToDetail: product),
-            withNavBar: true, // OPTIONAL VALUE. True by default.
+            withNavBar: false,
+            screen: DetailsScreen(itemToDetail: product), // OPTIONAL VALUE. True by default.
             pageTransitionAnimation: PageTransitionAnimation.cupertino,
           ),
           child: Column(
@@ -61,7 +61,7 @@ class ProductCard extends StatelessWidget {
                     Text(
                       "\$${product.price}",
                       style: TextStyle(
-                        fontSize: getProportionateScreenWidth(18),
+                        fontSize: getProportionateScreenWidth(15),
                         fontWeight: FontWeight.w600,
                         color: kPrimaryColor,
                       ),
@@ -92,21 +92,21 @@ class ProductCard extends StatelessWidget {
                       ],
                     ),
 
-                  InkWell(
-                    borderRadius: BorderRadius.circular(50),
-                    onTap: () {},
-                    child: Container(
-                      padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                      height: getProportionateScreenWidth(28),
-                      width: getProportionateScreenWidth(28),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.asset(
-                        "assets/icons/Heart Icon_2.svg",
-                      ),
-                    ),
-                  ),
+                  // InkWell(
+                  //   borderRadius: BorderRadius.circular(50),
+                  //   onTap: () {},
+                  //   child: Container(
+                  //     padding: EdgeInsets.all(getProportionateScreenWidth(8)),
+                  //     height: getProportionateScreenWidth(28),
+                  //     width: getProportionateScreenWidth(28),
+                  //     decoration: BoxDecoration(
+                  //       shape: BoxShape.circle,
+                  //     ),
+                  //     child: SvgPicture.asset(
+                  //       "assets/icons/Heart Icon_2.svg",
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               )
             ],

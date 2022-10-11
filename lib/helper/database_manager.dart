@@ -7,6 +7,7 @@ import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/models/reviewModal.dart';
 import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
 
+import '../main.dart';
 import '../models/categoryModel.dart';
 import '../screens/home/components/body.dart';
 
@@ -108,12 +109,45 @@ Future addPathToInvoice(String transactionid, String invPath) async {
 }
 
 Future addTransactiontoUser(String transactionid) async {
-  final CollectionReference productList =
+  final CollectionReference users =
       FirebaseFirestore.instance.collection('Users');
-  return await productList.doc(user!.uid).update({
+  return await users.doc(user!.uid).update({
     //'items': FieldValue.arrayUnion([item])
     'transactionid': FieldValue.arrayUnion([transactionid])
   });
+}
+
+Future addReportToUser(String reportLink, String userID) async{
+  final CollectionReference users =
+      FirebaseFirestore.instance.collection('Users');
+  return await users.doc(userID).update({
+    'reports': FieldValue.arrayUnion([reportLink])
+  });
+}
+
+Future addReportToDB(String reportID, String reportLink, String userID) async{
+  final CollectionReference reports =
+      FirebaseFirestore.instance.collection('Reports');
+  return await reports.doc(reportID).set({
+    'forUser': userID,
+    'date': FieldValue.serverTimestamp(),
+    'reportLink': reportLink,
+    'createdBy': user!.uid,
+  });
+}
+
+Future<String> findUseridByEmail(String email) async {
+  final CollectionReference users =
+  FirebaseFirestore.instance.collection('Users');
+  String uid = 'null';
+  await users.get().then((querySnapshot) {
+    querySnapshot.docs.forEach((element) {
+      if (element['Email'] == email) {
+        uid = element.id;
+      }
+    });
+  });
+  return uid;
 }
 
 Future addReview(String productname, String comment, int rating) async {
@@ -317,7 +351,9 @@ Future setPrice(String productTitle, int newPrice) async {
 Future setPrice2(String productTitle, num newPrice, num oldPrice) async {
   final CollectionReference productList =
       FirebaseFirestore.instance.collection(dbProductsTable);
-  return await productList.doc(productTitle).update({'price': newPrice, 'oldprice': oldPrice});
+  return await productList
+      .doc(productTitle)
+      .update({'price': newPrice, 'oldprice': oldPrice});
 }
 
 Future addToCartDB(String itemname, int itemcount) async {
@@ -330,15 +366,13 @@ Future addToCartDB(String itemname, int itemcount) async {
 
 Future removeFromCartDB(String itemname) async {
   final CollectionReference productList =
-  FirebaseFirestore.instance.collection('Users');
-  return await productList
-      .doc(user!.uid)
-      .update({'userCart.$itemname': 0});
+      FirebaseFirestore.instance.collection('Users');
+  return await productList.doc(user!.uid).update({'userCart.$itemname': 0});
 }
 
 Future removeallFromCartDB() async {
   final CollectionReference productList =
-  FirebaseFirestore.instance.collection('Users');
+      FirebaseFirestore.instance.collection('Users');
   return await productList
       .doc(user!.uid)
       .update({'userCart': FieldValue.delete()});
@@ -350,25 +384,27 @@ Future removeCategory(String name) async {
       .where("name", isEqualTo: name)
       .get()
       .then((snapshot) => {
-    for (DocumentSnapshot ds in snapshot.docs) {ds.reference.delete()}
-  });
+            for (DocumentSnapshot ds in snapshot.docs) {ds.reference.delete()}
+          });
 }
 
-Future addCategory(String name, String imagelink) async{
+Future addCategory(String name, String imagelink) async {
   String docID = FirebaseFirestore.instance.collection("categories").doc().id;
   String addedBy = user!.uid;
   String addedDate = DateTime.now().toString();
-  FirebaseFirestore.instance
-      .collection(dbCategoriesTable)
-      .doc(docID)
-      .set({"id": docID, "name": name, "image": imagelink, "addedBy": addedBy, "addedDate": addedDate});
+  FirebaseFirestore.instance.collection(dbCategoriesTable).doc(docID).set({
+    "id": docID,
+    "name": name,
+    "image": imagelink,
+    "addedBy": addedBy,
+    "addedDate": addedDate
+  });
 }
 
 Future<List<categoryModel>> getCategories() async {
   List<categoryModel> categories = [];
 
-  Query query = FirebaseFirestore.instance
-      .collection(dbCategoriesTable);
+  Query query = FirebaseFirestore.instance.collection(dbCategoriesTable);
 
   await query.get().then((querySnapshot) {
     querySnapshot.docs.forEach((result) {
@@ -383,13 +419,38 @@ Future<List<categoryModel>> getCategories() async {
   return categories;
 }
 
+Future<List<Product>> getAllItems() async {
+  List<Product> productList = [];
+
+  Query query = FirebaseFirestore.instance.collection(dbProductsTable);
+
+  await query.get().then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      Product newproduct = new Product(
+          id: result['id'],
+          images: result['images'],
+          title: result['title'],
+          price: result['price'],
+          oldprice: result['oldprice'],
+          description: result['description'],
+          rating: result['rating'],
+          isPopular: result['isPopular'],
+          category: result['category'],
+          numsold: result['timesold'],
+          stock: result['stock']);
+      productList.add(newproduct);
+    });
+  });
+  return productList;
+}
+
 Future setStock(String productTitle, int newStock) async {
   final CollectionReference productList =
-  FirebaseFirestore.instance.collection('products_new');
+      FirebaseFirestore.instance.collection('products_new');
   return await productList.doc(productTitle).update({'stock': newStock});
 }
 
-Future <String> getUserType() async{
+Future<String> getUserType() async {
   await FirebaseFirestore.instance
       .collection('Users')
       .doc(user!.uid)
@@ -401,7 +462,103 @@ Future <String> getUserType() async{
   return 'customer';
 }
 
-Future fetchAllUserDataOnLogin() async{
+Future<Product> getProductFromName(String productName) async {
+  Product product = new Product(
+      id: 0,
+      images: '',
+      title: '',
+      price: 0,
+      oldprice: 0,
+      description: '',
+      rating: 0,
+      isPopular: false,
+      category: '',
+      numsold: 0,
+      stock: 0);
+  await FirebaseFirestore.instance
+      .collection('products_new')
+      .where('title', isEqualTo: productName)
+      .get()
+      .then((value) {
+    value.docs.forEach((result) {
+      product = new Product(
+          id: result['id'],
+          images: result['images'],
+          title: result['title'],
+          price: result['price'],
+          oldprice: result['oldprice'],
+          description: result['description'],
+          rating: result['rating'],
+          isPopular: result['isPopular'],
+          category: result['category'],
+          numsold: result['timesold'],
+          stock: result['stock']);
+    });
+  });
+  return product;
+}
+
+Future<bool> checkPrice(String itemname, num price) async {
+  bool isPrice = false;
+  FirebaseFirestore.instance
+      .collection('products_new')
+      .where('title', isEqualTo: itemname)
+      .get()
+      .then((value) {
+    value.docs.forEach((result) {
+      if (result['price'] == price) {
+        isPrice = true;
+      }
+    });
+  });
+  return isPrice;
+}
+
+Future<bool> checkPriceCart(Cart userCart) async {
+  for (int i = 0; i < currentCart.cartItems!.length; i++){
+    String itemName = currentCart.cartItems![i].product.title;
+    num itemPrice = currentCart.cartItems![i].product.price;
+    if (!await checkPrice(itemName, itemPrice)){
+      return false;
+    }
+  }
+  return true;
+}
+
+Future<bool> stockCheck(String itemName) async {
+  bool isStock = false;
+  await FirebaseFirestore.instance
+      .collection('products_new')
+      .where('title', isEqualTo: itemName)
+      .get()
+      .then((value) {
+    value.docs.forEach((result) {
+      print(result['stock']);
+      if (result['stock'] > 0) {
+        isStock = true;
+
+      }
+    });
+  });
+  return isStock;
+}
+
+// Future<void> increasePendingStock(Cart userCart) async {
+//
+//
+// }
+//
+// Future<void> decreasePendingStock(List<Product> productList) async {
+//   for (int i = 0; i < productList.length; i++) {
+//     await FirebaseFirestore.instance
+//         .collection('products_new')
+//         .doc(productList[i].title)
+//         .update({'pendingStock': FieldValue.increment(-1)});
+//   }
+// }
+
+Future fetchAllUserDataOnLogin(bool autoLogin) async {
+  print('***** FETCHING ALL USER DATA *****');
   await FirebaseFirestore.instance
       .collection(dbUserTable)
       .doc(user!.uid)
@@ -414,35 +571,38 @@ Future fetchAllUserDataOnLogin() async{
   });
   if (user != null) {
     try {
-      if (currentCart.sum != 0) {
+      if (!autoLogin && currentCart.sum != 0) {
         //FETCH LOCAL CART TO DB.
-
         await addToCartDB(currentCart.cartItems!.elementAt(0).product.title,
             currentCart.cartItems!.elementAt(0).numOfItem);
+        currentCart.cartItems!.clear();
       }
-      currentCart.cartItems!.clear(); //CLEAR LOCAL CART
-    }
-    catch(e){
+      //CLEAR LOCAL CART
+    } catch (e) {
       print('*************ERROR IN FETCHING CART FROM LOCAL DB*************');
       print(e);
     }
-
+    // if (autoLogin){
+    //     productListnew = await getAllItems();
+    // }
     if (userCart != null) {
       int i = 0;
       for (var v in userCart!.values) {
-        if (userCart!.values.elementAt(i) > 0) { //FETCH DB TO LOCAL CART
-          Product itemToAdd = productListnew
-              .where((element) => element.title
-              .contains(userCart!.keys.elementAt(i).trimLeft()))
-              .toList()[0];
-          currentCart.cartItems!.add(CartItem(
-              product: itemToAdd,
-              numOfItem: userCart!.values.elementAt(i)));
+        if (userCart!.values.elementAt(i) > 0) {
+          //FETCH DB TO LOCAL CART
+          // Product itemToAdd = productListnew
+          //     .where((element) => element.title
+          //     .contains(userCart!.keys.elementAt(i).trimLeft()))
+          //     .toList()[0];
+          Product itemToAdd =
+              await getProductFromName(userCart!.keys.elementAt(i).trimLeft());
+          if (await stockCheck(itemToAdd.title)) {
+            currentCart.cartItems!.add(CartItem(
+                product: itemToAdd, numOfItem: userCart!.values.elementAt(i)));
+          }
         }
-
         i++;
       }
     }
   }
-
 }

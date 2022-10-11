@@ -29,71 +29,79 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: [
-        ProductImages(product: product),
-        TopRoundedContainer(
-          color: Colors.white10,
-          child: Column(
+        SizedBox(
+          height: getProportionateScreenWidth(680),
+          child: ListView(
+            shrinkWrap: true,
             children: [
-              ProductDescription(
-                product: product,
-                pressOnSeeMore: () {},
-              ),
+              ProductImages(product: product),
               TopRoundedContainer(
                 color: Colors.white10,
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(height: 10.0),
-                        NumericStepButton(
-                          minValue: 0,
-                          maxValue: product.stock,
-                          onChanged: (value) {
-                            numOfItemToAdd = value;
-                          },
-                        ),
-                        SizedBox(
-                          width: getProportionateScreenWidth(100),
-                          height: getProportionateScreenHeight(50),
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              backgroundColor: kPrimaryColor,
-                            ),
-                            onPressed: () => SchedulerBinding.instance
-                                .addPostFrameCallback((_) {
-                              PersistentNavBarNavigator.pushNewScreen(
-                                context,
-                                screen: Reviews(itemname: product.title),
-                                withNavBar:
-                                    true, // OPTIONAL VALUE. True by default.
-                                pageTransitionAnimation:
-                                    PageTransitionAnimation.cupertino,
-                              );
-                            }),
-                            child: Text(
-                              "Reviews",
-                              style: TextStyle(
-                                fontSize: getProportionateScreenWidth(18),
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                    ProductDescription(
+                      product: product,
+                      pressOnSeeMore: () {},
                     ),
                     TopRoundedContainer(
                       color: Colors.white10,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: SizeConfig.screenWidth * 0.15,
-                          right: SizeConfig.screenWidth * 0.15,
-                          bottom: getProportionateScreenWidth(40),
-                        ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 10.0),
+                              NumericStepButton(
+                                minValue: 0,
+                                maxValue: product.stock,
+                                onChanged: (value) {
+                                  numOfItemToAdd = value;
+                                },
+                              ),
+                              // SizedBox(
+                              //   width: getProportionateScreenWidth(100),
+                              //   height: getProportionateScreenHeight(50),
+                              //   child: TextButton(
+                              //     style: TextButton.styleFrom(
+                              //       shape: RoundedRectangleBorder(
+                              //           borderRadius: BorderRadius.circular(20)),
+                              //       backgroundColor: kPrimaryColor,
+                              //     ),
+                              //     onPressed: () => SchedulerBinding.instance
+                              //         .addPostFrameCallback((_) {
+                              //       PersistentNavBarNavigator.pushNewScreen(
+                              //         context,
+                              //         screen: Reviews(itemname: product.title),
+                              //         withNavBar:
+                              //             true, // OPTIONAL VALUE. True by default.
+                              //         pageTransitionAnimation:
+                              //             PageTransitionAnimation.cupertino,
+                              //       );
+                              //     }),
+                              //     child: Text(
+                              //       "Reviews",
+                              //       style: TextStyle(
+                              //         fontSize: getProportionateScreenWidth(18),
+                              //         color: Colors.white,
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                          TopRoundedContainer(
+                            color: Colors.white10,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: SizeConfig.screenWidth * 0.15,
+                                right: SizeConfig.screenWidth * 0.15,
+                                bottom: getProportionateScreenWidth(40),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -102,7 +110,9 @@ class Body extends StatelessWidget {
             ],
           ),
         ),
-        BottomAppBar(
+        SizedBox(height: getProportionateScreenHeight(30)),
+        SafeArea(
+          top: false,
           child: Container(
             padding: EdgeInsets.symmetric(
               vertical: getProportionateScreenWidth(15),
@@ -155,8 +165,55 @@ class Body extends StatelessWidget {
               ),
             ),
           ),
-        )
+
+
       ],
+      // BottomAppBar(
+      //   child: Container(
+      //     height: 20,
+      //     child: SafeArea(
+      //       child: Column(
+      //         //mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //         children: [
+      //           Column(
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             children: [
+      //               Text.rich(
+      //                 TextSpan(
+      //                   text: "${product.oldprice}" + "\$",
+      //                   style: TextStyle(fontSize: 14, color: Colors.black),
+      //                   children: [
+      //                     TextSpan(
+      //                       text: "${product.price}" + "\$",
+      //                       style:
+      //                       TextStyle(fontSize: 16, color: Colors.black),
+      //                     ),
+      //                   ],
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //
+      //           // Text(
+      //           //   "${product.price}" + "\$",
+      //           //   style: TextStyle(
+      //           //       fontSize: 20,
+      //           //       color: Colors.black,
+      //           //       fontWeight: FontWeight.bold),
+      //           // ),
+      //           SizedBox(
+      //             width: getProportionateScreenWidth(250),
+      //             child: DefaultButton(
+      //                 text: "Add to Cart",
+      //                 press: () {
+      //                   addToCart(context);
+      //                 }),
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      // )
     );
   }
 

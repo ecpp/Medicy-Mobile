@@ -40,13 +40,16 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     }
     ;
     return Scaffold(
+      appBar: AppBar(
+        title: Text(orderstat,
+            style: TextStyle(color: kPrimaryColor, fontSize: 20)),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(10),
         child: Column(children: [
-          SizedBox(height: 50),
-          Text(orderstat,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-          SizedBox(height: 20),
+          // Text(orderstat,
+          //     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           CheckPoint(
             checkedTill: checkint,
             checkPoints: ["Placed", "Shipping", "Completed"],
@@ -223,13 +226,13 @@ Widget showInvoice(TransactionClass model) {
         backgroundColor: Color(0xFFF5F6F9),
       ),
       onPressed: () async {
-        PermissionStatus permissions = await Permission.storage.request();
-        if (permissions.isGranted) {
-          final pdfFile = await PdfInvoiceApi.generate(model);
-          FileHandleApi.openFile(pdfFile);
-        } else {
-          print("COULD NOT AUTHORIZE");
-        }
+        // PermissionStatus permissions = await Permission.storage.request();
+        // if (permissions.isGranted) {
+        //   final pdfFile = await PdfInvoiceApi.generate(model);
+        //   FileHandleApi.openFile(pdfFile);
+        // } else {
+        //   print("COULD NOT AUTHORIZE");
+        // }
       },
       child: Row(
         children: [

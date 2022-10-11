@@ -122,6 +122,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 int.parse(_stockController.text),
                                 _titleController.text,
                                 selectedCat);
+                            Navigator.pop(context);
                           },
                           text: "Add Product"),
                     ]),

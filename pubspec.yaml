@@ -41,8 +41,10 @@ dependencies:
   firebase_messaging: ^11.2.4
   flutter_credit_card: ^3.0.1
   uuid: ^3.0.6
-  open_file: ^3.2.1
-  path_provider: ^2.0.6
+  file_picker: ^5.2.0+1
+  open_file:
+    git:
+      url: https://github.com/crazecoder/open_file
   pdf: ^3.6.1
   im_stepper: ^0.1.2+10
   check_points: ^0.0.1+1
@@ -53,6 +55,11 @@ dependencies:
   sn_progress_dialog: ^1.0.8
   progress_state_button: ^1.0.4
   persistent_bottom_nav_bar: ^5.0.2
+  dropdown_search: ^5.0.2
+  intl: ^0.17.0
+  pdf_render: ^1.3.4
+  pdfx:
+  url_launcher: ^6.1.6
 
 dev_dependencies:
   flutter_test:

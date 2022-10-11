@@ -12,6 +12,7 @@ import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../main.dart';
 import '../../home/home_screen.dart';
 
 void main() => runApp(Body());

@@ -18,21 +18,13 @@ class SplashContent extends StatelessWidget {
       children: <Widget>[
         Spacer(),
         Text(
-          "Medicy",
-          style: TextStyle(
-            fontSize: getProportionateScreenWidth(36),
-            color: kPrimaryColor,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
           text!,
           textAlign: TextAlign.center,
         ),
         Spacer(flex: 2),
         Image.asset(
           image!,
-          height: getProportionateScreenHeight(265),
+          height: getProportionateScreenHeight(500),
           width: getProportionateScreenWidth(235),
         ),
       ],

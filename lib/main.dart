@@ -13,6 +13,7 @@ import 'helper/database_manager.dart';
 
 bool loginStatus = false;
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -26,9 +27,7 @@ Future<void> main() async {
         appId: "1:682478441420:web:921a72c6935afee0c30369",
         measurementId: "G-NSYB6K7E0E"),
   );
-  void _waitForData() async {
-    await fetchAllUserDataOnLogin();
-  }
+
 
   var userPass = prefs.getString("userPassword");
   var userEmail = prefs.getString("userEmail");
@@ -39,10 +38,7 @@ Future<void> main() async {
         if (snapshot.connectionState == ConnectionState.done) {
           if (userPass != null && userEmail != null) {
             LoginScreen.loginEmailPassword(
-                email: userEmail, password: userPass, context: context);
-          }
-          if (loginStatus == true) {
-            _waitForData();
+                email: userEmail, password: userPass, context: context, autoLogin: true);
           }
           return MaterialApp(
               debugShowCheckedModeBanner: false,

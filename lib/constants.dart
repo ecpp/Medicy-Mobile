@@ -11,6 +11,11 @@ const kPrimaryGradientColor = LinearGradient(
 const kSecondaryColor = Color(0xFF979797);
 const kTextColor = Color(0xFF757575);
 const kFixPadding = 16.0;
+const kRedColor = Color(0xFFE53935);
+const kGreenColor = Color(0xFF43A047);
+const kYellowColor = Color(0xFFFBC02D);
+const kBlueColor = Color(0xFF1976D2);
+const kOrangeColor = Color(0xFFFF9800);
 
 const kAnimationDuration = Duration(milliseconds: 200);
 

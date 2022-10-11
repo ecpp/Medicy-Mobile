@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Transaction.dart';
@@ -11,7 +12,6 @@ import 'package:shop_app/screens/profile/my_orders/order_details.dart';
 import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
 
 List<TransactionClass> userTransaction = [];
-TransactionClass newtrans = new TransactionClass(items: {});
 
 class TransactionScreen extends StatelessWidget {
   static String routeName = "/transaction";
@@ -33,17 +33,20 @@ class TransactionScreen extends StatelessWidget {
         userTransaction.clear();
         snapshot.data!.docs.map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-          for (var key in data.keys) {
-            //print(document.id);
-            newtrans = new TransactionClass(
+
+          if (data['user'] == user!.uid){
+            TransactionClass newtrans = new TransactionClass(
                 totalprice: data['totalprice'],
                 orderstatus: data['orderstatus'],
                 user: data['user'],
                 transactionid: document.id,
                 invoicePath: data['invoicePath'] ?? "null",
+                purchaseDate: data['date'],
                 items: data["itemsandprice"]);
+            userTransaction.add(newtrans);
           }
-          if (data['user'] == user!.uid) userTransaction.add(newtrans);
+
+
         }).toList();
         return Scaffold(
             appBar: AppBar(
@@ -81,7 +84,7 @@ class TransactionScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               iconText(
-                                  Icon(Icons.edit),
+                                  Icon(Icons.edit, color: kRedColor,),
                                   Text(
                                     "Order ID",
                                     style: TextStyle(
@@ -89,7 +92,7 @@ class TransactionScreen extends StatelessWidget {
                                         fontWeight: FontWeight.bold),
                                   )),
                               Text(userTransaction[index].transactionid,
-                                  style: TextStyle(fontSize: 10))
+                                  style: TextStyle(fontSize: 11))
                             ],
                           ),
                           SizedBox(height: 10),
@@ -99,7 +102,7 @@ class TransactionScreen extends StatelessWidget {
                               iconText(
                                   Icon(
                                     Icons.today,
-                                    color: kPrimaryColor,
+                                    color: kOrangeColor,
                                   ),
                                   Text(
                                     "Order Date",
@@ -107,7 +110,7 @@ class TransactionScreen extends StatelessWidget {
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold),
                                   )),
-                              Text("test123", style: TextStyle(fontSize: 14))
+                              Text(DateFormat('dd/MM/yyyy, HH:mm').format(DateTime.fromMicrosecondsSinceEpoch(userTransaction[index].purchaseDate.microsecondsSinceEpoch)), style: TextStyle(fontSize: 14))
                             ],
                           ),
                           SizedBox(
@@ -119,7 +122,7 @@ class TransactionScreen extends StatelessWidget {
                               iconText(
                                   Icon(
                                     Icons.price_check,
-                                    color: kPrimaryColor,
+                                    color: kGreenColor,
                                   ),
                                   Text(
                                     "Price Paid",
@@ -198,8 +201,8 @@ class TransactionScreen extends StatelessWidget {
     Color color;
 
     if (status == "placed" || status == "shipping") {
-      icon = Icon(Icons.timer, color: kPrimaryColor);
-      color = kPrimaryColor;
+      icon = Icon(Icons.timer, color: kYellowColor);
+      color = kYellowColor;
     } else if (status == "completed") {
       icon = Icon(Icons.check, color: Colors.green);
       color = Colors.green;
