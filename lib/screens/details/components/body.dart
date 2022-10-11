@@ -114,72 +114,56 @@ class Body extends StatelessWidget {
         SafeArea(
           top: false,
           child: Container(
-            height: 50,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    if (product.oldprice == 0)
-                      Row(
-                        children: [
-                          Text(
-                            "\$${product.price}",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: kPrimaryColor,
+            padding: EdgeInsets.symmetric(
+              vertical: getProportionateScreenWidth(15),
+              horizontal: getProportionateScreenWidth(30),
+            ),
+            child: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      product.oldprice != 0
+                          ? Text.rich(
+                              TextSpan(
+                                text: "${product.oldprice}" + "\$\n",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    decoration: TextDecoration.lineThrough),
+                                children: [
+                                  TextSpan(
+                                    text: "${product.price}" + "\$",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Color.fromARGB(255, 36, 187, 41),
+                                        fontWeight: FontWeight.w900,
+                                        decoration: TextDecoration.none),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Text(
+                              "${product.price}" + "\$",
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.black),
                             ),
-                          ),
-
-                        ],
+                      SizedBox(
+                        width: getProportionateScreenWidth(220),
+                        child: DefaultButton(
+                            text: "Add to Cart",
+                            press: () {
+                              addToCart(context);
+                            }),
                       ),
-                    if (product.oldprice != 0)
-                      Column(
-                        children: [
-                          Text(
-                            "\$${product.oldprice}",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w300,
-                              color: kPrimaryColor,
-                              decoration: TextDecoration.lineThrough,
-                            ),
-                          ),
-
-                          Text(
-                            "\$${product.price}",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: kPrimaryColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    SizedBox(
-                      width: getProportionateScreenWidth(150),
-                      height: getProportionateScreenHeight(50),
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18)),
-                          backgroundColor: kPrimaryColor,
-                        ),
-                        onPressed: () async {
-                          addToCart(context);
-                        },
-                        child: Text(
-                          "Add to Cart",
-                          style: TextStyle(
-                            fontSize: getProportionateScreenWidth(18),
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
               ),
+            ),
           ),
 
 
