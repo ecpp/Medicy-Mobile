@@ -66,7 +66,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
     await file.writeAsBytes(image.bytes);
   }
 
-  File? pdffile;
+  dynamic pdffile;
   List<String> errors = [];
   String? email;
   String? urlDownload;
@@ -76,6 +76,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
   TextEditingController _dateController = TextEditingController();
   TextEditingController _applicationAreaController = TextEditingController();
   ButtonState stateOnlyText = ButtonState.idle;
+  ButtonState stateOnlyTextSelectPdf = ButtonState.idle;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -131,21 +132,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: DefaultButton(
-                  text: "Select PDF",
-                  press: () async {
-                    final result = await FilePicker.platform.pickFiles(
-                      type: FileType.custom,
-                      allowedExtensions: ['pdf'],
-                    );
-                    if (result != null) {
-                      final path = result.files.single.path;
-                      setState(() {
-                        pdffile = File(path!);
-                      });
-                    }
-                  },
-                ),
+                child: selectPdfButton(),
               ),
               SizedBox(width: getProportionateScreenWidth(20)),
               Expanded(
@@ -167,18 +154,18 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
         'subject': '$subject',
         'text': '$emailBody',
         'html':
-        '<html>Hi! Thank you for shopping with us! You can find your invoice attached:</html>',
+            '<html>Your report has been generated! You can find your report attached:</html>',
         'attachments': [
           {
             'path': '$path',
             'type': 'pdf',
-            'name': 'Invoice',
-            'filename': "Invoice.pdf",
+            'name': 'Report',
+            'filename': "Report.pdf",
           }
         ]
       },
     }).then(
-          (value) => {print("Queued email for delivery!")},
+      (value) => {print("Queued email for delivery!")},
     );
   }
 
@@ -225,43 +212,30 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
         if (findUser != 'null') {
           if (pdffile != null) {
             PdfPageImage image = await convertPdfToImage(pdffile!);
-            PermissionStatus permissions = await Permission.storage.request();
-            if (permissions.isGranted) {
-              var uuid = Uuid();
-              String randomid = uuid.v1();
-              final pdfFile = await PdfInvoiceApi.generate(
-                  image,
-                  _patientNameController.text,
-                  _protocolNoController.text,
-                  _dateController.text,
-                  _applicationAreaController.text,
-                  randomid);
-              //FileHandleApi.openFile(pdfFile);
-              UploadTask uploadTask;
-              String saveName = "report_" + randomid;
-              final pathToReport = 'reports/$saveName';
-              final ref = FirebaseStorage.instance.ref().child(pathToReport);
-              uploadTask = ref.putData(pdfFile);
 
-              final snapshot = await uploadTask.whenComplete(() => {});
-              urlDownload = await snapshot.ref.getDownloadURL();
-              addReportToUser(randomid, findUser);
-              addReportToDB(randomid, urlDownload!, findUser);
-              await sendEmail(
-                ['${email}'], "Order Placed", "Order Data", urlDownload!);
-              print(urlDownload);
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                  '⚠️ Permission denied.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                ),
-                duration: Duration(seconds: 2),
-                backgroundColor: kPrimaryColor,
-                behavior: SnackBarBehavior.floating,
-              ));
-            }
+            var uuid = Uuid();
+            String randomid = uuid.v1();
+            final pdfFile = await PdfInvoiceApi.generate(
+                image,
+                _patientNameController.text,
+                _protocolNoController.text,
+                _dateController.text,
+                _applicationAreaController.text,
+                randomid);
+            //FileHandleApi.openFile(pdfFile);
+            UploadTask uploadTask;
+            String saveName = "report_" + randomid;
+            final pathToReport = 'reports/$saveName';
+            final ref = FirebaseStorage.instance.ref().child(pathToReport);
+            uploadTask = ref.putData(pdfFile);
+
+            final snapshot = await uploadTask.whenComplete(() => {});
+            urlDownload = await snapshot.ref.getDownloadURL();
+            addReportToUser(randomid, findUser);
+            addReportToDB(randomid, urlDownload!, findUser);
+            await sendEmail(['${_patientEmailController.text}'],
+                "Report Generated", "Report Data", urlDownload!);
+            print(urlDownload);
           } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(
@@ -308,6 +282,60 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
         }
       },
       state: stateOnlyText,
+      padding: EdgeInsets.all(8.0),
+    );
+    return progressTextButton;
+  }
+
+  Widget selectPdfButton() {
+    var progressTextButton = ProgressButton(
+      stateWidgets: {
+        ButtonState.idle: Text(
+          "PDF Seç",
+          style: TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+        ),
+        ButtonState.loading: Text(
+          "Seçiliyor",
+          style: TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+        ),
+        ButtonState.fail: Text(
+          "Yeniden Dene",
+          style: TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+        ),
+        ButtonState.success: Text(
+          "Oluşturulmaya Hazır",
+          style: TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+        )
+      },
+      stateColors: {
+        ButtonState.idle: kPrimaryColor,
+        ButtonState.loading: Colors.blue.shade300,
+        ButtonState.fail: kRedColor,
+        ButtonState.success: kGreenColor,
+      },
+      progressIndicator: CircularProgressIndicator(
+        backgroundColor: Colors.white,
+        valueColor: AlwaysStoppedAnimation(Colors.red),
+        strokeWidth: 1,
+      ),
+      onPressed: () async {
+        final result = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['pdf'],
+        );
+        if (result != null) {
+          final path = result.files.single.path;
+          setState(() {
+            pdffile = File(path!);
+            stateOnlyTextSelectPdf = ButtonState.success;
+          });
+        }
+      },
+      state: stateOnlyTextSelectPdf,
       padding: EdgeInsets.all(8.0),
     );
     return progressTextButton;
