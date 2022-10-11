@@ -109,42 +109,47 @@ class Body extends StatelessWidget {
               horizontal: getProportionateScreenWidth(30),
             ),
             child: SafeArea(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text.rich(
-                        TextSpan(
-                          text: "${product.oldprice}" + "\$",
-                          style: TextStyle(fontSize: 14, color: Colors.black),
-                          children: [
-                            TextSpan(
-                              text: "${product.price}" + "\$",
+                      product.oldprice != 0
+                          ? Text.rich(
+                              TextSpan(
+                                text: "${product.oldprice}" + "\$\n",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    decoration: TextDecoration.lineThrough),
+                                children: [
+                                  TextSpan(
+                                    text: "${product.price}" + "\$",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Color.fromARGB(255, 36, 187, 41),
+                                        fontWeight: FontWeight.w900,
+                                        decoration: TextDecoration.none),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Text(
+                              "${product.price}" + "\$",
                               style:
-                                  TextStyle(fontSize: 16, color: Colors.black),
+                                  TextStyle(fontSize: 14, color: Colors.black),
                             ),
-                          ],
-                        ),
+                      SizedBox(
+                        width: getProportionateScreenWidth(220),
+                        child: DefaultButton(
+                            text: "Add to Cart",
+                            press: () {
+                              addToCart(context);
+                            }),
                       ),
                     ],
-                  ),
-
-                  // Text(
-                  //   "${product.price}" + "\$",
-                  //   style: TextStyle(
-                  //       fontSize: 20,
-                  //       color: Colors.black,
-                  //       fontWeight: FontWeight.bold),
-                  // ),
-                  SizedBox(
-                    width: getProportionateScreenWidth(250),
-                    child: DefaultButton(
-                        text: "Add to Cart",
-                        press: () {
-                          addToCart(context);
-                        }),
                   ),
                 ],
               ),
