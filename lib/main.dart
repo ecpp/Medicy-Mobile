@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/routes.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
+import 'package:shop_app/size_config.dart';
 import 'package:shop_app/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shop_app/screens/sign_in/components/login_firebase.dart';
@@ -18,6 +19,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final Future<FirebaseApp> _initialization = Firebase.initializeApp(
+    name: 'Medicy',
     options: FirebaseOptions(
         apiKey: "AIzaSyDg9arn7gwhQP-WouWkl-XEjhF8mZIr0AU",
         authDomain: "medicy-a063d.firebaseapp.com",
@@ -35,7 +37,7 @@ Future<void> main() async {
   runApp(FutureBuilder(
       future: _initialization,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
+        if (snapshot.connectionState == ConnectionState.done && !snapshot.hasError && snapshot.hasData) {
           if (userPass != null && userEmail != null) {
             LoginScreen.loginEmailPassword(
                 email: userEmail, password: userPass, context: context, autoLogin: true);
@@ -44,12 +46,17 @@ Future<void> main() async {
               debugShowCheckedModeBanner: false,
               theme: theme(),
               routes: routes,
-              home: SplashScreen());
+              home: HomeScreen());
         } else {
           return MaterialApp(
               debugShowCheckedModeBanner: false,
               home: Center(
-                child: CircularProgressIndicator(),
+                child: Column(
+                  children: [
+                    Text('Please check your connection...'),
+                    CircularProgressIndicator(),
+                  ],
+                ),
               ));
         }
       }));

@@ -244,7 +244,7 @@ class _BodyState extends State<Body> {
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
         ),
         ButtonState.success: Text(
-          "Hazır",
+          "Resim Seçildi",
           style: TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
         )

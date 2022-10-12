@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/categoryModel.dart';
 import '../../../helper/database_manager.dart';
 import '../../../models/Product.dart';
@@ -8,13 +10,16 @@ import '../../categories/category_default.dart';
 import 'body.dart';
 import 'section_title.dart';
 
-class Categories extends StatelessWidget {
-  const Categories({
+class CategoriesHome extends StatelessWidget {
+  const CategoriesHome({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> _categoriesStream =
+        FirebaseFirestore.instance.collection(dbCategoriesTable).snapshots();
+    List<categoryModel> categories = [];
     return Column(
       children: [
         Padding(
@@ -28,40 +33,53 @@ class Categories extends StatelessWidget {
         SizedBox(height: getProportionateScreenWidth(20)),
         SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: FutureBuilder(
-              future: getCategories(),
-              builder: (context, AsyncSnapshot<List<categoryModel>> snap) {
-                if (snap.connectionState == ConnectionState.waiting ||
-                    snap.data == null) {
-                  return Container(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
-                return Row(
-                    children: snap.data!
-                        .map((value) => SpecialOfferCard(
-                              image: value.image,
-                              category: value.name,
-                              numOfBrands: 0,
-                              press: () {
-                                PersistentNavBarNavigator.pushNewScreen(
-                                  context,
-                                  screen: DefaultCategoryScreen(
-                                    categoryName: value.name,
-                                    products: getProductsinCategory(value.name),
-                                  ),
-                                  withNavBar:
-                                      true, // OPTIONAL VALUE. True by default.
-                                  pageTransitionAnimation:
-                                      PageTransitionAnimation.cupertino,
-                                );
-                              },
-                            ))
-                        .toList());
-              },
-            )),
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _categoriesStream,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting ||
+                      snapshot.data == null) {
+                    return Container(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  snapshot.data!.docs.map((DocumentSnapshot document) {
+                    Map<String, dynamic> data =
+                        document.data()! as Map<String, dynamic>;
+
+                    categoryModel newCategory = new categoryModel(
+                        id: data['id'],
+                        name: data['name'],
+                        image: data['image'],);
+
+                    categories.add(newCategory);
+                  }).toList();
+                  return Row(
+                      children: categories
+                          .map((value) => SpecialOfferCard(
+                        image: value.image,
+                        category: value.name,
+                        numOfBrands: 0,
+                        press: () {
+                          PersistentNavBarNavigator.pushNewScreen(
+                            context,
+                            screen: DefaultCategoryScreen(
+                              categoryName: value.name,
+                              products: getProductsinCategory(value.name),
+                            ),
+                            withNavBar:
+                            true, // OPTIONAL VALUE. True by default.
+                            pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
+                          );
+                        },
+                      ))
+                          .toList());
+                },
+              ),
+            ),
       ],
     );
   }

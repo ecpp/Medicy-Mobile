@@ -4,9 +4,9 @@ import 'package:shop_app/models/Product.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 import 'discount_banner.dart';
+import 'home_categories.dart';
 import 'home_header.dart';
 import 'popular_product.dart';
-import 'categories_home_screen.dart';
 
 List<Product> productListnew = [];
 
@@ -52,7 +52,7 @@ class MainBody extends StatelessWidget {
                   SizedBox(height: getProportionateScreenHeight(10)),
                   HomeHeader(),
                   DiscountBanner(),
-                  Categories(),
+                  CategoriesHome(),
                   SizedBox(height: getProportionateScreenWidth(15)),
                   PopularProducts(),
                 ],
