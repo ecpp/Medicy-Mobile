@@ -8,7 +8,7 @@ import 'home_categories.dart';
 import 'home_header.dart';
 import 'popular_product.dart';
 
-List<Product> productListnew = _MainBodyState().productList;
+List<Product> productListnew = [];
 
 class MainBody extends StatefulWidget {
 
@@ -19,7 +19,6 @@ class MainBody extends StatefulWidget {
 
 class _MainBodyState extends State<MainBody>{
   late Stream<QuerySnapshot> _productsStream;
-  List<Product> productList = [];
 
   @override
   void initState() {
@@ -38,7 +37,7 @@ class _MainBodyState extends State<MainBody>{
           return Scaffold(body: Center(child: CircularProgressIndicator()));
         }
 
-        productList.clear();
+        //productList.clear();
         snapshot.data!.docs.map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
 
@@ -55,7 +54,7 @@ class _MainBodyState extends State<MainBody>{
               numsold: data['timesold'],
               stock: data['stock']);
 
-          productList.add(newProduct);
+          productListnew.add(newProduct);
         }).toList();
         return GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

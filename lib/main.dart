@@ -50,14 +50,12 @@ Future<void> main() async {
         } else {
           return MaterialApp(
               debugShowCheckedModeBanner: false,
-              home: Center(
-                child: Column(
-                  children: [
-                    Text('Please check your connection...'),
-                    CircularProgressIndicator(),
-                  ],
+              home: Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
                 ),
-              ));
+              )
+          );
         }
       }));
 }
