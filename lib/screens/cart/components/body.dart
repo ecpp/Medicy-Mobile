@@ -41,7 +41,6 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    print('CURRENT CART: ${currentCart.sum}');
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),

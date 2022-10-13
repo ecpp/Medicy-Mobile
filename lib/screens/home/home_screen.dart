@@ -61,8 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
         controller: _controller,
         screens: _buildScreens(),
         items: _navBarsItems(),
-        stateManagement: false,
-        navBarStyle: NavBarStyle.style9,
+        stateManagement: true,
+        navBarStyle: NavBarStyle.style6,
       ),
     );
   }

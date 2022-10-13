@@ -61,7 +61,8 @@ class _BodyState extends State<Body> {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.35,
                     height: MediaQuery.of(context).size.height * 0.06,
-                    child: selectImageButton(),),
+                    child: selectImageButton(),
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.35,
                     height: MediaQuery.of(context).size.height * 0.06,
@@ -73,21 +74,19 @@ class _BodyState extends State<Body> {
         Divider(
           color: Colors.black,
         ),
-
         Text(
           "Categories",
           style: TextStyle(
               color: kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 20),
         ),
-        Text(
-          "Swipe to delete", style: TextStyle(
-            color: Colors.black, fontSize: 12, fontWeight: FontWeight.w200
-        )),
+        Text("Swipe to delete",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 12,
+                fontWeight: FontWeight.w200)),
         SizedBox(
           height: 10,
         ),
-
-
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
             stream:
@@ -121,6 +120,17 @@ class _BodyState extends State<Body> {
                           ),
                         ),
                         child: ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                image: NetworkImage(doc["image"]),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                           title: Text(doc["name"]),
                         ),
                       ),
@@ -170,13 +180,12 @@ class _BodyState extends State<Body> {
         strokeWidth: 1,
       ),
       onPressed: () async {
-        if (nameController.text.isNotEmpty){
+        if (nameController.text.isNotEmpty) {
           if (urlDownload != null) {
             setState(() {
               stateOnlyText = ButtonState.loading;
             });
-            await addCategory(
-                nameController.text, urlDownload!);
+            await addCategory(nameController.text, urlDownload!);
             nameController.clear();
             urlDownload = null;
             setState(() {
@@ -187,8 +196,7 @@ class _BodyState extends State<Body> {
               stateOnlyText = ButtonState.idle;
               stateOnlyTextSelectImage = ButtonState.idle;
             });
-          }
-          else {
+          } else {
             setState(() {
               stateOnlyText = ButtonState.fail;
               SnackBar snackBar = SnackBar(
@@ -202,8 +210,7 @@ class _BodyState extends State<Body> {
               stateOnlyText = ButtonState.idle;
             });
           }
-        }
-        else {
+        } else {
           setState(() {
             stateOnlyText = ButtonState.fail;
             SnackBar snackBar = SnackBar(
@@ -217,7 +224,6 @@ class _BodyState extends State<Body> {
             stateOnlyText = ButtonState.idle;
           });
         }
-
       },
       state: stateOnlyText,
       padding: EdgeInsets.all(8.0),
@@ -290,6 +296,4 @@ class _BodyState extends State<Body> {
     );
     return progressTextButton;
   }
-
-
 }

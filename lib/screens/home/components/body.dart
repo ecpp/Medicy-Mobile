@@ -8,27 +8,41 @@ import 'home_categories.dart';
 import 'home_header.dart';
 import 'popular_product.dart';
 
-List<Product> productListnew = [];
+List<Product> productListnew = _MainBodyState().productList;
 
-class MainBody extends StatelessWidget {
-  final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection(dbProductsTable).snapshots();
+class MainBody extends StatefulWidget {
+
+  @override
+  State<MainBody> createState() => _MainBodyState();
+
+}
+
+class _MainBodyState extends State<MainBody>{
+  late Stream<QuerySnapshot> _productsStream;
+  List<Product> productList = [];
+
+  @override
+  void initState() {
+    _productsStream = FirebaseFirestore.instance.collection(dbProductsTable).snapshots();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return StreamBuilder<QuerySnapshot>(
-      stream: _usersStream,
+      stream: _productsStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting ||
-            snapshot.data == null ||
-            snapshot.hasError) {
+        if (snapshot.data == null ||
+            snapshot.hasError || snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(body: Center(child: CircularProgressIndicator()));
         }
-        productListnew.clear();
+
+        productList.clear();
         snapshot.data!.docs.map((DocumentSnapshot document) {
-          // BURDA BUTUN PRODUCTLARI TEKTE CEKIYORUZ = COK PRODUCTSA YAVAS OLUR??
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
 
-          Product newproduct = new Product(
+          Product newProduct = new Product(
               id: data['id'],
               images: data['images'],
               title: data['title'],
@@ -41,7 +55,7 @@ class MainBody extends StatelessWidget {
               numsold: data['timesold'],
               stock: data['stock']);
 
-          productListnew.add(newproduct);
+          productList.add(newProduct);
         }).toList();
         return GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

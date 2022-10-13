@@ -10,15 +10,28 @@ import '../../categories/category_default.dart';
 import 'body.dart';
 import 'section_title.dart';
 
-class CategoriesHome extends StatelessWidget {
+class CategoriesHome extends StatefulWidget {
   const CategoriesHome({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<CategoriesHome> createState() => _CategoriesHomeState();
+}
+
+class _CategoriesHomeState extends State<CategoriesHome> {
+  late Stream<QuerySnapshot> _categoriesStream;
+
+  @override
+  void initState() {
+    _categoriesStream = FirebaseFirestore.instance.collection(dbCategoriesTable).snapshots();
+    super.initState();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _categoriesStream =
-        FirebaseFirestore.instance.collection(dbCategoriesTable).snapshots();
+
     List<categoryModel> categories = [];
     return Column(
       children: [
@@ -32,54 +45,56 @@ class CategoriesHome extends StatelessWidget {
         ),
         SizedBox(height: getProportionateScreenWidth(20)),
         SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-              child: StreamBuilder<QuerySnapshot>(
-                stream: _categoriesStream,
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting ||
-                      snapshot.data == null) {
-                    return Container(
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  }
-                  snapshot.data!.docs.map((DocumentSnapshot document) {
-                    Map<String, dynamic> data =
-                        document.data()! as Map<String, dynamic>;
+          scrollDirection: Axis.horizontal,
+          child: StreamBuilder<QuerySnapshot>(
+            stream: _categoriesStream,
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting ||
+                  snapshot.data == null) {
 
-                    categoryModel newCategory = new categoryModel(
-                        id: data['id'],
-                        name: data['name'],
-                        image: data['image'],);
+                return Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+              snapshot.data!.docs.map((DocumentSnapshot document) {
+                Map<String, dynamic> data =
+                    document.data()! as Map<String, dynamic>;
 
-                    categories.add(newCategory);
-                  }).toList();
-                  return Row(
-                      children: categories
-                          .map((value) => SpecialOfferCard(
-                        image: value.image,
-                        category: value.name,
-                        numOfBrands: 0,
-                        press: () {
-                          PersistentNavBarNavigator.pushNewScreen(
-                            context,
-                            screen: DefaultCategoryScreen(
-                              categoryName: value.name,
-                              products: getProductsinCategory(value.name),
-                            ),
-                            withNavBar:
-                            true, // OPTIONAL VALUE. True by default.
-                            pageTransitionAnimation:
-                            PageTransitionAnimation.cupertino,
-                          );
-                        },
-                      ))
-                          .toList());
-                },
-              ),
-            ),
+                categoryModel newCategory = new categoryModel(
+                  id: data['id'],
+                  name: data['name'],
+                  image: data['image'],
+                );
+
+                categories.add(newCategory);
+              }).toList();
+              return Row(
+                  children: categories
+                      .map((value) => SpecialOfferCard(
+                            image: value.image,
+                            category: value.name,
+                            numOfBrands: 0,
+                            press: () {
+                              PersistentNavBarNavigator.pushNewScreen(
+                                context,
+                                screen: DefaultCategoryScreen(
+                                  categoryName: value.name,
+                                  products: getProductsinCategory(value.name),
+                                ),
+                                withNavBar:
+                                    true, // OPTIONAL VALUE. True by default.
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.cupertino,
+                              );
+                            },
+                          ))
+                      .toList());
+            },
+          ),
+        ),
       ],
     );
   }

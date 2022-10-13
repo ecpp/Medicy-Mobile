@@ -9,10 +9,15 @@ import '../../../size_config.dart';
 
 List<Product> searchList = [];
 
-class SearchField extends StatelessWidget {
+class SearchField extends StatefulWidget {
   SearchField({
     Key? key,
   }) : super(key: key);
+  State<StatefulWidget> createState() => _SearchFieldState();
+
+}
+
+class _SearchFieldState extends State<SearchField> {
   var _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -25,6 +30,11 @@ class SearchField extends StatelessWidget {
       ),
       child: TextField(
         controller: _controller,
+        onChanged: (value) {
+          setState(() {
+
+          });;
+        },
         onSubmitted: (value) => {
           searchList.clear(),
           _controller.clear(),
@@ -51,13 +61,13 @@ class SearchField extends StatelessWidget {
             enabledBorder: InputBorder.none,
             hintText: "Search product",
             prefixIcon: Icon(Icons.search),
-            suffixIcon: IconButton(
+            suffixIcon: _controller.text.length > 0 ? IconButton(
               icon: Icon(Icons.clear),
               onPressed: () {
                 _controller.clear();
                 FocusScope.of(context).requestFocus(FocusNode());
               },
-            )
+            ) : null
         ),
       ),
     );
