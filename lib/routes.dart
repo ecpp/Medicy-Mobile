@@ -29,7 +29,7 @@ final Map<String, WidgetBuilder> routes = {
   pendingCommentsScreen.routeName: (context) => pendingCommentsScreen(),
   ProductManagerAdminScreen.routeName: (context) => ProductManagerAdminScreen(),
   DeliveriesScreen.routeName: (context) => DeliveriesScreen(),
-  ProductsScreen.routeName: (context) => ProductsScreen(),
+  AddProductScreen.routeName: (context) => AddProductScreen(),
   SalesManagerScreen.routeName: (context) => SalesManagerScreen(),
   TransactionScreen.routeName: (context) => TransactionScreen()
 };

@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         screens: _buildScreens(),
         items: _navBarsItems(),
         stateManagement: true,
-        navBarStyle: NavBarStyle.style6,
+        navBarStyle: NavBarStyle.style3,
       ),
     );
   }

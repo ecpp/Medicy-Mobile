@@ -10,6 +10,8 @@ import '../../categories/category_default.dart';
 import 'body.dart';
 import 'section_title.dart';
 
+List<categoryModel> categories = [];
+
 class CategoriesHome extends StatefulWidget {
   const CategoriesHome({
     Key? key,
@@ -24,15 +26,16 @@ class _CategoriesHomeState extends State<CategoriesHome> {
 
   @override
   void initState() {
-    _categoriesStream = FirebaseFirestore.instance.collection(dbCategoriesTable).snapshots();
     super.initState();
+    _categoriesStream = FirebaseFirestore.instance
+        .collection(dbCategoriesTable)
+        .orderBy('name')
+        .snapshots();
   }
-
 
   @override
   Widget build(BuildContext context) {
-
-    List<categoryModel> categories = [];
+    categories.clear();
     return Column(
       children: [
         Padding(
@@ -52,7 +55,6 @@ class _CategoriesHomeState extends State<CategoriesHome> {
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting ||
                   snapshot.data == null) {
-
                 return Container(
                   child: Center(
                     child: CircularProgressIndicator(),

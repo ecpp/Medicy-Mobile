@@ -11,6 +11,9 @@ import 'popular_product.dart';
 List<Product> productListnew = [];
 
 class MainBody extends StatefulWidget {
+  const MainBody({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<MainBody> createState() => _MainBodyState();
@@ -22,8 +25,8 @@ class _MainBodyState extends State<MainBody>{
 
   @override
   void initState() {
-    _productsStream = FirebaseFirestore.instance.collection(dbProductsTable).snapshots();
     super.initState();
+    _productsStream = FirebaseFirestore.instance.collection(dbProductsTable).snapshots();
   }
 
   @override
@@ -37,7 +40,7 @@ class _MainBodyState extends State<MainBody>{
           return Scaffold(body: Center(child: CircularProgressIndicator()));
         }
 
-        //productList.clear();
+        productListnew.clear();
         snapshot.data!.docs.map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
 
@@ -53,7 +56,6 @@ class _MainBodyState extends State<MainBody>{
               category: data['category'],
               numsold: data['timesold'],
               stock: data['stock']);
-
           productListnew.add(newProduct);
         }).toList();
         return GestureDetector(

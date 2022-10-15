@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shop_app/screens/home/components/body.dart';
+import 'package:shop_app/screens/home/components/home_categories.dart';
 import 'package:shop_app/screens/pmanagerAdmin/products/add_product.dart';
 import 'package:shop_app/screens/pmanagerAdmin/products/components/body.dart'
     as pbody;
@@ -9,15 +10,15 @@ import 'package:shop_app/screens/pmanagerAdmin/products/components/body.dart'
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
-class ProductsScreen extends StatelessWidget {
+class AddProductScreen extends StatelessWidget {
   static String routeName = "/pmanagerproducts";
   List<String> cats = [];
   @override
   Widget build(BuildContext context) {
-    getCate();
+    getCategories();
     return Scaffold(
       appBar: buildAppBar(context),
-      body: pbody.Body(),
+      body: pbody.AddProductBody(allCategories: cats),
     );
   }
 
@@ -28,64 +29,20 @@ class ProductsScreen extends StatelessWidget {
         children: [
           Column(children: [
             Text(
-              "Products",
+              "Add Product",
               style: TextStyle(color: Colors.black),
             ),
-            Text(
-              "${productListnew.length} items",
-              style: Theme.of(context).textTheme.caption,
-            ),
           ]),
-          SizedBox(
-            width: getProportionateScreenWidth(80),
-            height: getProportionateScreenHeight(35),
-            child: TextButton(
-              style: TextButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                primary: Colors.white,
-                backgroundColor: kPrimaryColor,
-              ),
-              onPressed: () => {
-                PersistentNavBarNavigator.pushNewScreen(
-                  context,
-                  screen: AddProductScreen(cats: cats),
-                  withNavBar: true, // OPTIONAL VALUE. True by default.
-                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                )
-              },
-              child: Text(
-                "Add New",
-                style: TextStyle(
-                  fontSize: getProportionateScreenWidth(13),
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
   }
 
-  getCate() async {
+  getCategories() {
     // Get docs from collection reference
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('categories').get();
-    ;
-
-    // Get data from docs and convert map to Lis
-    //for a specific field
-    final allData = await querySnapshot.docs
-        .map((doc) => doc.get('name') as String)
-        .toList();
-    print(allData);
-
-    for (var task in allData) {
-      // do something
-      cats.add(task);
+    cats.clear();
+    for (var elem in categories) {
+      cats.add(elem.name);
     }
-
-    print(cats);
   }
 }

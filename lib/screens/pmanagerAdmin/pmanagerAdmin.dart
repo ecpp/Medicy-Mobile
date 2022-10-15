@@ -4,7 +4,7 @@ import 'package:shop_app/screens/comment/pending_comments.dart';
 import 'package:shop_app/screens/pmanagerAdmin/deliveries.dart';
 import 'package:shop_app/screens/pmanagerAdmin/products/add_remove_product.dart';
 import '../../../screens/profile/components/profile_menu.dart';
-import 'categories/categories.dart';
+import 'categories/add_category.dart';
 
 class ProductManagerAdminScreen extends StatelessWidget {
   static String routeName = "/pmanagerpanel";
@@ -38,7 +38,7 @@ class ProductManagerAdminScreen extends StatelessWidget {
                 press: () {
                   PersistentNavBarNavigator.pushNewScreen(
                     context,
-                    screen: ProductsScreen(),
+                    screen: AddProductScreen(),
                     withNavBar: true, // OPTIONAL VALUE. True by default.
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );

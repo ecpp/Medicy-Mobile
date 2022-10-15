@@ -90,7 +90,7 @@ class _BodyState extends State<Body> {
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
             stream:
-                FirebaseFirestore.instance.collection('categories').snapshots(),
+                FirebaseFirestore.instance.collection(dbCategoriesTable).snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(

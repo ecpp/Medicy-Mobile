@@ -117,7 +117,7 @@ Future addTransactiontoUser(String transactionid) async {
   });
 }
 
-Future addReportToUser(String reportLink, String userID) async{
+Future addReportToUser(String reportLink, String userID) async {
   final CollectionReference users =
       FirebaseFirestore.instance.collection('Users');
   return await users.doc(userID).update({
@@ -125,7 +125,7 @@ Future addReportToUser(String reportLink, String userID) async{
   });
 }
 
-Future addReportToDB(String reportID, String reportLink, String userID) async{
+Future addReportToDB(String reportID, String reportLink, String userID) async {
   final CollectionReference reports =
       FirebaseFirestore.instance.collection('Reports');
   return await reports.doc(reportID).set({
@@ -138,7 +138,7 @@ Future addReportToDB(String reportID, String reportLink, String userID) async{
 
 Future<String> findUseridByEmail(String email) async {
   final CollectionReference users =
-  FirebaseFirestore.instance.collection('Users');
+      FirebaseFirestore.instance.collection('Users');
   String uid = 'null';
   await users.get().then((querySnapshot) {
     querySnapshot.docs.forEach((element) {
@@ -219,6 +219,12 @@ Future approveRefund(String refundid) async {
   final CollectionReference refundList =
       FirebaseFirestore.instance.collection('refunds');
   return await refundList.doc(refundid).update({'status': "approved"});
+}
+
+Future removeProduct(String productname) async {
+  final CollectionReference productList =
+      FirebaseFirestore.instance.collection(dbProductsTable);
+  return await productList.doc(productname).delete();
 }
 
 Future addProduct(String description, String images, num price, int stock,
@@ -515,10 +521,10 @@ Future<bool> checkPrice(String itemname, num price) async {
 }
 
 Future<bool> checkPriceCart(Cart userCart) async {
-  for (int i = 0; i < currentCart.cartItems!.length; i++){
+  for (int i = 0; i < currentCart.cartItems!.length; i++) {
     String itemName = currentCart.cartItems![i].product.title;
     num itemPrice = currentCart.cartItems![i].product.price;
-    if (!await checkPrice(itemName, itemPrice)){
+    if (!await checkPrice(itemName, itemPrice)) {
       return false;
     }
   }
@@ -536,7 +542,6 @@ Future<bool> stockCheck(String itemName) async {
       print(result['stock']);
       if (result['stock'] > 0) {
         isStock = true;
-
       }
     });
   });

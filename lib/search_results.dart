@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/enums.dart';
 import 'package:shop_app/screens/home/components/search_field.dart';
-import 'package:shop_app/screens/pmanagerAdmin/products/components/cart_card.dart';
+import 'package:shop_app/screens/home/components/product_cart.dart';
 import '../components/product_card.dart';
 
 class SearchResults extends StatelessWidget {

@@ -224,7 +224,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                 randomid);
             //FileHandleApi.openFile(pdfFile);
             UploadTask uploadTask;
-            String saveName = "report_" + randomid;
+            String saveName = "report_" + randomid + ".pdf";
             final pathToReport = 'reports/$saveName';
             final ref = FirebaseStorage.instance.ref().child(pathToReport);
             uploadTask = ref.putData(pdfFile);
@@ -305,7 +305,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
         ),
         ButtonState.success: Text(
-          "Oluşturulmaya Hazır",
+          "Seçildi",
           style: TextStyle(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
         )

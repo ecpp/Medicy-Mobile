@@ -18,7 +18,7 @@ List<UserReport> userReports = [];
 class UserReportsScreen extends StatelessWidget {
   static String routeName = "/userReports";
   final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('Reports').snapshots();
+      FirebaseFirestore.instance.collection('Reports').orderBy('date').snapshots();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
